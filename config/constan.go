@@ -1,3 +1,17 @@
 package config
 
-const PATH_API string = "http://128.199.241.112:7073/"
+import (
+	"os"
+
+	"github.com/joho/godotenv"
+)
+
+func Path_url() string {
+	err := godotenv.Load()
+	if err != nil {
+		panic("Failed to Load env File")
+	}
+	path := os.Getenv("PATH_API_BACKEND")
+
+	return path
+}
