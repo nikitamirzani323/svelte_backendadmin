@@ -2,28 +2,37 @@
     import { createEventDispatcher } from "svelte";
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
-    import Modal_Alert from "../../components/Modal_alert.svelte"
+    import Input_custom from '../../components/Input.svelte' 
 
-    let page = "Admin Management";
-    let sData = "New";
-    let screen_height = screen.height - 480;
-    let isModal_Form_New = true
-    let isModalAlert = false
-    let msg_error = "";
-    let admin_listip = [];
-    let tab_menu_1 = "bg-sky-600 text-white"
-    let tab_menu_2 = ""
-    let panel_edit = true
-    let panel_iplist = false
     export let path_api = "";
     export let token = "";
     export let listHome = [];
     export let admin_listrule = [];
     export let totalrecord = 0;
 
+    let page = "Admin Management";
+    let sData = "New";
+    let isModal_Form_New = false
+    let isModal_Form_Listipaddress = false
+    let isModalAlert = false
+    let loader_class = "hidden"
+    let loader_msg = "Sending..."
+    let buttonLoading_class = "btn btn-primary"
+    let msg_error = "";
+    let admin_listip = [];
+    let tab_menu_1 = "bg-sky-600 text-white"
+    let tab_menu_2 = ""
+    let panel_edit = true
+    let panel_iplist = false
+    let admin_tipe = "ADMIN";
+    let searchHome = "";
+    let filterHome = [];
+    let form_field_ipaddress = "";
+    let isInput_username_enabled = true;
+
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
-        admin_username: yup
+        admin_username_field: yup
             .string()
             .required("Username is Required")
             .matches(
@@ -31,24 +40,24 @@
                 "Username must Character A-Z or a-z or 1-9"
             )
             .min(4, "Username must be at least 4 Character")
-            .max(20, "Username must be at most 4 Character"),
-        admin_password: yup
+            .max(20, "Username must be at most 20 Character"),
+        admin_password_field: yup.string(),
+        admin_name_field: yup
             .string()
-            .required("Password is Required")
+            .required("Nama is Required")
             .matches(
                 /^[a-zA-z0-9]+$/,
-                "Password must Character A-Z or a-z or 1-9"
+                "Nama must Character A-Z or a-z or 1-9"
             )
-            .min(4, "Password must be at least 4 Character")
-            .max(20, "Password must be at most 4 Character"),
-        admin_name_field: yup.string().required("Name is Required"),
-        admin_idrule_field: yup.number().required("Name is Required"),
+            .min(4, "Nama must be at least 4 Character")
+            .max(20, "Nama must be at most 20 Character"),
+        admin_idrule_field: yup.number().required("Admin Rule is Required"),
         admin_status_field: yup.string().required("Status is Required"),
     });
     const { form, errors, handleChange, handleSubmit } = createForm({
         initialValues: {
-            admin_username: "",
-            admin_password: "",
+            admin_username_field: "",
+            admin_password_field: "",
             admin_name_field: "",
             admin_idrule_field: "0",
             admin_status_field: "",
@@ -56,39 +65,38 @@
         validationSchema: schema,
         onSubmit: (values) => {
             SaveTransaksi(
-                values.admin_username,
-                values.admin_password,
+                values.admin_username_field,
+                values.admin_password_field,
                 values.admin_name_field,
-                values.admin_idrule_field
+                values.admin_idrule_field,
+                values.admin_status_field
             );
         },
     });
-    $: {
-        if ($errors.admin_username || $errors.admin_password ||
-            $errors.admin_name_field ||$errors.admin_idrule_field) {
-            alert($errors.admin_username +
-                    "\n" +
-                    $errors.admin_password +
-                    "\n" +
-                    $errors.admin_name_field +
-                    "\n" +
-                    $errors.admin_idrule_field)
-            $form.admin_username = "";
-            $form.admin_password = "";
-            $form.admin_name_field = "";
-            $form.admin_idrule_field = "0";
-            $form.admin_status_field = "";
-        }
-    }
-    async function SaveTransaksi(username, password, name, rule) {
+    async function SaveTransaksi(username, password, name, rule,status) {
         let flag = true;
         msg_error = "";
-        if (rule < 1) {
+        const regexExp = /^[a-zA-z0-9]+$/gi;
+        let flag_password = regexExp.test(password)
+        if(password != ""){
+            if(!flag_password){
+                flag = false;
+                msg_error += "The Format Password invalid\n Password must Character A-Z or a-z or 1-9";
+            }
+        }
+        if (rule == "0") {
             flag = false;
             msg_error += "The Admin Rule is required";
         }
+        if(status == ""){
+            flag = false;
+            msg_error += "The Status is required";
+        }
         if (flag) {
-            const res = await fetch("/api/saveadmin", {
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/saveadmin", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -101,78 +109,171 @@
                     username: username,
                     password: password,
                     nama: name,
-                    status: "ACTIVE",
+                    status: status,
                 }),
             });
             const json = await res.json();
-            if (json.status == 200) {
-                $form.admin_username = "";
-                $form.admin_password = "";
-                $form.admin_name_field = "";
-                $form.admin_idrule_field = "0";
-            } else if (json.status == 403) {
-                alert(json.message);
-            } else {
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                    if(sData == "New"){
+                        $form.admin_username_field = "";
+                        $form.admin_password_field = "";
+                        $form.admin_name_field = "";
+                        $form.admin_idrule_field = "0";
+                        $form.admin_status_field = "";
+                    }
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                RefreshHalaman();
             }
-            RefreshHalaman();
         } else {
             alert(msg_error);
         }
     }
-    
-    async function EditData(e) {
-        sData = "Edit"
-        clearField();
-        isModal_Form_New = true;
-        const res = await fetch(path_api+"api/editadmin", {
+    async function SaveIpaddress() {
+        let flag = true;
+        let totaliplist = admin_listip.length;
+        msg_error = "";
+        if (form_field_ipaddress == "") {
+            flag = false;
+            msg_error += "The Ipaddress is required\n";
+        }
+        const regexExp = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/gi;
+        let flag_ip = regexExp.test(form_field_ipaddress)
+        if(!flag_ip){
+            flag = false;
+            msg_error += "The Format Ipaddress invalid\n";
+        }
+        if(totaliplist > 5){
+            flag = false;
+            msg_error += "Maximal 5 Ipaddress Active\n";
+        }
+        if (flag) {
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/saveadminiplist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sData: "New",
+                    page: "ADMIN-SAVE",
+                    username: $form.admin_username_field,
+                    ipaddress: form_field_ipaddress,
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                loader_msg = json.message
+                EditData($form.admin_username_field)
+                form_field_ipaddress = "";
+            } else if (json.status == 403) {
+                loader_msg = json.message
+            } else {
+                loader_msg = json.message;
+            }
+            buttonLoading_class = "btn btn-primary"
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+        } else {
+            alert(msg_error);
+        }
+    }
+    async function deleteIpList(e) {
+        const res = await fetch(path_api+"api/deleteadminiplist", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
-                username: e,
+                idcompiplist: parseInt(e),
+                username: $form.admin_username_field,
+                page:"ADMIN-SAVE",
             }),
         });
         const json = await res.json();
-        let record = json.record;
-        let recordlistrule = json.listruleadmin;
-        let recordlistip = json.listip;
-        if (json.status === 400) {
-            logout();
-        } else {
-            for (let i = 0; i < record.length; i++) {
-                $form.admin_username = e;
-                $form.admin_password = "";
-                $form.admin_name_field = record[i]["admin_nama"];
-                $form.admin_idrule_field = parseInt(record[i]["admin_idrule"]);
-                $form.admin_status_field = record[i]["admin_status"];
-                // admin_create_field = record[i]["admin_create"];
-                // admin_update_field = record[i]["admin_update"];
-            }
-            if (recordlistrule != null) {
-                for (let i = 0; i < recordlistrule.length; i++) {
-                    admin_listrule = [
-                        ...admin_listrule,
-                        {
-                            adminrule_idruleadmin:recordlistrule[i]["adminrule_idruleadmin"],
-                            adminrule_name: recordlistrule[i]["adminrule_name"],
-                        },
-                    ];
+        if (json.status == 200) {
+            admin_listip = [];
+            EditData($form.admin_username_field)
+        }else if(json.status == 403){
+            alert(json.message)
+        }
+    }
+    async function EditData(e,x) {
+        if(e != ""){
+            admin_tipe = x;
+            sData = "Edit";
+            clearField();
+            isInput_username_enabled = false;
+            isModal_Form_New = true;
+            const res = await fetch(path_api+"api/editadmin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    username: e,
+                }),
+            });
+            const json = await res.json();
+            let record = json.record;
+            let recordlistrule = json.listruleadmin;
+            let recordlistip = json.listip;
+            if (json.status === 400) {
+                dispatch("handleLogout", "call");
+            } else {
+                for (let i = 0; i < record.length; i++) {
+                    $form.admin_username_field = e;
+                    $form.admin_password_field = "";
+                    $form.admin_name_field = record[i]["admin_nama"];
+                    $form.admin_idrule_field = record[i]["admin_idrule"];
+                    $form.admin_status_field = record[i]["admin_status"];
+                    // admin_create_field = record[i]["admin_create"];
+                    // admin_update_field = record[i]["admin_update"];
                 }
-            }
-            if (recordlistip != null) {
-                let no = 0;
-                for (let i = 0; i < recordlistip.length; i++) {
-                    no = no + 1;
-                    admin_listip = [
-                        ...admin_listip,
-                        {
-                            adminiplist_no: no,
-                            adminiplist_idcompiplist:recordlistip[i]["adminiplist_idcompiplist"],
-                            adminiplist_iplist:recordlistip[i]["adminiplist_iplist"],
-                        },
-                    ];
+                if (recordlistrule != null) {
+                    for (let i = 0; i < recordlistrule.length; i++) {
+                        admin_listrule = [
+                            ...admin_listrule,
+                            {
+                                adminrule_idruleadmin:recordlistrule[i]["adminrule_idruleadmin"],
+                                adminrule_name: recordlistrule[i]["adminrule_name"],
+                            },
+                        ];
+                    }
+                }
+                if (recordlistip != null) {
+                    let no = 0;
+                    for (let i = 0; i < recordlistip.length; i++) {
+                        no = no + 1;
+                        admin_listip = [
+                            ...admin_listip,
+                            {
+                                adminiplist_no: no,
+                                adminiplist_idcompiplist:recordlistip[i]["adminiplist_idcompiplist"],
+                                adminiplist_iplist:recordlistip[i]["adminiplist_iplist"],
+                            },
+                        ];
+                    }
                 }
             }
         }
@@ -182,9 +283,13 @@
     };
     const NewData = () => {
         sData = "New";
+        isInput_username_enabled = true;
         clearField()
         isModal_Form_New = true;
     };
+    const handleNewListIp = () => {
+        isModal_Form_Listipaddress = true;
+    }
     const ChangeTabMenu = (e) => {
         if(e == "menu_2"){
             tab_menu_1 = ""
@@ -202,15 +307,15 @@
         if(sData == "Edit"){
             admin_listrule = []
             admin_listip = []
-        }
-        $form.admin_username = "";
-        $form.admin_password = "";
+        } 
+        $form.admin_username_field = "";
+        $form.admin_password_field = "";
         $form.admin_name_field = "";
         $form.admin_idrule_field = "0";
         $form.admin_status_field = "";
+        form_field_ipaddress = "";
     }
-    let searchHome = "";
-    let filterHome = [];
+    
     $: {
         if (searchHome) {
             filterHome = listHome.filter(
@@ -226,18 +331,28 @@
             filterHome = [...listHome];
         }
     }
-    console.log(admin_listrule)
 </script>
+<div class="{loader_class} w-40 fixed top-1 left-[45%] right-0 z-50">
+    <div class="alert alert-warning shadow-lg rounded-md bg-[#FFF6BF]">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+          <span>{loader_msg}</span>
+        </div>
+    </div>
+</div>
+
 <div class="flex flex-col">
     <div class="flex items-start">
-      <h1 class=" text-black font-bold text-[2.25em] lg:text-[2.25em] md:text-[2.25em] sm:text-[2.25em]">Admin</h1>
+      <h1 class=" text-black font-bold text-[2.25em] lg:text-[2.25em] md:text-[2.25em] sm:text-[2.25em]">{page}</h1>
       <div class="flex flex-1 justify-end items-center gap-2 mt-2">
         <button 
             on:click={() => {
                 NewData();
             }}
             class="hidden btn btn-primary rounded-md lg:inline-flex">New</button>
-        <button class="hidden btn btn-primary rounded-md lg:inline-flex">
+        <button on:click={() => {
+            RefreshHalaman();
+            }} class="hidden btn btn-primary rounded-md lg:inline-flex">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
@@ -252,11 +367,12 @@
           </svg>
         </div>
         <input 
-          bind:value={searchHome}
-          type="text" placeholder="Search" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4">
+            bind:value={searchHome}
+            type="text" placeholder="Search" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
       </div>
     </div>
-    <div class="mt-2 h-[650px]">
+    
+    <div class="mt-2 h-[680px]">
       <div class="overflow-x-auto">
         <table class="table table-compact w-full">
           <thead>
@@ -274,103 +390,95 @@
             </tr>
           </thead> 
           <tbody>
-            {#each filterHome as rec}
-            <tr>
-              <th class="cursor-pointer" on:click={() => {
-                    EditData(rec.admin_username);
-                }}>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-              </th> 
-              <th class="text-center  text-[11px] lg:text-sm">{rec.admin_no}</th> 
-              <td  class="text-center  text-[11px] lg:text-sm">
-                <div class="{rec.admin_statusclass} text-center rounded-md p-2 font-bold">{rec.admin_status}</div>
-              </td> 
-              <td class="text-left  text-[11px] lg:text-sm">{rec.admin_timezone}</td> 
-              <td class="text-left text-[11px] lg:text-sm">{rec.admin_lastipaddres}</td> 
-              <td class="text-center text-[11px] lg:text-sm">{rec.admin_lastlogin}</td> 
-              <td class="text-center text-[11px] lg:text-sm">{rec.admin_joindate}</td> 
-              <td class="text-left text-[11px] lg:text-sm">{rec.admin_rule}</td> 
-              <td class="text-left text-[11px] lg:text-sm">{rec.admin_username}</td> 
-              <td class="text-left text-[11px] lg:text-sm">{rec.admin_nama}</td> 
-            </tr>
-            {/each}
-            
+            {#if filterHome != ""}
+                {#each filterHome as rec}
+                    <tr>
+                        <th class="cursor-pointer" on:click={() => {
+                                EditData(rec.admin_username,rec.admin_tipe);
+                            }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </th> 
+                        <th class="text-center  text-[11px] lg:text-sm">{rec.admin_no}</th> 
+                        <td  class="text-center  text-[11px] lg:text-sm">
+                            <div class="{rec.admin_statusclass} text-center rounded-md p-2 font-bold">{rec.admin_status}</div>
+                        </td> 
+                        <td class="text-left  text-[11px] lg:text-sm">{rec.admin_timezone}</td> 
+                        <td class="text-left text-[11px] lg:text-sm">{rec.admin_lastipaddres}</td> 
+                        <td class="text-center text-[11px] lg:text-sm">{rec.admin_lastlogin}</td> 
+                        <td class="text-center text-[11px] lg:text-sm">{rec.admin_joindate}</td> 
+                        <td class="text-left text-[11px] lg:text-sm">{rec.admin_rule}</td> 
+                        <td class="text-left text-[11px] lg:text-sm">{rec.admin_username}</td> 
+                        <td class="text-left text-[11px] lg:text-sm">{rec.admin_nama}</td> 
+                    </tr>
+                {/each}
+            {:else}
+                <tr>
+                    <td class="text-center" colspan="12">
+                        <progress class="progress progress-primary w-56"></progress>
+                    </td>
+                </tr>
+            {/if}
           </tbody> 
         </table>
       </div>
     </div>
     <div class="bg-gray-200 h-16 p-5">
-      <span class="font-bold">TOTAL ROW : 100</span>
+      <span class="font-bold">TOTAL ROW : {totalrecord}</span>
     </div>
 </div>
 
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
-<div class="modal" on:click|self={()=>isModal_Form_New = false}>
-    <div class="modal-box relative select-none max-w-full lg:max-w-xl h-full lg:h-3/6 rounded-none lg:rounded-lg p-2  overflow-hidden">
+<div class="modal" >
+    <div class="modal-box relative select-none max-w-full lg:max-w-xl  rounded-none lg:rounded-lg p-2  overflow-hidden">
         <div class="flex flex-col items-stretch">
             <div class="h-8">
                 <label for="my-modal-formnew" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
                 <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
             </div>
-            {#if sData == "Edit"}
-                <div class="">
-                    <ul class="flex justify-center items-center gap-2">
-                        <li on:click={() => {
-                                ChangeTabMenu("menu_1");
-                            }}
-                            class="items-center {tab_menu_1}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Edit</li>
-                        <li on:click={() => {
-                                ChangeTabMenu("menu_2");
-                            }}
-                            class="items-center {tab_menu_2} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Ipaddress</li>
-                    </ul>
-                </div>
+            {#if sData == "Edit" && admin_tipe == "ADMIN"}
+                <ul class="flex justify-center items-center gap-2">
+                    <li on:click={() => {
+                            ChangeTabMenu("menu_1");
+                        }}
+                        class="items-center {tab_menu_1}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Edit</li>
+                    <li on:click={() => {
+                            ChangeTabMenu("menu_2");
+                        }}
+                        class="items-center {tab_menu_2} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Ipaddress</li>
+                </ul>
             {/if}
             {#if panel_edit}
-                <div class="flex flex-col h-[380px] overflow-auto gap-5 mt-2 ">
+                <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
                     <div class="relative form-control mt-2">
-                        <input
-                            on:change="{handleChange}"
-                            bind:value={$form.admin_username}
-                            invalid={$errors.admin_username.length > 0}
-                            type="text" 
-                            id="username"
-                            name="username"
-                            placeholder="Username"
-                            autocomplete="off"
-                            class="peer w-full text-sm rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent"> 
-                            <label for="username" class="absolute left-3 top-[-0.7rem] text-gray-600 text-sm cursor-text 
-                                transition-all
-                                peer-placeholder-shown:text-base 
-                                peer-placeholder-shown:text-gray-400 
-                                peer-placeholder-shown:top-3 
-                                peer-focus:text-[#1a73e8]
-                                peer-focus:bg-[#fff]
-                                peer-focus:text-[.75rem]
-                                ">Username*</label>
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="text"
+                            input_invalid={$errors.admin_username_field.length > 0}
+                            input_value={$form.admin_username_field}
+                            input_id="admin_username_field"
+                            input_enabled={isInput_username_enabled}
+                            input_placeholder="Username"/>
+                        {#if $errors.admin_username_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.admin_username_field}</small>
+                        {/if}
                     </div>
                     <div class="relative form-control">
-                        <input
-                            on:change="{handleChange}"
-                            bind:value={$form.admin_password}
-                            invalid={$errors.admin_password.length > 0}
-                            type="password" 
-                            id="password"
-                            name="password"
-                            placeholder="Password"
-                            autocomplete="off"
-                            class="peer w-full rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent"> 
-                            <label for="password" class="absolute left-3 top-[-0.7rem] text-gray-600 text-sm cursor-text 
-                                transition-all
-                                peer-placeholder-shown:text-base 
-                                peer-placeholder-shown:text-gray-400 
-                                peer-placeholder-shown:top-3 
-                                peer-focus:text-[#1a73e8]
-                                peer-focus:bg-[#fff]
-                                peer-focus:text-[.75rem]
-                                ">Password*</label>
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="password"
+                            input_invalid={$errors.admin_password_field.length > 0}
+                            input_value={$form.admin_password_field}
+                            input_id="admin_password_field"
+                            input_placeholder="Password"/>
+                        {#if $errors.admin_password_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.admin_password_field}</small>
+                        {/if}
                     </div>
                     <div class="relative form-control">
                         <select
@@ -383,29 +491,24 @@
                             <option value="{rec.adminrule_idruleadmin}">{rec.adminrule_name}</option>
                             {/each}
                         </select>
+                        {#if $errors.admin_idrule_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.admin_idrule_field}</small>
+                        {/if}
                     </div>
                     <div class="relative form-control">
-                        <input
-                            on:change="{handleChange}"
-                            bind:value={$form.admin_name_field}
-                            invalid={$errors.admin_name_field.length > 0}
-                            type="text" 
-                            id="name"
-                            name="name"
-                            placeholder="Name"
-                            autocomplete="off"
-                            class="peer w-full rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent"> 
-                            <label for="name" class="absolute left-3 top-[-0.7rem] text-gray-600 text-sm cursor-text 
-                                transition-all
-                                peer-placeholder-shown:text-base 
-                                peer-placeholder-shown:text-gray-400 
-                                peer-placeholder-shown:top-3 
-                                peer-focus:text-[#1a73e8]
-                                peer-focus:bg-[#fff]
-                                peer-focus:text-[.75rem]
-                                ">Name*</label>
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="text"
+                            input_invalid={$errors.admin_name_field.length > 0}
+                            input_value={$form.admin_name_field}
+                            input_id="admin_name_field"
+                            input_placeholder="Nama"/>
+                        {#if $errors.admin_name_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.admin_name_field}</small>
+                        {/if}
                     </div>
-                    {#if sData == "Edit"}
                     <div class="relative form-control">
                         <select
                             on:change="{handleChange}"
@@ -416,21 +519,21 @@
                             <option value="ACTIVE">ACTIVE</option>
                             <option value="BANNED">BANNED</option>
                         </select>
+                        {#if $errors.admin_status_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.admin_status_field}</small>
+                        {/if}
                     </div>
-                    {/if}
                 </div>
-                <div class="h-20 ">
-                    <div class="text-right align-middle  my-2">
-                        <button
-                            on:click={() => {
-                                handleSubmit();
-                            }}  
-                            class="btn btn-primary ">Submit</button>
-                    </div>
+                <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                    <button
+                        on:click={() => {
+                            handleSubmit();
+                        }}  
+                        class="{buttonLoading_class}">Submit</button>
                 </div>
             {/if}
             {#if panel_iplist}
-                <div class="h-[380px] overflow-auto mt-2 ">
+                <div class="flex-auto h-[380px] overflow-auto mt-2 ">
                     <table class="table table-compact w-full">
                         <thead>
                             <tr>
@@ -442,7 +545,11 @@
                         <tbody>
                             {#each admin_listip as rec}
                             <tr>
-                                <td class="cursor-pointer text-center">
+                                <td on:click={() => {
+                                    deleteIpList(
+                                        rec.adminiplist_idcompiplist
+                                    );
+                                    }} class="cursor-pointer text-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
@@ -454,26 +561,57 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="h-20 ">
-                    <div class="text-right align-middle  my-2">
-                        <button
-                            on:click={() => {
-                                handleSubmit();
-                            }}  
-                            class="btn btn-primary ">New</button>
-                    </div>
+                <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                    <button
+                        on:click={() => {
+                            handleNewListIp();
+                        }}  
+                        class="btn btn-primary ">New</button>
                 </div>
             {/if}
         </div>
     </div>
 </div>
 
-<input type="checkbox" id="my-modal-alert" class="modal-toggle" bind:checked={isModalAlert}>
-<Modal_Alert 
-	modal_id="my-modal-alert" 
-	modal_tipe="1" 
-	modal_title="INFORMASI" 
-	modal_title_class="" 
-	modal_p_class="" 
-	modal_widthheight_class="" 
-	modal_message="{msg_error}" />
+<input type="checkbox" id="my-modal-formipaddress" class="modal-toggle" bind:checked={isModal_Form_Listipaddress}>
+<div class="modal" >
+    <div class="modal-box relative select-none max-w-full lg:max-w-xl  rounded-none lg:rounded-lg p-2  overflow-hidden">
+        <div class="flex flex-col items-stretch">
+            <div class="h-8">
+                <label for="my-modal-formipaddress" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
+                <h3 class="text-xs lg:text-sm font-bold mt-1">New IPAddress</h3>
+            </div>
+            <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
+                <div class="relative form-control mt-2">
+                    <input
+                        bind:value={form_field_ipaddress}
+                        type="text" 
+                        id="ipaddress"
+                        name="ipaddress"
+                        placeholder="Username"
+                        autocomplete="off"
+                        class="peer w-full rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent"> 
+                        <label for="ipaddress" class="absolute left-3 top-[-0.7rem] text-gray-600 text-sm cursor-text 
+                            transition-all
+                            peer-placeholder-shown:text-base 
+                            peer-placeholder-shown:text-gray-400 
+                            peer-placeholder-shown:top-3 
+                            peer-focus:text-[#1a73e8]
+                            peer-focus:bg-[#fff]
+                            peer-focus:text-[.75rem]
+                            bg-[#fff]
+                            text-[#1a73e8]
+                            text-[.75rem]
+                            ">IPAddress*</label>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                <button
+                    on:click={() => {
+                        SaveIpaddress();
+                    }}  
+                    class="{buttonLoading_class}">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

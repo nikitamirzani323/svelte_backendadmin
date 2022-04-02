@@ -159,7 +159,7 @@
         totalrecord = 0;
         setTimeout(function () {
             initAdmin();
-        }, 500);
+        }, 1000);
     };
     const handleEditData = (e) => {
         admin_username = e.detail.e;
@@ -167,6 +167,9 @@
         sData = "Edit";
         editAdmin(admin_username);
     };
+    const handleLogout = (e) => {
+        logout()
+    }
     function clearEdit(){
         admin_name_field = "";
         admin_idrule_field = "";
@@ -180,6 +183,7 @@
 <Home
     on:handleRefreshData={handleRefreshData}
     on:handleEditData={handleEditData}
+    on:handleLogout={handleLogout}
     {path_api}
     {token}
     {admin_listrule}

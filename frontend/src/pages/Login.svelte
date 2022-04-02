@@ -1,6 +1,7 @@
 <script>
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
+    import Input_custom from '../components/Input.svelte' 
     export let path_api = "";
     let client_ipaddress = "";
     let client_timezone = "";
@@ -57,8 +58,6 @@
     $:{
         if ($errors.username || $errors.password){
             alert($errors.username+"\n"+$errors.password)
-            $form.username = ""
-            $form.password = ""
         }
     }
 </script>
@@ -68,47 +67,29 @@
             <h1 class="text-center text-2xl font-semibold text-gray-500">LOGIN AGEN</h1>
         </div>
         <div class="relative form-control">
-            <input
-                autofocus
-                on:change="{handleChange}"
-                bind:value={$form.username}
-                invalid={$errors.username.length > 0}
-                type="text" 
-                id="username"
-                name="username"
-                placeholder="Username"
-                autocomplete="off"
-                class="peer w-full rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent"> 
-            <label for="username" class="absolute left-3 top-[-0.7rem] text-gray-600 text-sm cursor-text 
-                    transition-all
-                    peer-placeholder-shown:text-base 
-                    peer-placeholder-shown:text-gray-400 
-                    peer-placeholder-shown:top-3 
-                    peer-focus:text-[#1a73e8]
-                    peer-focus:bg-[#fff]
-                    peer-focus:text-[.75rem]
-                    ">Username*</label>
+            <Input_custom
+                input_onchange="{handleChange}"
+                input_autofocus={true}
+                input_required={true}
+                input_tipe="text"
+                input_invalid={$errors.username.length > 0}
+                input_value={$form.username}
+                input_id="username"
+                input_placeholder="Username"
+                />
+               
         </div>
         <div class="relative form-control">
-            <input
-                on:change="{handleChange}"
-                bind:value={$form.password}
-                invalid={$errors.password.length > 0}
-                type="password" 
-                id="password"
-                name="password"
-                placeholder="Password"
-                autocomplete="off"
-                class="peer w-full rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent"> 
-            <label for="password" class="absolute left-3 top-[-0.7rem] text-gray-600 text-sm cursor-text 
-                    transition-all
-                    peer-placeholder-shown:text-base 
-                    peer-placeholder-shown:text-gray-400 
-                    peer-placeholder-shown:top-3 
-                    peer-focus:text-[#1a73e8]
-                    peer-focus:bg-[#fff]
-                    peer-focus:text-[.75rem]
-                    ">Password*</label>
+            <Input_custom
+                input_onchange="{handleChange}"
+                input_autofocus={false}
+                input_required={true}
+                input_tipe="password"
+                input_invalid={$errors.password.length > 0}
+                input_value={$form.password}
+                input_id="password"
+                input_placeholder="Password"
+                />
         </div>
         <div class="form-control">
             <button
