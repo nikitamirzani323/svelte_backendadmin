@@ -32,20 +32,20 @@
         <table class="table table-compact w-full">
           <thead>
             <tr>
-              <th>&nbsp;</th>
-              <th class="text-center text-[11px] lg:text-sm">NO</th> 
-              <th>&nbsp;</th> 
-              <th class="text-center text-[11px] lg:text-sm">DATE</th>
-              <th class="text-left text-[11px] lg:text-sm">INVOICE</th> 
-              <th class="text-left text-[11px] lg:text-sm">PERIODE</th> 
-              <th class="text-left text-[11px] lg:text-sm">PASARAN</th> 
-              <th class="text-center text-[11px] lg:text-sm">PRIZE 1</th>
-              <th class="text-right text-[11px] lg:text-sm">REVISI</th>
-              <th class="text-right text-[11px] lg:text-sm">MEMBER</th>
-              <th class="text-right text-[11px] lg:text-sm">BET</th>
-              <th class="text-right text-[11px] lg:text-sm">BAYAR</th>
-              <th class="text-right text-[11px] lg:text-sm">CANCEL</th>
-              <th class="text-right text-[11px] lg:text-sm">WINLOSE</th>
+              <th width="1%">&nbsp;</th>
+              <th width="1%" class="text-center text-[11px] lg:text-sm">NO</th> 
+              <th width="1%">&nbsp;</th> 
+              <th width="10%" class="text-center text-[11px] lg:text-sm">DATE</th>
+              <th width="10%" class="text-left text-[11px] lg:text-sm">INVOICE</th> 
+              <th width="10%" class="text-left text-[11px] lg:text-sm">PERIODE</th> 
+              <th width="*" class="text-left text-[11px] lg:text-sm">PASARAN</th> 
+              <th width="10%" class="text-center text-[11px] lg:text-sm">PRIZE 1</th>
+              <th width="15%" class="text-right text-[11px] lg:text-sm">REVISI</th>
+              <th width="15%" class="text-right text-[11px] lg:text-sm">MEMBER</th>
+              <th width="15%" class="text-right text-[11px] lg:text-sm">BET</th>
+              <th width="15%" class="text-right text-[11px] lg:text-sm">BAYAR</th>
+              <th width="15%" class="text-right text-[11px] lg:text-sm">CANCEL</th>
+              <th width="15%" class="text-right text-[11px] lg:text-sm">WINLOSE</th>
             </tr>
           </thead> 
           <tbody>
@@ -57,7 +57,7 @@
               </th> 
               <th class="text-center  text-[11px] lg:text-sm">1</th> 
               <td  class="text-center  text-[11px] lg:text-sm">
-                <div class="bg-yellow-400 text-center rounded-md p-2 font-bold">RUNNING</div>
+                <div class="bg-[#FFF56D] text-center rounded-md p-2 font-bold">RUNNING</div>
               </td> 
               <td class="text-center  text-[11px] lg:text-sm">2022-04-03</td> 
               <td class="text-left text-[11px] lg:text-sm">220402048</td> 
@@ -71,7 +71,28 @@
               <td class="text-right text-red-500 text-[11px] lg:text-sm">0</td>
               <td class="text-right text-blue-500 text-[11px] lg:text-sm">535.050</td>
             </tr>
-           
+            <tr>
+              <th>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </th> 
+              <th class="text-center  text-[11px] lg:text-sm">1</th> 
+              <td  class="text-center  text-[11px] lg:text-sm">
+                <div class="bg-[#99FFCD] text-center rounded-md p-2 font-bold">DONE</div>
+              </td> 
+              <td class="text-center  text-[11px] lg:text-sm">2022-04-03</td> 
+              <td class="text-left text-[11px] lg:text-sm">220402048</td> 
+              <td class="text-left text-[11px] lg:text-sm">73-DM</td> 
+              <td class="text-left text-[11px] lg:text-sm">DEMO</td> 
+              <td class="text-center text-[11px] lg:text-sm">8127</td>
+              <td class="text-right text-red-500 text-[11px] lg:text-sm">0</td>
+              <td class="text-right text-blue-500 text-[11px] lg:text-sm">1</td>
+              <td class="text-right text-blue-500 text-[11px] lg:text-sm">150</td>
+              <td class="text-right text-blue-500 text-[11px] lg:text-sm">536.050</td>
+              <td class="text-right text-red-500 text-[11px] lg:text-sm">0</td>
+              <td class="text-right text-blue-500 text-[11px] lg:text-sm">535.050</td>
+            </tr>
           </tbody> 
         </table>
       </div>

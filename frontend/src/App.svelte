@@ -6,6 +6,8 @@
   import NotFound from '../src/pages/NotFound.svelte'
   import Login from '../src/pages/Login.svelte'
   import Home from '../src/pages/Home.svelte'
+  import Admin from '../src/pages/admin/Admin.svelte'
+  import Tailwindcss from './Tailwindcss.svelte'
   export let path_api = "";
   let token = localStorage.getItem("token");
 	let routes = "";
@@ -31,6 +33,12 @@
 					path_api: path_api,
 				},
 				component: Home,
+			}),
+      "/admin": wrap({
+        props: {
+					path_api: path_api,
+				},
+				component: Admin,
 			}),
 			"*": NotFound,
 		};
@@ -61,9 +69,4 @@
   </div>
   
 </main>
-
-<style global lang="postcss">
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>
+<Tailwindcss />
