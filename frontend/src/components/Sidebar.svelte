@@ -93,7 +93,7 @@
               <a use:link href="/admin" class="inline-block w-full px-4 py-2 text-xs rounded border-none hover:bg-[#e6f7ff] hover:text-[#1890ff] focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white">ADMIN MANAGEMENT</a>
             </li>
             <li>
-              <a use:link href="/admin" class="inline-block w-full px-4 py-2 text-xs rounded border-none active:bg-[#e6f7ff] active:outline-none hover:bg-[#e6f7ff] hover:text-[#1890ff] focus:outline-none focus:ring-1 focus:ring-[#e6f7ff] focus:text-white">ADMIN RULE</a>
+              <a use:link href="/adminrule" class="inline-block w-full px-4 py-2 text-xs rounded border-none active:bg-[#e6f7ff] active:outline-none hover:bg-[#e6f7ff] hover:text-[#1890ff] focus:outline-none focus:ring-1 focus:ring-[#e6f7ff] focus:text-white">ADMIN RULE</a>
             </li>
           </ul>
         </div>

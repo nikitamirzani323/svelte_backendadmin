@@ -1,0 +1,465 @@
+<script>
+    import { createEventDispatcher } from "svelte";
+    import { createForm } from "svelte-forms-lib";
+    import * as yup from "yup";
+    import Input_custom from '../../components/Input.svelte' 
+
+    export let path_api = "";
+    export let token = "";
+    export let listHome = [];
+    export let admin_listrule = [];
+    export let totalrecord = 0;
+
+    let page = "Admin Rule";
+    let sData = "New";
+    let isModal_Form_New = false
+    let modal_width = "max-w-xl"
+    let loader_class = "hidden"
+    let loader_msg = "Sending..."
+    let buttonLoading_class = "btn btn-primary"
+    let buttonLoading2_class = "btn btn-primary"
+    let msg_error = "";
+    let adminrule_id = "";
+    let adminrule_rule_field = "";
+    let searchHome = "";
+    let filterHome = [];
+
+    let dispatch = createEventDispatcher();
+    const schema = yup.object().shape({
+        home_name_field: yup
+            .string()
+            .required("Nama is Required")
+            .matches(
+                /^[a-zA-z0-9 ]+$/,
+                "Nama must Character A-Z or a-z or 1-9"
+            )
+            .min(4, "Nama must be at least 4 Character")
+            .max(70, "Nama must be at most 70 Character"),
+    });
+    const { form, errors, handleChange, handleSubmit } = createForm({
+        initialValues: {
+            home_name_field: "",
+        },
+        validationSchema: schema,
+        onSubmit: (values) => {
+            SaveTransaksi(values.home_name_field);
+        },
+    });
+    async function SaveTransaksi(name) {
+        let flag = true;
+        msg_error = "";
+        
+        if (flag) {
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/saveadminrule", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    page: "ADMINRULE-SAVE",
+                    idrule: adminrule_id,
+                    nama: name,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                    if(sData == "New"){
+                        $form.home_name_field = "";
+                    }
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                RefreshHalaman();
+            }
+        } else {
+            alert(msg_error);
+        }
+    }
+    async function Updateconfig() {
+        let flag = false;
+        msg_error = "";
+        if (adminrule_rule_field == "") {
+            flag = true;
+            msg_error += "The List is required\n";
+        }
+        if (flag == false) {
+            buttonLoading2_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/saveadminruleconf", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    page: "ADMINRULE-SAVE",
+                    idrule: adminrule_id,
+                    rule: adminrule_rule_field.toString(),
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                loader_msg = json.message;
+            } else if (json.status == 403) {
+                loader_msg = json.message;;
+            } else {
+                loader_msg = json.message;
+            }
+            buttonLoading2_class = "btn btn-primary"
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+        } else {
+            alert(msg_error);
+        }
+    }
+    async function EditData(e,y) {
+        if(e != ""){
+            adminrule_id = e;
+            adminrule_rule_field = "";
+            isModal_Form_New = true;
+            modal_width = "max-w-4xl";
+            sData = "Edit";
+            $form.home_name_field = y;
+            const res = await fetch(path_api+"api/editadminrule", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    idrule: e,
+                }),
+            });
+            const json = await res.json();
+            let record = json.record;
+            if (json.status === 400) {
+                dispatch("handleLogout", "call");
+            } else {
+                for (let i = 0; i < record.length; i++) {
+                    adminrule_rule_field = record[i]["adminrule_rule"];
+                }
+            }
+        }
+    }
+    const RefreshHalaman = () => {
+        dispatch("handleRefreshData", "call");
+    };
+    const NewData = () => {
+        sData = "New";
+        clearField()
+        adminrule_id = "";
+        modal_width = "max-w-xl"
+        isModal_Form_New = true;
+    };
+    
+   
+    function clearField(){
+        $form.home_name_field = "";
+    }
+    
+    $: {
+        if (searchHome) {
+            filterHome = listHome.filter(
+                (item) =>
+                    item.home_nama
+                        .toLowerCase()
+                        .includes(searchHome.toLowerCase())
+            );
+        } else {
+            filterHome = [...listHome];
+        }
+    }
+</script>
+<div class="{loader_class} w-40 fixed top-1 left-[45%] right-0 z-50">
+    <div class="alert alert-warning shadow-lg rounded-md bg-[#FFF6BF]">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+          <span>{loader_msg}</span>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col">
+    <div class="flex items-start">
+      <h1 class=" text-black font-bold text-[2.25em] lg:text-[2.25em] md:text-[2.25em] sm:text-[2.25em]">{page}</h1>
+      <div class="flex flex-1 justify-end items-center gap-2 mt-2">
+        <button 
+            on:click={() => {
+                NewData();
+            }}
+            class="hidden btn btn-primary rounded-md lg:inline-flex">New</button>
+        <button on:click={() => {
+            RefreshHalaman();
+            }} class="hidden btn btn-primary rounded-md lg:inline-flex">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="mt-2 flex gap-2">
+      <div class="relative w-full">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <input 
+            bind:value={searchHome}
+            type="text" placeholder="Search" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+      </div>
+    </div>
+    
+    <div class="mt-2 h-[550px] overflow-auto">
+        <table class="table table-compact w-full">
+          <thead>
+            <tr>
+              <th width="1%">&nbsp;</th>
+              <th width="1%" class="text-center text-[11px] lg:text-sm">NO</th> 
+              <th width="*" class="text-left text-[11px] lg:text-sm">NAMA</th>
+            </tr>
+          </thead> 
+          <tbody>
+            {#if filterHome != ""}
+                {#each filterHome as rec}
+                    <tr>
+                        <th class="cursor-pointer" on:click={() => {
+                                EditData(rec.home_id,rec.home_nama);
+                            }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </th> 
+                        <th class="text-center text-[11px] lg:text-sm">{rec.home_no}</th> 
+                        <td class="text-left text-[11px] lg:text-sm">{rec.home_nama}</td> 
+                    </tr>
+                {/each}
+            {:else}
+                <tr>
+                    <td class="text-center" colspan="12">
+                        <progress class="progress progress-primary w-56"></progress>
+                    </td>
+                </tr>
+            {/if}
+          </tbody> 
+        </table>
+    </div>
+    <div class="bg-gray-200 h-16 p-5">
+      <span class="font-bold">TOTAL ROW : {totalrecord}</span>
+    </div>
+</div>
+
+<input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
+<div class="modal" >
+    <div class="modal-box relative select-none w-11/12 {modal_width}  rounded-none lg:rounded-lg p-2  overflow-hidden">
+        <div class="flex flex-col items-stretch">
+            <div class="h-8">
+                <label for="my-modal-formnew" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
+                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
+            </div>
+            {#if sData=="New"}
+                <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
+                    <div class="relative form-control mt-2">
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="text"
+                            input_invalid={$errors.home_name_field.length > 0}
+                            input_value={$form.home_name_field}
+                            input_id="home_name_field"
+                            input_placeholder="Nama"/>
+                        {#if $errors.home_name_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
+                        {/if}
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                    <button
+                        on:click={() => {
+                            handleSubmit();
+                        }}  
+                        class="{buttonLoading_class}">Submit</button>
+                </div>
+            {/if}
+            {#if sData=="Edit"}
+                <div class="flex justify-between  gap-2">
+                    <div class="w-full">
+                        <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
+                            <div class="relative form-control mt-2">
+                                <Input_custom
+                                    input_onchange="{handleChange}"
+                                    input_autofocus={false}
+                                    input_required={true}
+                                    input_tipe="text"
+                                    input_invalid={$errors.home_name_field.length > 0}
+                                    input_value={$form.home_name_field}
+                                    input_id="home_name_field"
+                                    input_placeholder="Nama"/>
+                                {#if $errors.home_name_field}
+                                    <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                            <button
+                                on:click={() => {
+                                    handleSubmit();
+                                }}  
+                                class="{buttonLoading_class}">Submit</button>
+                        </div>
+                    </div>
+                    <div class="w-full p-2">
+                        <h2 class="text-lg font-bold mb-2">Setting Admin Rule</h2>
+                        <table class="table table-compact w-full">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">DASHBOARD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td width="1%">
+                                        <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="DASHBOARD-VIEW"/>
+                                    </td>
+                                    <td width="*">VIEW</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-compact w-full mt-1">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">PERIODE</th>
+                                    <th colspan="2">PREDIKSI</th>
+                                    <th colspan="2">REPORT WINLOSE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td width="1%">
+                                        <input
+                                            bind:group={adminrule_rule_field}
+                                            type="checkbox"
+                                            value="PERIODE-VIEW"/>
+                                    </td>
+                                    <td width="*">VIEW</td>
+                                    <td width="1%">
+                                        <input
+                                            bind:group={adminrule_rule_field}
+                                            type="checkbox"
+                                            value="PREDIKSI-VIEW"/>
+                                    </td>
+                                    <td width="*">VIEW</td>
+                                    <td width="1%">
+                                        <input
+                                            bind:group={adminrule_rule_field}
+                                            type="checkbox"
+                                            value="REPORTWINLOSE-VIEW"/>
+                                    </td>
+                                    <td width="*">VIEW</td>
+                                </tr>
+                                <tr>
+                                    <td width="1%">
+                                        <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="PERIODE-SAVE"/>
+                                    </td>
+                                    <td width="*">SAVE</td>
+                                    <td colspan="4">&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-compact w-full mt-1">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">PASARAN</th>
+                                    <th colspan="2">ADMIN MANAGEMENT</th>
+                                    <th colspan="2">ADMIN RULE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td width="1%">
+                                        <input
+                                            bind:group={adminrule_rule_field}
+                                            type="checkbox"
+                                            value="PASARAN-VIEW"/>
+                                    </td>
+                                    <td width="*">VIEW</td>
+                                    <td width="1%">
+                                        <input
+                                            bind:group={adminrule_rule_field}
+                                            type="checkbox"
+                                            value="ADMIN-VIEW"/>
+                                    </td>
+                                    <td width="*">VIEW</td>
+                                    <td width="1%">
+                                        <input
+                                            bind:group={adminrule_rule_field}
+                                            type="checkbox"
+                                            value="ADMINRULE-VIEW"/>
+                                    </td>
+                                    <td width="*">VIEW</td>
+                                </tr>
+                                <tr>
+                                    <td width="1%">
+                                        <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="PASARAN-SAVE"/>
+                                    </td>
+                                    <td width="*">SAVE</td>
+                                    <td width="1%">
+                                        <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="ADMIN-SAVE"/>
+                                    </td>
+                                    <td width="*">SAVE</td>
+                                    <td width="1%">
+                                        <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="ADMINRULE-SAVE"/>
+                                    </td>
+                                    <td width="*">SAVE</td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                        <button
+                            on:click={() => {
+                                Updateconfig();
+                            }}  
+                            class="{buttonLoading2_class} btn-block">Submit</button> 
+                    </div>
+                </div>
+            {/if}
+        </div>
+    </div>
+</div>
+

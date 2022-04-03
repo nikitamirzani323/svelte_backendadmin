@@ -372,8 +372,7 @@
       </div>
     </div>
     
-    <div class="mt-2 h-[680px]">
-      <div class="overflow-x-auto">
+    <div class="mt-2 h-[550px] overflow-auto">
         <table class="table table-compact w-full">
           <thead>
             <tr>
@@ -422,7 +421,6 @@
             {/if}
           </tbody> 
         </table>
-      </div>
     </div>
     <div class="bg-gray-200 h-16 p-5">
       <span class="font-bold">TOTAL ROW : {totalrecord}</span>
@@ -472,6 +470,7 @@
                             input_autofocus={false}
                             input_required={true}
                             input_tipe="password"
+                            input_attr="password"
                             input_invalid={$errors.admin_password_field.length > 0}
                             input_value={$form.admin_password_field}
                             input_id="admin_password_field"

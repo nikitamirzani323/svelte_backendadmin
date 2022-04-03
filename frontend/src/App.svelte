@@ -7,6 +7,7 @@
   import Login from '../src/pages/Login.svelte'
   import Home from '../src/pages/Home.svelte'
   import Admin from '../src/pages/admin/Admin.svelte'
+  import Adminrule from '../src/pages/adminrule/Adminrule.svelte'
   import Tailwindcss from './Tailwindcss.svelte'
   export let path_api = "";
   let token = localStorage.getItem("token");
@@ -39,6 +40,12 @@
 					path_api: path_api,
 				},
 				component: Admin,
+			}),
+      "/adminrule": wrap({
+        props: {
+					path_api: path_api,
+				},
+				component: Adminrule,
 			}),
 			"*": NotFound,
 		};

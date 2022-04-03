@@ -60,6 +60,7 @@
             alert($errors.username+"\n"+$errors.password)
         }
     }
+   
 </script>
 <section class="bg-white shadow-lg p-5 mt-5 mb-10 mx-[550px]">
     <div class="flex flex-col gap-4">
@@ -85,6 +86,7 @@
                 input_autofocus={false}
                 input_required={true}
                 input_tipe="password"
+                input_attr="password"
                 input_invalid={$errors.password.length > 0}
                 input_value={$form.password}
                 input_id="password"
