@@ -3,6 +3,7 @@
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
     import Input_custom from '../../components/Input.svelte' 
+    import Modal_alert from '../../components/Modal_alert.svelte' 
 
     export let path_api = "";
     export let token = "";
@@ -14,6 +15,8 @@
     let sData = "New";
     let isModal_Form_New = false
     let isModal_Form_Listipaddress = false
+    let isModalLoading = false
+    let isModalNotif = false
     let loader_class = "hidden"
     let loader_msg = "Sending..."
     let buttonLoading_class = "btn btn-primary"
@@ -28,7 +31,8 @@
     let filterHome = [];
     let form_field_ipaddress = "";
     let isInput_username_enabled = true;
-
+    let admin_create_field = ""
+    let admin_update_field = ""
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
         admin_username_field: yup
@@ -221,8 +225,11 @@
             admin_tipe = x;
             sData = "Edit";
             clearField();
+            isModalLoading = true;
             isInput_username_enabled = false;
-            isModal_Form_New = true;
+            
+            admin_create_field = "";
+            admin_update_field = "";
             const res = await fetch(path_api+"api/editadmin", {
                 method: "POST",
                 headers: {
@@ -239,15 +246,15 @@
             let recordlistip = json.listip;
             if (json.status === 400) {
                 dispatch("handleLogout", "call");
-            } else {
+            }else if(json.status === 200){
                 for (let i = 0; i < record.length; i++) {
                     $form.admin_username_field = e;
                     $form.admin_password_field = "";
                     $form.admin_name_field = record[i]["admin_nama"];
                     $form.admin_idrule_field = record[i]["admin_idrule"];
                     $form.admin_status_field = record[i]["admin_status"];
-                    // admin_create_field = record[i]["admin_create"];
-                    // admin_update_field = record[i]["admin_update"];
+                    admin_create_field = record[i]["admin_create"];
+                    admin_update_field = record[i]["admin_update"];
                 }
                 if (recordlistrule != null) {
                     for (let i = 0; i < recordlistrule.length; i++) {
@@ -274,6 +281,12 @@
                         ];
                     }
                 }
+                isModalLoading = false;
+                isModal_Form_New = true;
+            }else{
+                isModalLoading = false;
+                isModalNotif = true;
+                msg_error = "Silahkan Hubungi Administrator"
             }
         }
     }
@@ -324,6 +337,9 @@
                         .includes(searchHome.toLowerCase()) ||
                     item.admin_nama
                         .toLowerCase()
+                        .includes(searchHome.toLowerCase()) || 
+                    item.admin_rule
+                        .toLowerCase()
                         .includes(searchHome.toLowerCase())
             );
         } else {
@@ -366,69 +382,70 @@
                     <li>Refresh</li>
                 </ul>
             </div>
-            
-                
-                
         </div>
         <div class="relative w-full">
             <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </div>
             <input 
                 bind:value={searchHome}
-                type="text" placeholder="Search" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+                type="text" placeholder="Search by Rule, Username, Nama" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
         </div>
         
-        <div class="hidden sm:inline w-full max-h-full">
-            <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-[#6c7ae0] py-3 ">
-                <div class="flex justify-start basis-10 text-left text-xs lg:text-sm"></div>
-                <div class="flex justify-center text-white font-semibold basis-20 text-center text-xs lg:text-sm">NO</div>
-                <div class="flex justify-center text-white font-semibold basis-40 text-center text-xs lg:text-sm">STATUS</div>
-                <div class="flex justify-center text-white font-semibold basis-52 text-center text-xs lg:text-sm">TIMEZONE</div>
-                <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">IPADDRESS</div>
-                <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">LAST LOGIN</div>
-                <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">JOIN DATE</div>
-                <div class="flex justify-start  text-white font-semibold basis-80 text-left text-xs lg:text-sm">RULE</div>
-                <div class="flex justify-start  text-white font-semibold basis-80 text-left text-xs lg:text-sm">USERNAME</div>
-                <div class="flex justify-start  text-white font-semibold basis-80 text-xs lg:text-sm">NAMA</div>
-            </div>
-            {#if filterHome != ""}
-                <div class="scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-[550px] overflow-y-scroll">
-                {#each filterHome as rec}
-                    <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-white h-8">
-                        <div
-                            on:click={() => {
+        <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-[550px] overflow-y-scroll">
+            <table class="table table-compact w-full">
+                <thead class="sticky top-0">
+                    <tr>
+                        <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
+                        <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
+                        <th width="5%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">STATUS</th>
+                        <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">TIMEZONE</th>
+                        <th width="15%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">IPADDRESS</th>
+                        <th width="15%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">LAST LOGIN</th>
+                        <th width="15%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">JOIN DATE</th>
+                        <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">RULE</th>
+                        <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">USERNAME</th>
+                        <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">NAMA</th>
+                    </tr>
+                </thead>
+                {#if filterHome != ""}
+                    <tbody>
+                        {#each filterHome as rec}
+                        <tr>
+                            <td on:click={() => {
                                 EditData(rec.admin_username,rec.admin_tipe);
-                            }} 
-                            class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-10 cursor-pointer  ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                        </div>
-                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-20 text-center text-xs lg:text-sm">{rec.admin_no}</div>
-                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-40 text-center text-xs lg:text-sm">
-                            <span class="{rec.admin_statusclass} text-center rounded-md p-1 ">{rec.admin_status}</span>
-                        </div>
-                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-52 text-center text-xs lg:text-sm">{rec.admin_timezone}</div>
-                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_lastipaddres}</div>
-                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_lastlogin}</div>
-                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_joindate}</div>
-                        <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-left align-top text-xs lg:text-sm truncate ">{rec.admin_rule}</div>
-                        <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-left text-xs lg:text-sm ">{rec.admin_username}</div>
-                        <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-xs lg:text-sm ">{rec.admin_nama}</div>
-                    </div>
-                {/each}
-                </div>
-            {:else}
-                <div class="flex w-full justify-center items-center mt-4 h-[500px]">
-                    <progress class="self-start progress progress-primary w-56"></progress>
-                </div>
-            {/if}
+                                }} class="text-center text-xs cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </td>
+                            <td class="text-xs lg:text-sm align-top text-center">{rec.admin_no}</td>
+                            <td class="text-xs lg:text-sm align-top text-center"><span class="{rec.admin_statusclass} text-center rounded-md p-1 ">{rec.admin_status}</span></td>
+                            <td class="text-xs lg:text-sm align-top text-center">{rec.admin_timezone}</td>
+                            <td class="text-xs lg:text-sm align-top text-center">{rec.admin_lastipaddres}</td>
+                            <td class="text-xs lg:text-sm align-top text-center">{rec.admin_lastlogin}</td>
+                            <td class="text-xs lg:text-sm align-top text-center">{rec.admin_joindate}</td>
+                            <td class="text-xs lg:text-sm align-top text-left">{rec.admin_rule}</td>
+                            <td class="text-xs lg:text-sm align-top text-left">{rec.admin_username}</td>
+                            <td class="text-xs lg:text-sm align-top text-left">{rec.admin_nama}</td>
+                        </tr>
+                        {/each}
+                    </tbody>
+                {:else}
+                    <tbody>
+                        <tr>
+                            <td colspan="10" class="text-center">
+                                <progress class="self-start progress progress-primary w-56"></progress>
+                            </td>
+                        </tr>
+                    </tbody>
+                {/if}
+            </table>
+            
         </div>
 
-        
         <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
         <span class="font-semibold">TOTAL ROW : {totalrecord}</span>
         </div>
@@ -529,6 +546,12 @@
                             <small class="text-pink-600 text-[11px]">{$errors.admin_status_field}</small>
                         {/if}
                     </div>
+                    {#if sData == "Edit"}
+                    <div class="text-[11px]">
+                        Create : {admin_create_field} <br>
+                        Update : {admin_update_field}
+                    </div>
+                    {/if}
                 </div>
                 <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
                     <button
@@ -549,21 +572,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {#each admin_listip as rec}
-                            <tr>
-                                <td on:click={() => {
-                                    deleteIpList(
-                                        rec.adminiplist_idcompiplist
-                                    );
-                                    }} class="cursor-pointer text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </td>
-                                <td class="text-center">{rec.adminiplist_no}</td>
-                                <td class="text-left">{rec.adminiplist_iplist}</td>
-                            </tr>
-                            {/each}
+                            {#if admin_listip != ""}
+                                {#each admin_listip as rec}
+                                <tr>
+                                    <td on:click={() => {
+                                        deleteIpList(
+                                            rec.adminiplist_idcompiplist
+                                        );
+                                        }} class="cursor-pointer text-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </td>
+                                    <td class="text-center">{rec.adminiplist_no}</td>
+                                    <td class="text-left">{rec.adminiplist_iplist}</td>
+                                </tr>
+                                {/each}
+                            {:else}
+                                <tr>
+                                    <td colspan="3" class="text-left text-xs font-semibold">No Record</td>
+                                </tr>
+                            {/if}
                         </tbody>
                     </table>
                 </div>
@@ -621,3 +650,15 @@
         </div>
     </div>
 </div>
+
+
+<input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
+<Modal_alert 
+    modal_tipe="notifikasi" modal_id="my-modal-notif" 
+    modal_title="Information" modal_message="{msg_error}"  />
+
+<input type="checkbox" id="my-modal-loading" class="modal-toggle" bind:checked={isModalLoading}>
+<Modal_alert modal_tipe="loading" modal_widthheight_class="w-auto grass opacity-50"  />
+
+
+

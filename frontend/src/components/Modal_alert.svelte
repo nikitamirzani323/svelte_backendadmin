@@ -1,45 +1,23 @@
 <script>
     export let modal_id = "";
-    export let modal_tipe = "1";
-    export let modal_widthheight_class = "";
-    export let modal_title = "";
     export let modal_title_class = "";
+    export let modal_title = "";
     export let modal_p_class = "";
-    export let modal_bar = 0;
     export let modal_message = "";
-    export let modal_path_url = "";
-   
+    export let modal_tipe = "";
+    export let modal_widthheight_class = "";
 </script>
 
-{#if modal_tipe == "1"}
+
+{#if modal_tipe == "notifikasi"}
     <div class="modal">
         <div class="modal-box {modal_widthheight_class} relative  select-none">
             <label for="{modal_id}" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
             {#if modal_title != ""}
-                <h3 class="text-xs lg:text-lg font-bold {modal_title_class}">{modal_title}</h3>
-            {/if}
-            {#if modal_bar > 0}
-            <progress class="progress w-full" value="{modal_bar}" max="100"></progress>
+                <h3 class="text-xs lg:text-lg font-bold {modal_title_class} uppercase">{modal_title}</h3>
             {/if}
             <p class="italic text-xs lg:text-sm my-4 {modal_p_class}">
                 {@html modal_message}
-            </p>
-        </div>
-    </div>
-{/if}
-{#if modal_tipe == "2"}
-    <div class="modal">
-        <div class="modal-box {modal_widthheight_class} select-none">
-            {#if modal_title != ""}
-                <h3 class="text-xs lg:text-lg font-bold text-black">{modal_title}</h3>
-            {/if}
-            <p class="p-3 italic text-sm ">
-                {@html modal_message}
-                <br>
-                <br>
-                <center>
-                    <a href="{modal_path_url}" class="btn btn-sm bg-[#ff2fa5] hover:bg-[#ff2fa5] border-none  text-[#68073e] rounded-md">BACK</a>
-                </center>
             </p>
         </div>
     </div>
