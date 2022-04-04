@@ -59,7 +59,7 @@
       {#if isNav}
         <Navigation />
       {/if}
-      <div class="container mx-auto px-2">
+      <div class="container mx-auto px-2 ">
         {#if isNav}
         <div class="bg-white shadow-lg p-5 mt-5 mb-10">
           <Router {routes} />

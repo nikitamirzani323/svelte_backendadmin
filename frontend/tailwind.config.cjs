@@ -33,7 +33,7 @@ module.exports = {
       }
     },
   },
-  plugins: [require("daisyui"),require("tailwindcss-animation-delay")],
+  plugins: [require('tailwind-scrollbar'),require("daisyui"),require("tailwindcss-animation-delay")],
   daisyui: {
     themes: [
       {

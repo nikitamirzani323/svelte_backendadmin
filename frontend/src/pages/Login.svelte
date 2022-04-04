@@ -6,8 +6,8 @@
     let client_ipaddress = "";
     let client_timezone = "";
     const schema = yup.object().shape({
-        username: yup.string().required().matches(/^[a-zA-z0-9]+$/, "Username must Character A-Z or a-z or 1-9 ").max(30),
-        password: yup.string().required().min(4).max(50)
+        username: yup.string().required().matches(/^[a-zA-z0-9]+$/, "Username must Character A-Z or a-z or 1-9 ").max(30,"Username must be at most 30 characters"),
+        password: yup.string().required().min(4,"Password must be at least 4 characters").max(50,"Password must be at most 50 characters")
     });
     const { form, errors, handleChange, handleSubmit } = createForm({
         initialValues: {
@@ -55,11 +55,7 @@
         }
     }
     initTimezone();
-    $:{
-        if ($errors.username || $errors.password){
-            alert($errors.username+"\n"+$errors.password)
-        }
-    }
+   
    
 </script>
 <section class="bg-white shadow-lg p-5 mt-5 mb-10 mx-[550px]">
@@ -78,7 +74,9 @@
                 input_id="username"
                 input_placeholder="Username"
                 />
-               
+            {#if $errors.username}
+                <small class="text-pink-600 text-[11px]">{$errors.username}</small>
+            {/if}
         </div>
         <div class="relative form-control">
             <Input_custom
@@ -92,6 +90,9 @@
                 input_id="password"
                 input_placeholder="Password"
                 />
+            {#if $errors.password}
+                <small class="text-pink-600 text-[11px]">{$errors.password}</small>
+            {/if}
         </div>
         <div class="form-control">
             <button
@@ -101,19 +102,7 @@
                 class="btn btn-primary rounded-md">Submit</button>
         </div>
     </div>
-    <div class="w-[500px] h-[500px] bg-[#121213] p-10">
-        <div class="loaderbox relative mt-20 mx-auto w-[200px] h-[200px] bg-[#1a1a1f] flex 
-                justify-center items-center transition  text-white 
-                hover:bg-[#03e9f4] hover:text-[#050801] 
-                hover:shadow-[0_0_5px,0_0_25px,0_0_50px,0_0_200px] hover:shadow-[#03e9f4]  overflow-hidden  group">
-            <span class="absolute animate-spin-slow-top animation-delay-none top-0 -left-[100%] w-[100%] h-[5px] bg-gradient-to-r from-transparent to-[#03e9f4]"></span>
-            <span class="absolute animate-spin-slow-left animation-delay-1500  -bottom-[100%] left-0 w-[5px] h-[100%] bg-gradient-to-t from-transparent to-[#03e9f4]"></span>
-            
-            <span class="absolute animate-spin-slow-bottom animation-delay-1000 bottom-0 -right-[100%] w-[100%] h-[5px] bg-gradient-to-l from-transparent to-[#03e9f4]"></span>
-            <span class="absolute animate-spin-slow-right animation-delay-500 -top-[100%] right-0 w-[5px] h-[100%] bg-gradient-to-b from-transparent to-[#03e9f4]"></span>
-            <h3 class="text-[#03e9f4] animate-typing-slow overflow-hidden transition-[0.5s] tracking-[5px] border-r-[1px] border-[#03e9f4] group-hover:text-black">Loading...</h3>
-        </div>
-    </div>
+    
 </section>
 <style>
     .loaderbox{
