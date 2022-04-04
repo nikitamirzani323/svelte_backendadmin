@@ -3,16 +3,18 @@
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
     import Input_custom from '../../components/Input.svelte' 
+    import Modal_alert from '../../components/Modal_alert.svelte' 
 
     export let path_api = "";
     export let token = "";
     export let listHome = [];
-    export let admin_listrule = [];
     export let totalrecord = 0;
 
     let page = "Admin Rule";
     let sData = "New";
     let isModal_Form_New = false
+    let isModalLoading = false
+    let isModalNotif = false
     let modal_width = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
@@ -137,7 +139,7 @@
         if(e != ""){
             adminrule_id = e;
             adminrule_rule_field = "";
-            isModal_Form_New = true;
+            isModalLoading = true;
             modal_width = "max-w-4xl";
             sData = "Edit";
             $form.home_name_field = y;
@@ -155,10 +157,16 @@
             let record = json.record;
             if (json.status === 400) {
                 dispatch("handleLogout", "call");
-            } else {
+            }else if(json.status === 200) {
+                isModal_Form_New = true;
+                isModalLoading = false;
                 for (let i = 0; i < record.length; i++) {
                     adminrule_rule_field = record[i]["adminrule_rule"];
                 }
+            }else{
+                isModalLoading = false;
+                isModalNotif = true;
+                msg_error = "Silahkan Hubungi Administrator"
             }
         }
     }
@@ -217,55 +225,53 @@
                     </svg>
                 </button>
             </div>
-            <div class="sm:hidden dropdown dropdown-end">
-                <svg xmlns="http://www.w3.org/2000/svg" tabindex="0" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                </svg>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>New</li>
-                    <li>Refresh</li>
-                </ul>
-            </div>
         </div>
         <div class="relative w-full">
             <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </div>
             <input 
                 bind:value={searchHome}
-                type="text" placeholder="Search" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+                type="text" placeholder="Search by Nama" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
         </div>
-        <div class="hidden sm:inline w-full max-h-full">
-            <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-[#6c7ae0] py-3 ">
-                <div class="flex justify-start basis-10 text-left text-xs lg:text-sm"></div>
-                <div class="flex justify-center text-white font-semibold basis-20 text-center text-xs lg:text-sm">NO</div>
-                <div class="flex justify-start  text-white font-semibold basis-80 text-xs lg:text-sm">NAMA</div>
-            </div>
-            {#if filterHome != ""}
-                <div class="scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-[550px] overflow-y-scroll">
-                {#each filterHome as rec}
-                    <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-white h-8">
-                        <div
-                            on:click={() => {
+        <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
+            <table class="table table-compact w-full">
+                <thead class="sticky top-0">
+                    <tr>
+                        <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
+                        <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
+                        <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">NAMA</th>
+                    </tr>
+                </thead>
+                {#if filterHome != ""}
+                    <tbody>
+                        {#each filterHome as rec}
+                        <tr>
+                            <td on:click={() => {
                                 EditData(rec.home_id,rec.home_nama);
-                            }} 
-                            class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-10 cursor-pointer  ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                        </div>
-                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-20 text-center text-xs lg:text-sm">{rec.home_no}</div>
-                        <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-xs lg:text-sm ">{rec.home_nama}</div>
-                    </div>
-                {/each}
-                </div>
-            {:else}
-                <div class="flex w-full justify-center items-center mt-4 h-[500px]">
-                    <progress class="self-start progress progress-primary w-56"></progress>
-                </div>
-            {/if}
+                                }} class="text-center text-xs cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </td>
+                            <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
+                            <td class="text-xs lg:text-sm align-top text-left">{rec.home_nama}</td>
+                        </tr>
+                        {/each}
+                    </tbody>
+                {:else}
+                    <tbody>
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <progress class="self-start progress progress-primary w-56"></progress>
+                            </td>
+                        </tr>
+                    </tbody>
+                {/if}
+            </table>
+           
         </div>
         
         <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
@@ -273,6 +279,7 @@
         </div>
     </div>
 </div>
+
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
 <div class="modal" >
     <div class="modal-box relative select-none w-11/12 {modal_width}  rounded-none lg:rounded-lg p-2  overflow-hidden">
@@ -466,3 +473,10 @@
     </div>
 </div>
 
+<input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
+<Modal_alert 
+    modal_tipe="notifikasi" modal_id="my-modal-notif" 
+    modal_title="Information" modal_message="{msg_error}"  />
+
+<input type="checkbox" id="my-modal-loading" class="modal-toggle" bind:checked={isModalLoading}>
+<Modal_alert modal_tipe="loading" modal_widthheight_class="w-auto grass opacity-50"  />

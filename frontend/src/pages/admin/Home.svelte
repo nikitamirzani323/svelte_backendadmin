@@ -373,15 +373,6 @@
                     </svg>
                 </button>
             </div>
-            <div class="sm:hidden dropdown dropdown-end">
-                <svg xmlns="http://www.w3.org/2000/svg" tabindex="0" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                </svg>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>New</li>
-                    <li>Refresh</li>
-                </ul>
-            </div>
         </div>
         <div class="relative w-full">
             <div class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -394,7 +385,7 @@
                 type="text" placeholder="Search by Rule, Username, Nama" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
         </div>
         
-        <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-[550px] overflow-y-scroll">
+        <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
             <table class="table table-compact w-full">
                 <thead class="sticky top-0">
                     <tr>
