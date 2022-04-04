@@ -30,13 +30,13 @@
     const schema = yup.object().shape({
         home_name_field: yup
             .string()
-            .required("Nama is Required")
+            .required("Rule is Required")
             .matches(
                 /^[a-zA-z0-9 ]+$/,
-                "Nama must Character A-Z or a-z or 1-9"
+                "Rule must Character A-Z or a-z or 1-9"
             )
-            .min(4, "Nama must be at least 4 Character")
-            .max(70, "Nama must be at most 70 Character"),
+            .min(4, "Rule must be at least 4 Character")
+            .max(50, "Rule must be at most 50 Character"),
     });
     const { form, errors, handleChange, handleSubmit } = createForm({
         initialValues: {
@@ -234,7 +234,7 @@
             </div>
             <input 
                 bind:value={searchHome}
-                type="text" placeholder="Search by Nama" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+                type="text" placeholder="Search by Rule" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
         </div>
         <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
             <table class="table table-compact w-full">
@@ -242,7 +242,7 @@
                     <tr>
                         <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
                         <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                        <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">NAMA</th>
+                        <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">RULE</th>
                     </tr>
                 </thead>
                 {#if filterHome != ""}
@@ -264,7 +264,7 @@
                 {:else}
                     <tbody>
                         <tr>
-                            <td colspan="2" class="text-center">
+                            <td colspan="3" class="text-center">
                                 <progress class="self-start progress progress-primary w-56"></progress>
                             </td>
                         </tr>
@@ -299,7 +299,7 @@
                             input_invalid={$errors.home_name_field.length > 0}
                             input_value={$form.home_name_field}
                             input_id="home_name_field"
-                            input_placeholder="Nama"/>
+                            input_placeholder="Rule"/>
                         {#if $errors.home_name_field}
                             <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
                         {/if}
@@ -326,7 +326,7 @@
                                     input_invalid={$errors.home_name_field.length > 0}
                                     input_value={$form.home_name_field}
                                     input_id="home_name_field"
-                                    input_placeholder="Nama"/>
+                                    input_placeholder="Rule"/>
                                 {#if $errors.home_name_field}
                                     <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
                                 {/if}

@@ -51,7 +51,7 @@
                 </a>
                 <ul class="p-2 bg-white">
                   <li><a use:link href="/admin">PASARAN</a></li>
-                  <li><a use:link href="/admin">LOG MANAGEMENT</a></li>
+                  <li><a use:link href="/log">LOG MANAGEMENT</a></li>
                   <li><a use:link href="/admin">ADMIN MANAGEMENT</a></li>
                   <li><a use:link href="/adminrule">ADMIN RULE</a></li>
                 </ul>

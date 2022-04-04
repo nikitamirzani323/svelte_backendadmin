@@ -2,12 +2,12 @@
   import Router from "svelte-spa-router";
 	import { wrap } from "svelte-spa-router/wrap";
   import Navigation from '../src/components/Navigation.svelte'
-  import Sidebar from '../src/components/Sidebar.svelte'
   import NotFound from '../src/pages/NotFound.svelte'
   import Login from '../src/pages/Login.svelte'
   import Home from '../src/pages/Home.svelte'
   import Admin from '../src/pages/admin/Admin.svelte'
   import Adminrule from '../src/pages/adminrule/Adminrule.svelte'
+  import Log from '../src/pages/log/Log.svelte'
   import Tailwindcss from './Tailwindcss.svelte'
   export let path_api = "";
   let token = localStorage.getItem("token");
@@ -46,6 +46,12 @@
 					path_api: path_api,
 				},
 				component: Adminrule,
+			}),
+      "/log": wrap({
+        props: {
+					path_api: path_api,
+				},
+				component: Log,
 			}),
 			"*": NotFound,
 		};
