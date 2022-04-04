@@ -51,29 +51,18 @@
 		};
   }
 </script>
-
-<main class="flex space-x-2 h-screen w-full bg-[#f0f2f5]">
-  <div class="drawer {drawer_class}">
-    <input id="my-drawer-2" type="checkbox" class="drawer-toggle">
-    <div class="drawer-content flex flex-col gap-6">
-      {#if isNav}
-        <Navigation />
-      {/if}
-      <div class="container mx-auto px-2 ">
-        {#if isNav}
-        <div class="bg-white shadow-lg p-5 mt-5 mb-10">
-          <Router {routes} />
-        </div>
-        {:else}
-          <Router {routes} />
-        {/if}
-      </div>
-      
-    </div> 
-    {#if isNav}
-      <Sidebar />
-    {/if}
+{#if isNav}
+<main class="flex flex-col space-x-2 h-screen w-full bg-[#f0f2f5]">
+  <Navigation />
+  <div class="justify-center">
+    <div class="w-full  mt-5 ">
+      <Router {routes} />
+    </div>
   </div>
-  
 </main>
+{:else}
+<div class="container mx-auto">
+  <Router {routes} />
+</div>
+{/if}
 <Tailwindcss />

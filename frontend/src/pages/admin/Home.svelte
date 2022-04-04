@@ -14,7 +14,6 @@
     let sData = "New";
     let isModal_Form_New = false
     let isModal_Form_Listipaddress = false
-    let isModalAlert = false
     let loader_class = "hidden"
     let loader_msg = "Sending..."
     let buttonLoading_class = "btn btn-primary"
@@ -340,101 +339,101 @@
         </div>
     </div>
 </div>
-
-<div class="flex flex-col gap-2">
-    <div class="flex">
-        <h1 class="text-black font-bold text-sm lg:text-4xl uppercase  w-full">{page}</h1>
-        <div class="hidden sm:flex md:flex justify-end w-full gap-2 ">
-            <button 
-                on:click={() => {
-                    NewData();
-                }}
-                class="btn btn-md btn-primary rounded-md lg:inline-flex">New</button>
-            <button on:click={() => {
-                RefreshHalaman();
-                }} class="btn btn-primary rounded-md lg:inline-flex">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+<div class="container mx-auto bg-white shadow-lg p-5">
+    <div class="flex flex-col gap-2">
+        <div class="flex">
+            <h1 class="text-black font-bold text-sm lg:text-4xl uppercase w-full">{page}</h1>
+            <div class="hidden sm:flex md:flex justify-end w-full gap-2 ">
+                <button 
+                    on:click={() => {
+                        NewData();
+                    }}
+                    class="btn btn-md btn-primary rounded-md lg:inline-flex">New</button>
+                <button on:click={() => {
+                    RefreshHalaman();
+                    }} class="btn btn-primary rounded-md lg:inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </button>
+            </div>
+            <div class="sm:hidden dropdown dropdown-end">
+                <svg xmlns="http://www.w3.org/2000/svg" tabindex="0" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                 </svg>
-            </button>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li>New</li>
+                    <li>Refresh</li>
+                </ul>
+            </div>
+            
+                
+                
         </div>
-        <div class="sm:hidden dropdown dropdown-end">
-            <svg xmlns="http://www.w3.org/2000/svg" tabindex="0" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-              <li>New</li>
-              <li>Refresh</li>
-            </ul>
+        <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            </div>
+            <input 
+                bind:value={searchHome}
+                type="text" placeholder="Search" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
         </div>
         
-            
-            
-    </div>
-    <div class="relative w-full">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <input 
-            bind:value={searchHome}
-            type="text" placeholder="Search" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
-    </div>
-    
-    <div class="hidden sm:inline w-full max-h-full">
-        <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-[#6c7ae0] py-3 ">
-            <div class="flex justify-start basis-10 text-left text-xs lg:text-sm"></div>
-            <div class="flex justify-center text-white font-semibold basis-20 text-center text-xs lg:text-sm">NO</div>
-            <div class="flex justify-center text-white font-semibold basis-40 text-center text-xs lg:text-sm">STATUS</div>
-            <div class="flex justify-center text-white font-semibold basis-52 text-center text-xs lg:text-sm">TIMEZONE</div>
-            <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">IPADDRESS</div>
-            <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">LAST LOGIN</div>
-            <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">JOIN DATE</div>
-            <div class="flex justify-start  text-white font-semibold basis-80 text-left text-xs lg:text-sm">RULE</div>
-            <div class="flex justify-start  text-white font-semibold basis-80 text-left text-xs lg:text-sm">USERNAME</div>
-            <div class="flex justify-start  text-white font-semibold basis-80 text-xs lg:text-sm">NAMA</div>
-        </div>
-        {#if filterHome != ""}
-            <div class="scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-[550px] overflow-y-scroll">
-            {#each filterHome as rec}
-                <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-white h-8">
-                    <div
-                        on:click={() => {
-                            EditData(rec.admin_username,rec.admin_tipe);
-                        }} 
-                        class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-10 cursor-pointer  ">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
+        <div class="hidden sm:inline w-full max-h-full">
+            <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-[#6c7ae0] py-3 ">
+                <div class="flex justify-start basis-10 text-left text-xs lg:text-sm"></div>
+                <div class="flex justify-center text-white font-semibold basis-20 text-center text-xs lg:text-sm">NO</div>
+                <div class="flex justify-center text-white font-semibold basis-40 text-center text-xs lg:text-sm">STATUS</div>
+                <div class="flex justify-center text-white font-semibold basis-52 text-center text-xs lg:text-sm">TIMEZONE</div>
+                <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">IPADDRESS</div>
+                <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">LAST LOGIN</div>
+                <div class="flex justify-center text-white font-semibold basis-80 text-center text-xs lg:text-sm">JOIN DATE</div>
+                <div class="flex justify-start  text-white font-semibold basis-80 text-left text-xs lg:text-sm">RULE</div>
+                <div class="flex justify-start  text-white font-semibold basis-80 text-left text-xs lg:text-sm">USERNAME</div>
+                <div class="flex justify-start  text-white font-semibold basis-80 text-xs lg:text-sm">NAMA</div>
+            </div>
+            {#if filterHome != ""}
+                <div class="scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-[550px] overflow-y-scroll">
+                {#each filterHome as rec}
+                    <div class="flex flex-nowrap justify-start items-stretch w-full gap-1 bg-white h-8">
+                        <div
+                            on:click={() => {
+                                EditData(rec.admin_username,rec.admin_tipe);
+                            }} 
+                            class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-10 cursor-pointer  ">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </div>
+                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-20 text-center text-xs lg:text-sm">{rec.admin_no}</div>
+                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-40 text-center text-xs lg:text-sm">
+                            <span class="{rec.admin_statusclass} text-center rounded-md p-1 ">{rec.admin_status}</span>
+                        </div>
+                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-52 text-center text-xs lg:text-sm">{rec.admin_timezone}</div>
+                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_lastipaddres}</div>
+                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_lastlogin}</div>
+                        <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_joindate}</div>
+                        <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-left align-top text-xs lg:text-sm truncate ">{rec.admin_rule}</div>
+                        <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-left text-xs lg:text-sm ">{rec.admin_username}</div>
+                        <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-xs lg:text-sm ">{rec.admin_nama}</div>
                     </div>
-                    <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-20 text-center text-xs lg:text-sm">{rec.admin_no}</div>
-                    <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-40 text-center text-xs lg:text-sm">
-                        <span class="{rec.admin_statusclass} text-center rounded-md p-1 ">{rec.admin_status}</span>
-                    </div>
-                    <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-52 text-center text-xs lg:text-sm">{rec.admin_timezone}</div>
-                    <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_lastipaddres}</div>
-                    <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_lastlogin}</div>
-                    <div class="py-1 justify-center  border-b-[1px] border-[#f2f2f2] basis-80 text-center text-xs lg:text-sm">{rec.admin_joindate}</div>
-                    <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-left align-top text-xs lg:text-sm truncate ">{rec.admin_rule}</div>
-                    <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-left text-xs lg:text-sm ">{rec.admin_username}</div>
-                    <div class="py-1 justify-start  border-b-[1px] border-[#f2f2f2] basis-80 text-xs lg:text-sm ">{rec.admin_nama}</div>
+                {/each}
                 </div>
-            {/each}
-            </div>
-        {:else}
-            <div class="flex w-full justify-center items-center mt-4 h-[500px]">
-                <progress class="self-start progress progress-primary w-56"></progress>
-            </div>
-        {/if}
-    </div>
+            {:else}
+                <div class="flex w-full justify-center items-center mt-4 h-[500px]">
+                    <progress class="self-start progress progress-primary w-56"></progress>
+                </div>
+            {/if}
+        </div>
 
-    
-    <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
-      <span class="font-semibold">TOTAL ROW : {totalrecord}</span>
+        
+        <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
+        <span class="font-semibold">TOTAL ROW : {totalrecord}</span>
+        </div>
     </div>
 </div>
-
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
 <div class="modal" >
     <div class="modal-box relative select-none max-w-full lg:max-w-xl  rounded-none lg:rounded-lg p-2  overflow-hidden">
