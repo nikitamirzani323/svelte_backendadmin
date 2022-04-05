@@ -70,7 +70,7 @@
                     class="{input_class}"> 
             {/if}
         {/if}
-        <label for="username" class="absolute left-3 top-[-0.7rem]  text-sm cursor-text 
+        <label for="username" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -83,31 +83,31 @@
     </div>
 {/if}
 {#if input_tipe == "password"}
-<div class="relative form-control">
-    {#if show_eye}
-        <input
-            use:typeAction 
-            on:change={input_onchange}
-            bind:value
-            invalid={input_invalid}
-            id="{input_id}"
-            name="{input_id}"
-            placeholder="{input_placeholder}"
-            autocomplete="off"
-            class="{input_class}"> 
-    {:else}
-        <input
-            on:change={input_onchange}
-            bind:value
-            invalid={input_invalid}
-            type="text"
-            id="{input_id}"
-            name="{input_id}"
-            placeholder="{input_placeholder}"
-            autocomplete="off"
-            class="{input_class}"> 
-    {/if}
-        <label for="username" class="absolute left-3 top-[-0.7rem]  text-sm cursor-text 
+    <div class="relative form-control">
+        {#if show_eye}
+            <input
+                use:typeAction 
+                on:change={input_onchange}
+                bind:value
+                invalid={input_invalid}
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                class="{input_class}"> 
+        {:else}
+            <input
+                on:change={input_onchange}
+                bind:value
+                invalid={input_invalid}
+                type="text"
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                class="{input_class}"> 
+        {/if}
+        <label for="username" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -159,7 +159,7 @@
                 disabled
                 class="{input_datetime_class}"> 
         {/if}
-        <label for="username" class="absolute left-3 top-[-0.7rem]  text-sm cursor-text 
+        <label for="username" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -195,7 +195,7 @@
                 disabled
                 class="{input_number_class}"> 
         {/if}
-        <label for="{input_id}" class="absolute left-3 top-[-0.7rem]  text-sm cursor-text 
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -231,7 +231,7 @@
                 disabled
                 class="{input_number_class}"> 
         {/if}
-        <label for="{input_id}" class="absolute left-3 top-[-0.7rem]  text-sm cursor-text 
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 

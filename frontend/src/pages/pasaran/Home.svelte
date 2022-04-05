@@ -244,6 +244,7 @@
 	let pasaran_limittotal_shio_field = 0;
 	let listPasaranOnline = [];
 
+    let permainan = "";
     let tab_pasaranonline = "bg-sky-600 text-white"
     let tab_bbfs = ""
     let tab_configure = ""
@@ -793,9 +794,11 @@
         dispatch("handleRefreshData", "call");
     };
     const call_configure = (e) => {
-        modalpasaran_width = "max-w-full";
+        permainan = "";
+        modalpasaran_width = "max-w-7xl ";
         switch(e){
             case "4-3-2":
+                permainan = "4D/3D/2D"
                 isModal_Form_pasaran = true;
                 panel_432D = true;
                 break;
@@ -990,7 +993,7 @@
         }
     }
 </script>
-<div class="{loader_class} w-40 fixed top-1 left-[45%] right-0 z-50">
+<div class="{loader_class} w-40 fixed top-1 left-[45%] right-0 z-[9999999999]">
     <div class="alert alert-warning shadow-lg rounded-md bg-[#FFF6BF]">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -1370,11 +1373,11 @@
 
 <input type="checkbox" id="my-modal-formpasaran" class="modal-toggle" bind:checked={isModal_Form_pasaran}>
 <div class="modal" >
-    <div class="modal-box relative select-none w-11/12 {modalpasaran_width}  rounded-none lg:rounded-lg p-2  overflow-hidden">
+    <div class="modal-box relative select-none w-11/12  {modalpasaran_width}  rounded-none lg:rounded-md p-2 scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 ">
         <div class="flex flex-col items-stretch gap-1">
             <div class="h-8">
                 <label for="my-modal-formpasaran" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
+                <h3 class="text-xs lg:text-sm font-bold mt-1">{permainan}</h3>
             </div>
             <div class="flex flex-col">
                 {#if panel_432D}

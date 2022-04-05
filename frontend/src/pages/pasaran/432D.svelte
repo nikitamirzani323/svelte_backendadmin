@@ -320,7 +320,8 @@
         }
     }
 </script>
-<div class="grid grid-cols-8 gap-2">
+
+<div class="grid grid-cols-8 gap-1 mt-5">
     <Input_custom
         input_enabled={true}
         input_tipe="number"
@@ -621,7 +622,8 @@
         bind:value={pasaran_maxbet2dt_432d_field}
         input_id="pasaran_maxbet2dt_432d_field"
         input_placeholder="Max Bet 2DT"/>
-    <button on:click={() => {
-            save432d();
-        }} class="col-span-8 {buttonLoading_class} btn-block">Submit</button>
 </div>
+
+<button on:click={() => {
+    save432d();
+}} class="{buttonLoading_class} btn-block ">Submit</button>
