@@ -471,7 +471,7 @@
                             input_required={true}
                             input_tipe="text"
                             input_invalid={$errors.admin_username_field.length > 0}
-                            input_value={$form.admin_username_field}
+                            bind:value={$form.admin_username_field}
                             input_id="admin_username_field"
                             input_enabled={isInput_username_enabled}
                             input_placeholder="Username"/>
@@ -487,7 +487,7 @@
                             input_tipe="password"
                             input_attr="password"
                             input_invalid={$errors.admin_password_field.length > 0}
-                            input_value={$form.admin_password_field}
+                            bind:value={$form.admin_password_field}
                             input_id="admin_password_field"
                             input_placeholder="Password"/>
                         {#if $errors.admin_password_field}
@@ -516,7 +516,7 @@
                             input_required={true}
                             input_tipe="text"
                             input_invalid={$errors.admin_name_field.length > 0}
-                            input_value={$form.admin_name_field}
+                            bind:value={$form.admin_name_field}
                             input_id="admin_name_field"
                             input_placeholder="Nama"/>
                         {#if $errors.admin_name_field}
@@ -608,27 +608,14 @@
                 <h3 class="text-xs lg:text-sm font-bold mt-1">New IPAddress</h3>
             </div>
             <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
-                <div class="relative form-control mt-2">
-                    <input
+                <div class="mt-2">
+                    <Input_custom
+                        input_autofocus={false}
+                        input_required={true}
+                        input_tipe="text"
                         bind:value={form_field_ipaddress}
-                        type="text" 
-                        id="ipaddress"
-                        name="ipaddress"
-                        placeholder="Username"
-                        autocomplete="off"
-                        class="peer w-full rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent"> 
-                        <label for="ipaddress" class="absolute left-3 top-[-0.7rem] text-gray-600 text-sm cursor-text 
-                            transition-all
-                            peer-placeholder-shown:text-base 
-                            peer-placeholder-shown:text-gray-400 
-                            peer-placeholder-shown:top-3 
-                            peer-focus:text-[#1a73e8]
-                            peer-focus:bg-[#fff]
-                            peer-focus:text-[.75rem]
-                            bg-[#fff]
-                            text-[#1a73e8]
-                            text-[.75rem]
-                            ">IPAddress*</label>
+                        input_id="ipaddress"
+                        input_placeholder="IPAddress"/>
                 </div>
             </div>
             <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">

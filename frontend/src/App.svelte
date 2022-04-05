@@ -8,6 +8,7 @@
   import Admin from '../src/pages/admin/Admin.svelte'
   import Adminrule from '../src/pages/adminrule/Adminrule.svelte'
   import Log from '../src/pages/log/Log.svelte'
+  import Pasaran from '../src/pages/pasaran/Pasaran.svelte'
   import Tailwindcss from './Tailwindcss.svelte'
   export let path_api = "";
   let token = localStorage.getItem("token");
@@ -52,6 +53,12 @@
 					path_api: path_api,
 				},
 				component: Log,
+			}),
+      "/pasaran": wrap({
+        props: {
+					path_api: path_api,
+				},
+				component: Pasaran,
 			}),
 			"*": NotFound,
 		};

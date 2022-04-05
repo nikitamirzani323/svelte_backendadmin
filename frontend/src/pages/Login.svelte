@@ -70,7 +70,7 @@
                 input_required={true}
                 input_tipe="text"
                 input_invalid={$errors.username.length > 0}
-                input_value={$form.username}
+                bind:value={$form.username}
                 input_id="username"
                 input_placeholder="Username"
                 />
@@ -86,7 +86,7 @@
                 input_tipe="password"
                 input_attr="password"
                 input_invalid={$errors.password.length > 0}
-                input_value={$form.password}
+                bind:value={$form.password}
                 input_id="password"
                 input_placeholder="Password"
                 />

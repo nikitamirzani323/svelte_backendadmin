@@ -297,7 +297,7 @@
                             input_required={true}
                             input_tipe="text"
                             input_invalid={$errors.home_name_field.length > 0}
-                            input_value={$form.home_name_field}
+                            bind:value={$form.home_name_field}
                             input_id="home_name_field"
                             input_placeholder="Rule"/>
                         {#if $errors.home_name_field}
@@ -324,7 +324,7 @@
                                     input_required={true}
                                     input_tipe="text"
                                     input_invalid={$errors.home_name_field.length > 0}
-                                    input_value={$form.home_name_field}
+                                    bind:value={$form.home_name_field}
                                     input_id="home_name_field"
                                     input_placeholder="Rule"/>
                                 {#if $errors.home_name_field}
@@ -332,12 +332,12 @@
                                 {/if}
                             </div>
                         </div>
-                        <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                        <div class="flex flex-wrap justify-end align-middle  mt-2">
                             <button
                                 on:click={() => {
                                     handleSubmit();
                                 }}  
-                                class="{buttonLoading_class}">Submit</button>
+                                class="{buttonLoading_class} btn-block">Submit</button>
                         </div>
                     </div>
                     <div class="w-full p-2">
