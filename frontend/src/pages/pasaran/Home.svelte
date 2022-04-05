@@ -795,7 +795,7 @@
     };
     const call_configure = (e) => {
         permainan = "";
-        modalpasaran_width = "max-w-7xl ";
+        modalpasaran_width = "max-w-5xl ";
         switch(e){
             case "4-3-2":
                 permainan = "4D/3D/2D"
