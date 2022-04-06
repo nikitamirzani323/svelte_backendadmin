@@ -207,75 +207,77 @@
         </div>
     </div>
 </div>
-<div class="container mx-auto bg-white shadow-lg p-5">
-    <div class="flex flex-col gap-2">
-        <div class="flex items-start">
-            <h1 class=" text-black font-bold text-sm lg:text-4xl uppercase w-full">{page}</h1>
-            <div class="hidden sm:flex md:flex justify-end w-full gap-2 ">
-                <button 
-                    on:click={() => {
-                        NewData();
-                    }}
-                    class="btn bg-primary hover:bg-primary  rounded-md shadow-lg shadow-[#b3e4fc] border-none  ">New</button>
-                <button on:click={() => {
-                    RefreshHalaman();
-                    }} class="btn btn-primary hover:bg-primary shadow-lg shadow-[#b3e4fc]  rounded-md lg:inline-flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+<div class="container mx-auto px-28">
+    <div class="bg-white shadow-lg p-5">
+        <div class="flex flex-col gap-2">
+            <div class="flex items-start">
+                <h1 class=" text-slate-600 font-bold text-sm lg:text-4xl uppercase w-full">{page}</h1>
+                <div class="hidden sm:flex md:flex justify-end w-full gap-2 ">
+                    <button 
+                        on:click={() => {
+                            NewData();
+                        }}
+                        class="btn bg-primary hover:bg-primary  rounded-md shadow-lg shadow-[#b3e4fc] border-none  ">New</button>
+                    <button on:click={() => {
+                        RefreshHalaman();
+                        }} class="btn btn-primary hover:bg-primary shadow-lg shadow-[#b3e4fc]  rounded-md lg:inline-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="relative w-full">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                </button>
+                </div>
+                <input 
+                    bind:value={searchHome}
+                    type="text" placeholder="Search by Rule" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
             </div>
-        </div>
-        <div class="relative w-full">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+            <div class="hidden sm:inline w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
+                <table class="table table-compact w-full ">
+                    <thead class="sticky top-0">
+                        <tr>
+                            <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
+                            <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
+                            <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">RULE</th>
+                        </tr>
+                    </thead>
+                    {#if filterHome != ""}
+                        <tbody>
+                            {#each filterHome as rec}
+                            <tr>
+                                <td on:click={() => {
+                                    EditData(rec.home_id,rec.home_nama);
+                                    }} class="text-center text-xs cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                </td>
+                                <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
+                                <td class="text-xs lg:text-sm align-top text-left">{rec.home_nama}</td>
+                            </tr>
+                            {/each}
+                        </tbody>
+                    {:else}
+                        <tbody>
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <progress class="self-start progress progress-primary w-56"></progress>
+                                </td>
+                            </tr>
+                        </tbody>
+                    {/if}
+                </table>
+            
             </div>
-            <input 
-                bind:value={searchHome}
-                type="text" placeholder="Search by Rule" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
-        </div>
-        <div class="hidden sm:inline w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
-            <table class="table table-compact w-full ">
-                <thead class="sticky top-0">
-                    <tr>
-                        <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                        <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                        <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">RULE</th>
-                    </tr>
-                </thead>
-                {#if filterHome != ""}
-                    <tbody>
-                        {#each filterHome as rec}
-                        <tr>
-                            <td on:click={() => {
-                                EditData(rec.home_id,rec.home_nama);
-                                }} class="text-center text-xs cursor-pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                </svg>
-                            </td>
-                            <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
-                            <td class="text-xs lg:text-sm align-top text-left">{rec.home_nama}</td>
-                        </tr>
-                        {/each}
-                    </tbody>
-                {:else}
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center">
-                                <progress class="self-start progress progress-primary w-56"></progress>
-                            </td>
-                        </tr>
-                    </tbody>
-                {/if}
-            </table>
-           
-        </div>
-        
-        <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
-            <span class="font-bold">TOTAL ROW : {totalrecord}</span>
+            
+            <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
+                <span class="font-bold">TOTAL ROW : {totalrecord}</span>
+            </div>
         </div>
     </div>
 </div>
