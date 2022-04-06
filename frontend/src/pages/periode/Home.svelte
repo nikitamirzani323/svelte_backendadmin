@@ -227,6 +227,7 @@
         listBetUsername = [];
         client_username = e.toUpperCase();
         modal_width_listbetmember = "max-w-7xl"
+        isModal_Form_MemberlistBet = true;
         const res = await fetch(path_api+"api/periodelistbetusername", {
             method: "POST",
             headers: {
@@ -247,7 +248,6 @@
             
         } else {
             if (record != null) {
-                isModal_Form_MemberlistBet = true;
                 let status_class = ""
                 for (var i = 0; i < record.length; i++) {
                     if(record[i]["bet_status"] == "LOSE"){
@@ -694,7 +694,9 @@
                             {/each}
                         {:else}
                             <tr>
-                                <td colspan="5" class="text-xs">No Records</td>
+                                <td colspan="15" class="text-xs text-center">
+                                    <progress class="self-start progress progress-primary w-56"></progress>
+                                </td>
                             </tr>
                         {/if}
                     </tbody>
