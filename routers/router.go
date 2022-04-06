@@ -27,7 +27,7 @@ func Init() *fiber.App {
 	app.Use(logger.New())
 	app.Use(recover.New())
 	app.Use(compress.New())
-	app.Static("/", "frontend/public", fiber.Static{
+	app.Static("/", "frontend/dist", fiber.Static{
 		Compress:  true,
 		ByteRange: true,
 		Browse:    true,
