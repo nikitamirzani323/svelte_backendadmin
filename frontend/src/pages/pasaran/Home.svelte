@@ -1051,10 +1051,10 @@
                                 </svg>
                             </td>
                             <td class="text-xs lg:text-sm align-top text-center">
-                                <span class="{rec.home_status_class} text-center rounded-md p-1 ">{rec.home_status}</span>
+                                <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_status}</span>
                             </td>
                             <td class="text-xs lg:text-sm align-top text-center">
-                                <span class="{rec.home_active_class} text-center rounded-md p-1 ">{rec.home_active}</span>
+                                <span class="{rec.home_active_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_active}</span>
                             </td>
                             <td class="text-xs lg:text-sm align-top text-left">{rec.home_nama}</td>
                             <td class="text-xs lg:text-sm align-top text-left">{rec.home_diundi}</td>

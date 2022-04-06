@@ -413,7 +413,7 @@
                                 </svg>
                             </td>
                             <td class="text-xs lg:text-sm align-top text-center">{rec.admin_no}</td>
-                            <td class="text-xs lg:text-sm align-top text-center"><span class="{rec.admin_statusclass} text-center rounded-md p-1 ">{rec.admin_status}</span></td>
+                            <td class="text-xs lg:text-sm align-top text-center"><span class="{rec.admin_statusclass} text-center rounded-md p-1 px-2 shadow-lg">{rec.admin_status}</span></td>
                             <td class="text-xs lg:text-sm align-top text-center">{rec.admin_timezone}</td>
                             <td class="text-xs lg:text-sm align-top text-center">{rec.admin_lastipaddres}</td>
                             <td class="text-xs lg:text-sm align-top text-center">{rec.admin_lastlogin}</td>
