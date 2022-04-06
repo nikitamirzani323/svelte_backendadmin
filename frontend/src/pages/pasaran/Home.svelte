@@ -5,6 +5,9 @@
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Panel_432D from '../pasaran/432D.svelte' 
+    import Panel_colokbebas from '../pasaran/colok_bebas.svelte' 
+    import Panel_colokmacau from '../pasaran/colok_macau.svelte' 
+    import Panel_coloknaga from '../pasaran/colok_naga.svelte' 
 
     export let path_api = "";
     export let token = "";
@@ -253,6 +256,10 @@
     let panel_configure = false
 
     let panel_432D = false
+    let panel_cbebas = false
+    let panel_cmacau = false
+    let panel_cnaga = false
+    let panel_cjitu = false
 
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
@@ -795,12 +802,47 @@
     };
     const call_configure = (e) => {
         permainan = "";
-        modalpasaran_width = "max-w-5xl ";
+        
         switch(e){
             case "4-3-2":
+                modalpasaran_width = "max-w-5xl ";
                 permainan = "4D/3D/2D"
                 isModal_Form_pasaran = true;
                 panel_432D = true;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false
+                break;
+            case "colok_bebas":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Bebas";
+                isModal_Form_pasaran = true;
+                panel_cbebas = true;
+                panel_432D = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false
+                break;
+            case "colok_macau":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Macau";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = true
+                panel_cnaga = false
+                panel_cjitu = false
+                break;
+            case "colok_naga":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Macau";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = true
+                panel_cjitu = false
                 break;
         }
     }
@@ -1334,16 +1376,16 @@
                                 call_configure("4-3-2");
                             }} class="btn btn-warning">4D/3D/2D</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("colok_bebas");
                             }} class="btn btn-warning">COLOK BEBAS</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("colok_macau");
                             }} class="btn btn-warning">COLOK MACAU</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("colok_naga");
                             }} class="btn btn-warning">COLOK NAGA</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("colok_jitu");
                             }} class="btn btn-warning">COLOK JITU</button>
                             <button on:click={() => {
                                 call_configure("4-3-2");
@@ -1439,6 +1481,57 @@
                         {pasaran_win2dd_bb_432d_field}
                         {pasaran_win2dt_bb_432d_field}
                      />
+                {/if}
+                {#if panel_cbebas}
+                    <Panel_colokbebas
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_cbebas_field}
+                        {pasaran_maxbet_cbebas_field}
+                        {pasaran_limitotal_cbebas_field}
+                        {pasaran_limitglobal_cbebas_field}
+                        {pasaran_win_cbebas_field}
+                        {pasaran_disc_cbebas_field} />
+                {/if}
+                {#if panel_cmacau}
+                    <Panel_colokmacau
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_cmacau_field}
+                        {pasaran_maxbet_cmacau_field}
+                        {pasaran_limitotal_cmacau_field}
+                        {pasaran_limitglobal_cmacau_field}
+                        {pasaran_win2_cmacau_field}
+                        {pasaran_win3_cmacau_field}
+                        {pasaran_win4_cmacau_field}
+                        {pasaran_disc_cmacau_field} />
+                {/if}
+                {#if panel_cnaga}
+                    <Panel_coloknaga
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_cnaga_field}
+                        {pasaran_maxbet_cnaga_field}
+                        {pasaran_win3_cnaga_field}
+                        {pasaran_win4_cnaga_field}
+                        {pasaran_disc_cnaga_field}
+                        {pasaran_limitglobal_cnaga_field}
+                        {pasaran_limittotal_cnaga_field} />
                 {/if}
             </div>
         </div>
