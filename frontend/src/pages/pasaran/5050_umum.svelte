@@ -163,14 +163,16 @@
         input_placeholder="Limit Total"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keibesar_5050umum_field}
+        input_precision=2
         input_id="pasaran_keibesar_5050umum_field"
         input_placeholder="KEI BESAR"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_discbesar_5050umum_field}
+        input_precision=2
         input_id="pasaran_discbesar_5050umum_field"
         input_placeholder="DISC BESAR(%)"/>
     
@@ -188,66 +190,76 @@
         input_placeholder="Limit Total"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keikecil_5050umum_field}
+        input_precision=2
         input_id="pasaran_keikecil_5050umum_field"
         input_placeholder="KEI KECIL"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disckecil_5050umum_field}
+        input_precision=2
         input_id="pasaran_disckecil_5050umum_field"
         input_placeholder="DISC KECIL(%)"/>
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keigenap_5050umum_field}
+        input_precision=2
         input_id="pasaran_keigenap_5050umum_field"
         input_placeholder="KEI GENAP"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_discgenap_5050umum_field}
+        input_precision=2
         input_id="pasaran_discgenap_5050umum_field"
         input_placeholder="DISC GENAP(%)"/>
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keiganjil_5050umum_field}
+        input_precision=2
         input_id="pasaran_keiganjil_5050umum_field"
         input_placeholder="KEI GANJIL"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_discganjil_5050umum_field}
+        input_precision=2
         input_id="pasaran_discganjil_5050umum_field"
         input_placeholder="DISC GANJIL(%)"/>
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keitengah_5050umum_field}
+        input_precision=2
         input_id="pasaran_keitengah_5050umum_field"
         input_placeholder="KEI TENGAH"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disctengah_5050umum_field}
+        input_precision=2
         input_id="pasaran_disctengah_5050umum_field"
         input_placeholder="DISC TENGAH(%)"/>
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keitepi_5050umum_field}
+        input_precision=2
         input_id="pasaran_keitepi_5050umum_field"
         input_placeholder="KEI TEPI"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disctepi_5050umum_field}
+        input_precision=2
         input_id="pasaran_disctepi_5050umum_field"
         input_placeholder="DISC TEPI(%)"/>
 </div>

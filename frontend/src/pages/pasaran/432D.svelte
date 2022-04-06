@@ -506,8 +506,9 @@
         input_placeholder="WIN 4D BB(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc4d_432d_field}
+        input_precision=2
         input_id="pasaran_disc4d_432d_field"
         input_placeholder="DISC 4D(%)"/>
     
@@ -538,8 +539,9 @@
         input_placeholder="WIN 3D BB(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc3d_432d_field}
+        input_precision=2
         input_id="pasaran_disc3d_432d_field"
         input_placeholder="DISC 3D(%)"/>
     
@@ -570,8 +572,9 @@
         input_placeholder="WIN 3DD BB(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc3dd_432d_field}
+        input_precision=2
         input_id="pasaran_disc3dd_432d_field"
         input_placeholder="DISC 3DD(%)"/>
     
@@ -602,8 +605,9 @@
         input_placeholder="WIN 2D BB(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc2d_432d_field}
+        input_precision=2
         input_id="pasaran_disc2d_432d_field"
         input_placeholder="DISC 2D(%)"/>
     
@@ -634,8 +638,9 @@
         input_placeholder="WIN 2DD BB(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc2dd_432d_field}
+        input_precision=2
         input_id="pasaran_disc2dd_432d_field"
         input_placeholder="DISC 2DD(%)"/>
     
@@ -666,8 +671,9 @@
         input_placeholder="WIN 2DT BB(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc2dt_432d_field}
+        input_precision=2
         input_id="pasaran_disc2dt_432d_field"
         input_placeholder="DISC 2DT(%)"/>
 </div>

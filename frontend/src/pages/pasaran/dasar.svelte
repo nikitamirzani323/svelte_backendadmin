@@ -139,13 +139,15 @@
         input_placeholder="Limit Total"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keibesar_dasar_field}
         input_id="pasaran_keibesar_dasar_field"
         input_placeholder="KEI BESAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_discbesar_dasar_field}
         input_id="pasaran_discbesar_dasar_field"
         input_placeholder="DISC BESAR(%)"/>
@@ -165,13 +167,15 @@
         input_placeholder="Limit Global"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keikecil_dasar_field}
         input_id="pasaran_keikecil_dasar_field"
         input_placeholder="KEI KECIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_disckecil_dasar_field}
         input_id="pasaran_disckecil_dasar_field"
         input_placeholder="DISC KECIL(%)"/>
@@ -179,13 +183,15 @@
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keigenap_dasar_field}
         input_id="pasaran_keigenap_dasar_field"
         input_placeholder="KEI GENAP(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_discgenap_dasar_field}
         input_id="pasaran_discgenap_dasar_field"
         input_placeholder="DISC GENAP(%)"/>
@@ -193,13 +199,15 @@
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keiganjil_dasar_field}
         input_id="pasaran_keiganjil_dasar_field"
         input_placeholder="KEI GANJIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_discganjil_dasar_field}
         input_id="pasaran_discganjil_dasar_field"
         input_placeholder="DISC GANJIL(%)"/>

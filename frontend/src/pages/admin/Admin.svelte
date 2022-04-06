@@ -50,9 +50,9 @@
             if (record != null) {
                 for (var i = 0; i < record.length; i++) {
                     if (record[i]["admin_status"] == "ACTIVE") {
-                        status_class = "bg-[#99FFCD]"
+                        status_class = "bg-[#8BC34A] "
                     } else {
-                        status_class = "bg-[#FF8080] text-white"
+                        status_class = "bg-[#E91E63] text-white"
                     }
                     listHome = [
                         ...listHome,

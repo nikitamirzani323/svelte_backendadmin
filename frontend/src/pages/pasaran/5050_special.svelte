@@ -363,151 +363,173 @@
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keiasganjil_5050special_field}
+        input_precision=2
         input_id="pasaran_keiasganjil_5050special_field"
         input_placeholder="KEI AS GANJIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_discasganjil_5050special_field}
+        input_precision=2
         input_id="pasaran_discasganjil_5050special_field"
         input_placeholder="DISC AS GANJIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keiasgenap_5050special_field}
+        input_precision=2
         input_id="pasaran_keiasgenap_5050special_field"
         input_placeholder="KEI AS GENAP(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_discasgenap_5050special_field}
+        input_precision=2
         input_id="pasaran_discasgenap_5050special_field"
         input_placeholder="DISC AS GENAP(%)"/>
     
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keiasbesar_5050special_field}
+        input_precision=2
         input_id="pasaran_keiasbesar_5050special_field"
         input_placeholder="KEI AS BESAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_discasbesar_5050special_field}
+        input_precision=2
         input_id="pasaran_discasbesar_5050special_field"
         input_placeholder="DISC AS BESAR(%)"/>
     
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keiaskecil_5050special_field}
+        input_precision=2
         input_id="pasaran_keiaskecil_5050special_field"
         input_placeholder="KEI AS KECIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_discaskecil_5050special_field}
+        input_precision=2
         input_id="pasaran_discaskecil_5050special_field"
         input_placeholder="DISC AS KECIL(%)"/>
     
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keikopganjil_5050special_field}
+        input_precision=2
         input_id="pasaran_keikopganjil_5050special_field"
         input_placeholder="KEI KOP GANJIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disckopganjil_5050special_field}
+        input_precision=2
         input_id="pasaran_disckopganjil_5050special_field"
         input_placeholder="DISC KOP GANJIL(%)"/>
     
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keikopgenap_5050special_field}
+        input_precision=2
         input_id="pasaran_keikopgenap_5050special_field"
         input_placeholder="KEI KOP GENAP(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disckopgenap_5050special_field}
+        input_precision=2
         input_id="pasaran_disckopgenap_5050special_field"
         input_placeholder="DISC KOP GENAP(%)"/>
 
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keikopbesar_5050special_field}
+        input_precision=2
         input_id="pasaran_keikopbesar_5050special_field"
         input_placeholder="KEI KOP BESAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disckopbesar_5050special_field}
+        input_precision=2
         input_id="pasaran_disckopbesar_5050special_field"
         input_placeholder="DISC KOP BESAR(%)"/>
     
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keikopkecil_5050special_field}
+        input_precision=2
         input_id="pasaran_keikopkecil_5050special_field"
         input_placeholder="KEI KOP KECIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disckopkecil_5050special_field}
+        input_precision=2
         input_id="pasaran_disckopkecil_5050special_field"
         input_placeholder="DISC KOP KECIL(%)"/>
     
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keikepalaganjil_5050special_field}
+        input_precision=2
         input_id="pasaran_keikepalaganjil_5050special_field"
         input_placeholder="KEI KEPALA GANJIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disckepalaganjil_5050special_field}
+        input_precision=2
         input_id="pasaran_disckepalaganjil_5050special_field"
         input_placeholder="DISC KEPALA GANJIL(%)"/>
 
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_keikepalagenap_5050special_field}
+        input_precision=2
         input_id="pasaran_keikepalagenap_5050special_field"
         input_placeholder="KEI KEPALA GENAP(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disckepalagenap_5050special_field}
+        input_precision=2
         input_id="pasaran_disckepalagenap_5050special_field"
         input_placeholder="DISC KEPALA GENAP(%)"/>
     
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keikepalabesar_5050special_field}
         input_id="pasaran_keikepalabesar_5050special_field"
         input_placeholder="KEI KEPALA BESAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_disckepalabesar_5050special_field}
         input_id="pasaran_disckepalabesar_5050special_field"
         input_placeholder="DISC KEPALA BESAR(%)"/>
@@ -515,13 +537,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keikepalakecil_5050special_field}
         input_id="pasaran_keikepalakecil_5050special_field"
         input_placeholder="KEI KEPALA KECIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_disckepalakecil_5050special_field}
         input_id="pasaran_disckepalakecil_5050special_field"
         input_placeholder="DISC KEPALA KECIL(%)"/>
@@ -529,13 +553,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keiekorganjil_5050special_field}
         input_id="pasaran_keiekorganjil_5050special_field"
         input_placeholder="KEI EKOR GANJIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_discekorganjil_5050special_field}
         input_id="pasaran_discekorganjil_5050special_field"
         input_placeholder="DISC EKOR GANJIL(%)"/>
@@ -543,13 +569,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keiekorgenap_5050special_field}
         input_id="pasaran_keiekorgenap_5050special_field"
         input_placeholder="KEI EKOR GENAP(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_discekorgenap_5050special_field}
         input_id="pasaran_discekorgenap_5050special_field"
         input_placeholder="DISC EKOR GENAP(%)"/>
@@ -557,13 +585,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keiekorbesar_5050special_field}
         input_id="pasaran_keiekorbesar_5050special_field"
         input_placeholder="KEI EKOR BESAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_discekorbesar_5050special_field}
         input_id="pasaran_discekorbesar_5050special_field"
         input_placeholder="DISC EKOR BESAR(%)"/>
@@ -571,13 +601,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_keiekorkecil_5050special_field}
         input_id="pasaran_keiekorkecil_5050special_field"
         input_placeholder="KEI EKOR KECIL(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_discekorkecil_5050special_field}
         input_id="pasaran_discekorkecil_5050special_field"
         input_placeholder="DISC EKOR KECIL(%)"/>

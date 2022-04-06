@@ -109,14 +109,16 @@
         input_placeholder="Limit Total"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_win3_cnaga_field}
+        input_precision=2
         input_id="pasaran_win3_cnaga_field"
         input_placeholder="WIN 3 Digit(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc_cnaga_field}
+        input_precision=2
         input_id="pasaran_disc_cnaga_field"
         input_placeholder="DISC(%)"/>
     <Input_custom
@@ -133,8 +135,9 @@
         input_placeholder="Limit Global"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_win4_cnaga_field}
+        input_precision=2
         input_id="pasaran_win4_cnaga_field"
         input_placeholder="WIN 4 Digit(x)"/>
 </div>

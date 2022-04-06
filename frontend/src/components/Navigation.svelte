@@ -32,28 +32,28 @@
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal p-0">
-            <li><a>DASBOARD</a></li>
+            <li><a class="text-sm">DASBOARD</a></li>
             <li tabindex="0">
-              <a>
+              <a class="text-sm">
                 TOGEL
                 <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
               </a>
               <ul class="p-2 bg-white">
-                <li><a>PERIODE</a></li>
-                <li><a>PREDIKSI</a></li>
-                <li><a>REPORT WINLOSE</a></li>
+                <li><a use:link href="/periode" class="text-sm">PERIODE</a></li>
+                <li><a use:link href="/pasaran" class="text-sm">PREDIKSI</a></li>
+                <li><a use:link href="/pasaran" class="text-sm">REPORT WINLOSE</a></li>
               </ul>
             </li>
             <li tabindex="0">
-                <a>
+                <a class="text-sm">
                   MASTER
                   <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
                 </a>
                 <ul class="p-2 bg-white">
-                  <li><a use:link href="/pasaran">PASARAN</a></li>
-                  <li><a use:link href="/log">LOG MANAGEMENT</a></li>
-                  <li><a use:link href="/admin">ADMIN MANAGEMENT</a></li>
-                  <li><a use:link href="/adminrule">ADMIN RULE</a></li>
+                  <li><a use:link href="/pasaran"  class="text-sm">PASARAN</a></li>
+                  <li><a use:link href="/log"  class="text-sm">LOG MANAGEMENT</a></li>
+                  <li><a use:link href="/admin"  class="text-sm">ADMIN MANAGEMENT</a></li>
+                  <li><a use:link href="/adminrule"  class="text-sm">ADMIN RULE</a></li>
                 </ul>
               </li>
           </ul>

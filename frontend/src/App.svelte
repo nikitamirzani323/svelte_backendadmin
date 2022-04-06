@@ -1,26 +1,25 @@
 <script>
-  import Router from "svelte-spa-router";
+	import Router from "svelte-spa-router";
 	import { wrap } from "svelte-spa-router/wrap";
-  import Navigation from '../src/components/Navigation.svelte'
-  import NotFound from '../src/pages/NotFound.svelte'
-  import Login from '../src/pages/Login.svelte'
-  import Home from '../src/pages/Home.svelte'
-  import Admin from '../src/pages/admin/Admin.svelte'
-  import Adminrule from '../src/pages/adminrule/Adminrule.svelte'
-  import Log from '../src/pages/log/Log.svelte'
-  import Pasaran from '../src/pages/pasaran/Pasaran.svelte'
-  import Tailwindcss from './Tailwindcss.svelte'
-  export let path_api = "";
-  let token = localStorage.getItem("token");
+	import Navigation from '../src/components/Navigation.svelte'
+	import NotFound from '../src/pages/NotFound.svelte'
+	import Login from '../src/pages/Login.svelte'
+	import Home from '../src/pages/Home.svelte'
+	import Admin from '../src/pages/admin/Admin.svelte'
+	import Adminrule from '../src/pages/adminrule/Adminrule.svelte'
+	import Log from '../src/pages/log/Log.svelte'
+	import Pasaran from '../src/pages/pasaran/Pasaran.svelte'
+	import Periode from '../src/pages/periode/Periode.svelte'
+	import Tailwindcss from './Tailwindcss.svelte'
+	export let path_api = "";
+  	let token = localStorage.getItem("token");
 	let routes = "";
 	let isNav = false;
-  let drawer_class = "drawer-mobile"
-  drawer_class = ""
-  if (token == "" || token == null) {
+  	if (token == "" || token == null) {
     // isNav = true;
 		routes = {
 			"/": wrap({
-        props: {
+        		props: {
 					path_api: path_api,
 				},
 				component: Login,
@@ -31,36 +30,42 @@
     isNav = true;
 		routes = {
 			"/": wrap({
-        props: {
+        		props: {
 					path_api: path_api,
 				},
 				component: Home,
 			}),
-      "/admin": wrap({
-        props: {
+      	"/admin": wrap({
+        		props: {
 					path_api: path_api,
 				},
 				component: Admin,
 			}),
-      "/adminrule": wrap({
-        props: {
+      	"/adminrule": wrap({
+        		props: {
 					path_api: path_api,
 				},
 				component: Adminrule,
 			}),
-      "/log": wrap({
-        props: {
+      	"/log": wrap({
+        		props: {
 					path_api: path_api,
 				},
 				component: Log,
 			}),
-      "/pasaran": wrap({
-        props: {
+      	"/pasaran": wrap({
+        		props: {
 					path_api: path_api,
 				},
 				component: Pasaran,
 			}),
-			"*": NotFound,
+		"/periode": wrap({
+        		props: {
+					path_api: path_api,
+				},
+				component: Periode,
+			}),
+		"*": NotFound,
 		};
   }
 </script>

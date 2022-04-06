@@ -1191,11 +1191,11 @@
         </div>
     </div>
 </div>
-<div class="container mx-auto px-28">
+<div class="container mx-auto px-2 lg:px-28">
     <div class="bg-white shadow-lg p-5">
         <div class="flex flex-col gap-2">
             <div class="flex items-start">
-                <h1 class=" text-slate-600 font-bold text-sm lg:text-4xl uppercase w-full">{page}</h1>
+                <h1 class=" text-slate-600 font-bold text-sm lg:text-3xl uppercase w-full">{page}</h1>
                 <div class="hidden sm:flex md:flex justify-end w-full gap-2 ">
                     <button on:click={() => {
                         RefreshHalaman();

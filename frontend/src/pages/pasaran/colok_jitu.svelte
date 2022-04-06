@@ -121,14 +121,16 @@
         input_placeholder="Limit Total"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_winas_cjitu_field}
+        input_precision=2
         input_id="pasaran_winas_cjitu_field"
-        input_placeholder="WIN AS(x)"/>
+        input_placeholder="WIN AS(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_desc_cjitu_field}
+        input_precision=2
         input_id="pasaran_desc_cjitu_field"
         input_placeholder="DISC(%)"/>
     <Input_custom
@@ -145,26 +147,29 @@
         input_placeholder="Limit Global"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_winkop_cjitu_field}
+        input_precision=2
         input_id="pasaran_winkop_cjitu_field"
-        input_placeholder="WIN KOP(x)"/>
+        input_placeholder="WIN KOP(%)"/>
     <div></div>
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_winkepala_cjitu_field}
+        input_precision=2
         input_id="pasaran_winkepala_cjitu_field"
-        input_placeholder="WIN KEPALA(x)"/>
+        input_placeholder="WIN KEPALA(%)"/>
     <div></div>
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_winekor_cjitu_field}
+        input_precision=2
         input_id="pasaran_winekor_cjitu_field"
-        input_placeholder="WIN EKOR(x)"/>
+        input_placeholder="WIN EKOR(%)"/>
 </div>
 
 <button on:click={() => {

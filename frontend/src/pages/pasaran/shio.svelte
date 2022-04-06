@@ -105,13 +105,15 @@
         input_placeholder="Limit Total"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_win_shio_field}
         input_id="pasaran_win_shio_field"
         input_placeholder="WIN(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_disc_shio_field}
         input_id="pasaran_disc_shio_field"
         input_placeholder="DISC(%)"/>

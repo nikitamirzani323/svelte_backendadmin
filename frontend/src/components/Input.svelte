@@ -9,6 +9,8 @@
     export let input_attr = "";
     export let input_id = "";
     export let input_placeholder = "";
+    export let input_maxlenght = 11;
+    export let input_precision = 0;
     let input_class = "peer w-full rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent";
     let input_datetime_class = "peer w-full text-center rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent";
     let input_number_class = "peer w-full text-right rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent";
@@ -20,14 +22,22 @@
         node.type = input_attr
     }
     const handleKeyboard_number = (e) => {
-        if (isNaN(parseFloat(e.target.value))) {
+        if (isNaN(parseInt(e.target.value))) {
             return e.target.value = "";
         }else{
-            return e.target.value = parseFloat(e.target.value);
+            return e.target.value = parseInt(e.target.value);
         }
 	}
     const handleKeyboard_number_blur = (e) => {
-        return e.target.value = parseFloat(e.target.value);
+        return e.target.value = parseInt(e.target.value);
+	}
+    const handleKeyboard_float = (e) => {
+        if (isNaN(parseFloat(e.target.value))) {
+            return e.target.value = "";
+        }
+	}
+    const handleKeyboard_number_float = (e) => {
+        return e.target.parseFloat = parseFloat(e.target.value);
 	}
 </script>
 {#if input_tipe == "text"}
@@ -171,6 +181,44 @@
                 bg-[#fff]">{input_placeholder}{input_required ? "*":""}</label>
     </div>
 {/if}
+{#if input_tipe == "tanggal"}
+    <div class="relative form-control">
+        {#if input_enabled}        
+            <input
+                on:change={input_onchange}
+                bind:value
+                invalid={input_invalid}
+                type="text" 
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                class="{input_datetime_class}"> 
+        {:else}
+            <input
+                on:change={input_onchange}
+                bind:value
+                invalid={input_invalid}
+                type="text" 
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                disabled
+                class="{input_datetime_class}"> 
+        {/if}
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
+                transition-all
+                peer-placeholder-shown:text-base 
+                peer-placeholder-shown:text-gray-400 
+                peer-placeholder-shown:top-3 
+                peer-focus:text-[#1a73e8]
+                peer-focus:bg-[#fff]
+                peer-focus:text-[.75rem]
+                text-[#1a73e8] 
+                bg-[#fff]">{input_placeholder}{input_required ? "*":""}</label>
+    </div>
+{/if}
 {#if input_tipe == "number_nolabel"}
     <div class="relative form-control">
         {#if input_enabled}        
@@ -181,6 +229,7 @@
                 type="text" 
                 id="{input_id}"
                 name="{input_id}"
+                maxlength="{input_maxlenght}"
                 placeholder="{input_placeholder}"
                 autocomplete="off"
                 class="{input_number_class}"> 
@@ -242,5 +291,42 @@
                 text-[#1a73e8] 
                 bg-[#fff]">{input_placeholder}{input_required ? "*":""}</label>
         <span class="text-[10px] text-right text-amber-600">{new Intl.NumberFormat().format(value)}</span>
+    </div>
+{/if}
+{#if input_tipe == "float"}
+    <div class="relative form-control">
+        {#if input_enabled}        
+            <input
+                on:keyup={handleKeyboard_float}
+                on:blur={handleKeyboard_number_float}
+                bind:value
+                type="text" 
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                class="{input_number_class}"> 
+        {:else}
+            <input
+                bind:value
+                type="text" 
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                disabled
+                class="{input_number_class}"> 
+        {/if}
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
+                transition-all
+                peer-placeholder-shown:text-base 
+                peer-placeholder-shown:text-gray-400 
+                peer-placeholder-shown:top-3 
+                peer-focus:text-[#1a73e8]
+                peer-focus:bg-[#fff]
+                peer-focus:text-[.75rem]
+                text-[#1a73e8] 
+                bg-[#fff]">{input_placeholder}{input_required ? "*":""}</label>
+        <span class="text-[10px] text-right text-amber-600">{parseFloat(value).toFixed(input_precision)}</span>
     </div>
 {/if}

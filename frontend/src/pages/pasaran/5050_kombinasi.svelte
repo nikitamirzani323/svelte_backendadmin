@@ -355,25 +355,29 @@
     <div class="col-span-3"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangkeimono_5050kombinasi_field}
         input_id="pasaran_belakangkeimono_5050kombinasi_field"
         input_placeholder="BELAKANG KEI MONO(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangdiscmono_5050kombinasi_field}
         input_id="pasaran_belakangdiscmono_5050kombinasi_field"
         input_placeholder="BELAKANG DISC MONO(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangkeistereo_5050kombinasi_field}
         input_id="pasaran_belakangkeistereo_5050kombinasi_field"
         input_placeholder="BELAKANG KEI STEREO(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangdiscstereo_5050kombinasi_field}
         input_id="pasaran_belakangdiscstereo_5050kombinasi_field"
         input_placeholder="BELAKANG DISC STEREO(%)"/>
@@ -381,13 +385,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangkeikembang_5050kombinasi_field}
         input_id="pasaran_belakangkeikembang_5050kombinasi_field"
         input_placeholder="BELAKANG KEI KEMBANG(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangdisckembang_5050kombinasi_field}
         input_id="pasaran_belakangdisckembang_5050kombinasi_field"
         input_placeholder="BELAKANG DISC KEMBANG(%)"/>
@@ -395,13 +401,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangkeikempis_5050kombinasi_field}
         input_id="pasaran_belakangkeikempis_5050kombinasi_field"
         input_placeholder="BELAKANG KEI KEMPIS(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangdisckempis_5050kombinasi_field}
         input_id="pasaran_belakangdisckempis_5050kombinasi_field"
         input_placeholder="BELAKANG DISC KEMPIS(%)"/>
@@ -409,13 +417,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangkeikembar_5050kombinasi_field}
         input_id="pasaran_belakangkeikembar_5050kombinasi_field"
         input_placeholder="BELAKANG KEI KEMBAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_belakangdisckembar_5050kombinasi_field}
         input_id="pasaran_belakangdisckembar_5050kombinasi_field"
         input_placeholder="BELAKANG DISC KEMBAR(%)"/>
@@ -423,13 +433,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahkeimono_5050kombinasi_field}
         input_id="pasaran_tengahkeimono_5050kombinasi_field"
         input_placeholder="TENGAH KEI MONO(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahdiscmono_5050kombinasi_field}
         input_id="pasaran_tengahdiscmono_5050kombinasi_field"
         input_placeholder="TENGAH DISC MONO(%)"/>
@@ -437,13 +449,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahkeistereo_5050kombinasi_field}
         input_id="pasaran_tengahkeistereo_5050kombinasi_field"
         input_placeholder="TENGAH KEI STEREO(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahdiscstereo_5050kombinasi_field}
         input_id="pasaran_tengahdiscstereo_5050kombinasi_field"
         input_placeholder="TENGAH DISC STEREO(%)"/>
@@ -451,13 +465,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahkeikembang_5050kombinasi_field}
         input_id="pasaran_tengahkeikembang_5050kombinasi_field"
         input_placeholder="TENGAH KEI KEBANG(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahdisckembang_5050kombinasi_field}
         input_id="pasaran_tengahdisckembang_5050kombinasi_field"
         input_placeholder="TENGAH DISC KEMBANG(%)"/>
@@ -465,13 +481,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahkeikempis_5050kombinasi_field}
         input_id="pasaran_tengahkeikempis_5050kombinasi_field"
         input_placeholder="TENGAH KEI KEMPIS(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahdisckempis_5050kombinasi_field}
         input_id="pasaran_tengahdisckempis_5050kombinasi_field"
         input_placeholder="TENGAH DISC KEMPIS(%)"/>
@@ -479,13 +497,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahkeikembar_5050kombinasi_field}
         input_id="pasaran_tengahkeikembar_5050kombinasi_field"
         input_placeholder="TENGAH KEI KEMBAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_tengahdisckembar_5050kombinasi_field}
         input_id="pasaran_tengahdisckembar_5050kombinasi_field"
         input_placeholder="TENGAH DISC KEMBAR(%)"/>
@@ -493,13 +513,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depankeimono_5050kombinasi_field}
         input_id="pasaran_depankeimono_5050kombinasi_field"
         input_placeholder="DEPAN KEI MONO(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depandiscmono_5050kombinasi_field}
         input_id="pasaran_depandiscmono_5050kombinasi_field"
         input_placeholder="DEPAN DISC MONO(%)"/>
@@ -507,13 +529,15 @@
     
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depankeistereo_5050kombinasi_field}
         input_id="pasaran_depankeistereo_5050kombinasi_field"
         input_placeholder="DEPAN KEI STEREO(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depandiscstereo_5050kombinasi_field}
         input_id="pasaran_depandiscstereo_5050kombinasi_field"
         input_placeholder="DEPAN DISC STEREO(%)"/>
@@ -521,13 +545,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depankeikembang_5050kombinasi_field}
         input_id="pasaran_depankeikembang_5050kombinasi_field"
         input_placeholder="DEPAN KEI KEMBANG(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depandisckembang_5050kombinasi_field}
         input_id="pasaran_discekorganjil_5050special_field"
         input_placeholder="DEPAN DISC KEMBANG(%)"/>
@@ -535,13 +561,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depankeikempis_5050kombinasi_field}
         input_id="pasaran_depankeikempis_5050kombinasi_field"
         input_placeholder="DEPAN KEI KEMPIS(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depandisckempis_5050kombinasi_field}
         input_id="pasaran_depandisckempis_5050kombinasi_field"
         input_placeholder="DEPAN DISC KEMPIS(%)"/>
@@ -549,13 +577,15 @@
    
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depankeikembar_5050kombinasi_field}
         input_id="pasaran_depankeikembar_5050kombinasi_field"
         input_placeholder="DEPAN KEI KEMBAR(%)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
+        input_precision=2
         bind:value={pasaran_depandisckembar_5050kombinasi_field}
         input_id="pasaran_depandisckembar_5050kombinasi_field"
         input_placeholder="DEPAN DISC KEMBAR(%)"/>

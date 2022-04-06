@@ -16,10 +16,6 @@
     export let pasaran_disc_cmacau_field = 0;
     let buttonLoading_class = "btn btn-primary";
     let msg_error = "";
-    let tab_config_1 = "bg-sky-600 text-white"
-    let tab_config_2 = ""
-    let panel_conf_1 = true
-    let panel_conf_2 = false
     let dispatch = createEventDispatcher();
     async function save432d() {
         let flag = false;
@@ -119,14 +115,16 @@
         input_placeholder="Limit Total"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_win2_cmacau_field}
+        input_precision=2
         input_id="pasaran_win2_cmacau_field"
         input_placeholder="WIN 2 Digit(x)"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_disc_cmacau_field}
+        input_precision=2
         input_id="pasaran_disc_cmacau_field"
         input_placeholder="DISC(%)"/>
     <Input_custom
@@ -143,16 +141,18 @@
         input_placeholder="Limit Global"/>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_win3_cmacau_field}
+        input_precision=2
         input_id="pasaran_win3_cmacau_field"
         input_placeholder="WIN 3 Digit(x)"/>
     <div ></div>
     <div class="col-span-2"></div>
     <Input_custom
         input_enabled={true}
-        input_tipe="number"
+        input_tipe="float"
         bind:value={pasaran_win4_cmacau_field}
+        input_precision=2
         input_id="pasaran_win4_cmacau_field"
         input_placeholder="WIN 4 Digit(x)"/>
 </div>
