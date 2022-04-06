@@ -216,10 +216,10 @@
                     on:click={() => {
                         NewData();
                     }}
-                    class="btn btn-md btn-primary rounded-md lg:inline-flex">New</button>
+                    class="btn bg-primary hover:bg-primary  rounded-md shadow-lg shadow-[#b3e4fc] border-none  ">New</button>
                 <button on:click={() => {
                     RefreshHalaman();
-                    }} class="btn btn-primary rounded-md lg:inline-flex">
+                    }} class="btn btn-primary hover:bg-primary shadow-lg shadow-[#b3e4fc]  rounded-md lg:inline-flex">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
@@ -236,8 +236,8 @@
                 bind:value={searchHome}
                 type="text" placeholder="Search by Rule" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
         </div>
-        <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
-            <table class="table table-compact w-full">
+        <div class="hidden sm:inline w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
+            <table class="table table-compact w-full ">
                 <thead class="sticky top-0">
                     <tr>
                         <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
