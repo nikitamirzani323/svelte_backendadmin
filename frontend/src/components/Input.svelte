@@ -20,14 +20,14 @@
         node.type = input_attr
     }
     const handleKeyboard_number = (e) => {
-        if (isNaN(parseInt(e.target.value))) {
+        if (isNaN(parseFloat(e.target.value))) {
             return e.target.value = "";
         }else{
-            return e.target.value = parseInt(e.target.value);
+            return e.target.value = parseFloat(e.target.value);
         }
 	}
     const handleKeyboard_number_blur = (e) => {
-        return e.target.value = parseInt(e.target.value);
+        return e.target.value = parseFloat(e.target.value);
 	}
 </script>
 {#if input_tipe == "text"}
@@ -70,7 +70,7 @@
                     class="{input_class}"> 
             {/if}
         {/if}
-        <label for="username" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
+        <label for="username" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -107,7 +107,7 @@
                 autocomplete="off"
                 class="{input_class}"> 
         {/if}
-        <label for="username" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
+        <label for="username" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -159,7 +159,7 @@
                 disabled
                 class="{input_datetime_class}"> 
         {/if}
-        <label for="username" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
+        <label for="username" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -195,7 +195,7 @@
                 disabled
                 class="{input_number_class}"> 
         {/if}
-        <label for="{input_id}" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 
@@ -231,7 +231,7 @@
                 disabled
                 class="{input_number_class}"> 
         {/if}
-        <label for="{input_id}" class="absolute left-3 top-[-0.5rem]  text-xs cursor-text 
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 

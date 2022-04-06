@@ -8,6 +8,13 @@
     import Panel_colokbebas from '../pasaran/colok_bebas.svelte' 
     import Panel_colokmacau from '../pasaran/colok_macau.svelte' 
     import Panel_coloknaga from '../pasaran/colok_naga.svelte' 
+    import Panel_colokjitu from '../pasaran/colok_jitu.svelte' 
+    import Panel_5050umum from '../pasaran/5050_umum.svelte' 
+    import Panel_5050special from '../pasaran/5050_special.svelte' 
+    import Panel_5050kombinasi from '../pasaran/5050_kombinasi.svelte' 
+    import Panel_macaukombinasi from '../pasaran/kombinasi.svelte' 
+    import Panel_dasar from '../pasaran/dasar.svelte' 
+    import Panel_shio from '../pasaran/shio.svelte' 
 
     export let path_api = "";
     export let token = "";
@@ -260,6 +267,12 @@
     let panel_cmacau = false
     let panel_cnaga = false
     let panel_cjitu = false
+    let panel_5050umum = false
+    let panel_5050special = false
+    let panel_5050kombinasi = false
+    let panel_macaukombinasi = false
+    let panel_dasar = false
+    let panel_shio = false
 
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
@@ -801,8 +814,7 @@
         dispatch("handleRefreshData", "call");
     };
     const call_configure = (e) => {
-        permainan = "";
-        
+        permainan = ""; 
         switch(e){
             case "4-3-2":
                 modalpasaran_width = "max-w-5xl ";
@@ -813,6 +825,12 @@
                 panel_cmacau = false
                 panel_cnaga = false
                 panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
                 break;
             case "colok_bebas":
                 modalpasaran_width = "max-w-3xl ";
@@ -823,6 +841,12 @@
                 panel_cmacau = false
                 panel_cnaga = false
                 panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
                 break;
             case "colok_macau":
                 modalpasaran_width = "max-w-3xl ";
@@ -833,6 +857,12 @@
                 panel_cmacau = true
                 panel_cnaga = false
                 panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
                 break;
             case "colok_naga":
                 modalpasaran_width = "max-w-3xl ";
@@ -843,6 +873,124 @@
                 panel_cmacau = false
                 panel_cnaga = true
                 panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "colok_jitu":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Jitu";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = true;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "5050_umum":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "5050 Umum";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = true
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "5050_special":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "5050 Special";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = true
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "5050_kombinasi":
+                modalpasaran_width = "max-w-6xl ";
+                permainan = "5050 Kombinasi";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = true
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "macau_kombinasi":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Macau / Kombinasi";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = true
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "dasar":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Dasar";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = true
+                panel_shio = false
+                break;
+            case "shio":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Shio";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = true
                 break;
         }
     }
@@ -1390,22 +1538,22 @@
                                 call_configure("colok_jitu");
                             }} class="btn btn-warning">COLOK JITU</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("5050_umum");
                             }} class="btn btn-warning">5050 UMUM</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("5050_special");
                             }} class="btn btn-warning">5050 SPECIAL</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("5050_kombinasi");
                             }} class="btn btn-warning">5050 KOMBINASI</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("macau_kombinasi");
                             }} class="btn btn-warning">MACAU / KOMBINASI</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("dasar");
                             }} class="btn btn-warning">DASAR</button>
                             <button on:click={() => {
-                                call_configure("4-3-2");
+                                call_configure("shio");
                             }} class="btn btn-warning">SHIO</button>
                         </div>
                     {/if}
@@ -1534,6 +1682,196 @@
                         {pasaran_disc_cnaga_field}
                         {pasaran_limitglobal_cnaga_field}
                         {pasaran_limittotal_cnaga_field} />
+                {/if}
+                {#if panel_cjitu}
+                    <Panel_colokjitu
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_cjitu_field}
+                        {pasaran_maxbet_cjitu_field}
+                        {pasaran_winas_cjitu_field}
+                        {pasaran_winkop_cjitu_field}
+                        {pasaran_winkepala_cjitu_field}
+                        {pasaran_winekor_cjitu_field}
+                        {pasaran_desc_cjitu_field}
+                        {pasaran_limitglobal_cjitu_field}
+                        {pasaran_limittotal_cjitu_field} />
+                {/if}
+                {#if panel_5050umum}
+                    <Panel_5050umum
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_5050umum_field}
+                        {pasaran_maxbet_5050umum_field}
+                        {pasaran_keibesar_5050umum_field}
+                        {pasaran_keikecil_5050umum_field}
+                        {pasaran_keigenap_5050umum_field}
+                        {pasaran_keiganjil_5050umum_field}
+                        {pasaran_keitengah_5050umum_field}
+                        {pasaran_keitepi_5050umum_field}
+                        {pasaran_discbesar_5050umum_field}
+                        {pasaran_disckecil_5050umum_field}
+                        {pasaran_discgenap_5050umum_field}
+                        {pasaran_discganjil_5050umum_field}
+                        {pasaran_disctengah_5050umum_field}
+                        {pasaran_disctepi_5050umum_field}
+                        {pasaran_limitglobal_5050umum_field}
+                        {pasaran_limittotal_5050umum_field} />
+                {/if}
+                {#if panel_5050special}
+                    <Panel_5050special
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_5050special_field}
+                        {pasaran_maxbet_5050special_field}
+                        {pasaran_keiasganjil_5050special_field}
+                        {pasaran_keiasgenap_5050special_field}
+                        {pasaran_keiasbesar_5050special_field}
+                        {pasaran_keiaskecil_5050special_field}
+                        {pasaran_keikopganjil_5050special_field}
+                        {pasaran_keikopgenap_5050special_field}
+                        {pasaran_keikopbesar_5050special_field}
+                        {pasaran_keikopkecil_5050special_field}
+                        {pasaran_keikepalaganjil_5050special_field}
+                        {pasaran_keikepalagenap_5050special_field}
+                        {pasaran_keikepalabesar_5050special_field}
+                        {pasaran_keikepalakecil_5050special_field}
+                        {pasaran_keiekorganjil_5050special_field}
+                        {pasaran_keiekorgenap_5050special_field}
+                        {pasaran_keiekorbesar_5050special_field}
+                        {pasaran_keiekorkecil_5050special_field}
+                        {pasaran_discasganjil_5050special_field}
+                        {pasaran_discasgenap_5050special_field}
+                        {pasaran_discasbesar_5050special_field}
+                        {pasaran_discaskecil_5050special_field}
+                        {pasaran_disckopganjil_5050special_field}
+                        {pasaran_disckopgenap_5050special_field}
+                        {pasaran_disckopbesar_5050special_field}
+                        {pasaran_disckopkecil_5050special_field}
+                        {pasaran_disckepalaganjil_5050special_field}
+                        {pasaran_disckepalagenap_5050special_field}
+                        {pasaran_disckepalabesar_5050special_field}
+                        {pasaran_disckepalakecil_5050special_field}
+                        {pasaran_discekorganjil_5050special_field}
+                        {pasaran_discekorgenap_5050special_field}
+                        {pasaran_discekorbesar_5050special_field}
+                        {pasaran_discekorkecil_5050special_field}
+                        {pasaran_limitglobal_5050special_field}
+                        {pasaran_limittotal_5050special_field} />
+                {/if}
+                {#if panel_5050kombinasi}
+                    <Panel_5050kombinasi
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_5050kombinasi_field}
+                        {pasaran_maxbet_5050kombinasi_field}
+                        {pasaran_belakangkeimono_5050kombinasi_field}
+                        {pasaran_belakangkeistereo_5050kombinasi_field}
+                        {pasaran_belakangkeikembang_5050kombinasi_field}
+                        {pasaran_belakangkeikempis_5050kombinasi_field}
+                        {pasaran_belakangkeikembar_5050kombinasi_field}
+                        {pasaran_tengahkeimono_5050kombinasi_field}
+                        {pasaran_tengahkeistereo_5050kombinasi_field}
+                        {pasaran_tengahkeikembang_5050kombinasi_field}
+                        {pasaran_tengahkeikempis_5050kombinasi_field}
+                        {pasaran_tengahkeikembar_5050kombinasi_field}
+                        {pasaran_depankeimono_5050kombinasi_field}
+                        {pasaran_depankeistereo_5050kombinasi_field}
+                        {pasaran_depankeikembang_5050kombinasi_field}
+                        {pasaran_depankeikempis_5050kombinasi_field}
+                        {pasaran_depankeikembar_5050kombinasi_field}
+                        {pasaran_belakangdiscmono_5050kombinasi_field}
+                        {pasaran_belakangdiscstereo_5050kombinasi_field}
+                        {pasaran_belakangdisckembang_5050kombinasi_field}
+                        {pasaran_belakangdisckempis_5050kombinasi_field}
+                        {pasaran_belakangdisckembar_5050kombinasi_field}
+                        {pasaran_tengahdiscmono_5050kombinasi_field}
+                        {pasaran_tengahdiscstereo_5050kombinasi_field}
+                        {pasaran_tengahdisckembang_5050kombinasi_field}
+                        {pasaran_tengahdisckempis_5050kombinasi_field}
+                        {pasaran_tengahdisckembar_5050kombinasi_field}
+                        {pasaran_depandiscmono_5050kombinasi_field}
+                        {pasaran_depandiscstereo_5050kombinasi_field}
+                        {pasaran_depandisckembang_5050kombinasi_field}
+                        {pasaran_depandisckempis_5050kombinasi_field}
+                        {pasaran_depandisckembar_5050kombinasi_field}
+                        {pasaran_limitglobal_5050kombinasi_field}
+                        {pasaran_limittotal_5050kombinasi_field} />
+                {/if}
+                {#if panel_macaukombinasi}
+                    <Panel_macaukombinasi
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_kombinasi_field}
+                        {pasaran_maxbet_kombinasi_field}
+                        {pasaran_win_kombinasi_field}
+                        {pasaran_disc_kombinasi_field}
+                        {pasaran_limitglobal_kombinasi_field}
+                        {pasaran_limittotal_kombinasi_field} />
+                {/if}
+                {#if panel_dasar}
+                    <Panel_dasar
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_dasar_field}
+                        {pasaran_maxbet_dasar_field}
+                        {pasaran_keibesar_dasar_field}
+                        {pasaran_keikecil_dasar_field}
+                        {pasaran_keigenap_dasar_field}
+                        {pasaran_keiganjil_dasar_field}
+                        {pasaran_discbesar_dasar_field}
+                        {pasaran_disckecil_dasar_field}
+                        {pasaran_discgenap_dasar_field}
+                        {pasaran_discganjil_dasar_field}
+                        {pasaran_limitglobal_dasar_field}
+                        {pasaran_limittotal_dasar_field} />
+                {/if}
+                {#if panel_shio}
+                    <Panel_shio
+                        on:handleLoadingRunning={LoadingRunning}
+                        on:handleLoadingRunningFinish={LoadingRunningFinish}
+                        on:handleCallNotif={call_notif}
+                        {path_api}
+                        {token}
+                        {idcomppasaran}
+                        {pasaran_idpasarantogel_field}
+                        {pasaran_minbet_shio_field}
+                        {pasaran_maxbet_shio_field}
+                        {pasaran_win_shio_field}
+                        {pasaran_disc_shio_field}
+                        {pasaran_shioyear_shio_field}
+                        {pasaran_limitglobal_shio_field}
+                        {pasaran_limittotal_shio_field} />
                 {/if}
             </div>
         </div>
