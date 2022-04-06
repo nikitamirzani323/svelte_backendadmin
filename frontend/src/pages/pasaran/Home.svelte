@@ -1214,7 +1214,7 @@
                 </div>
                 <input 
                     bind:value={searchHome}
-                    type="text" placeholder="Search by Rule" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+                    type="text" placeholder="Search by Pasaran" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
             </div>
             <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
                 <table class="table table-compact w-full">
