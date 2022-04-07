@@ -20,6 +20,11 @@ type response_login struct {
 	Token string `json:"token"`
 	Key   string `json:"key"`
 }
+type response_error_login struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Record  interface{} `json:"record"`
+}
 type response_loginhome struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
@@ -43,6 +48,7 @@ func Login(c *fiber.Ctx) error {
 			"record":  nil,
 		})
 	}
+
 	err := validate.Struct(client)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
@@ -62,6 +68,7 @@ func Login(c *fiber.Ctx) error {
 	axios := resty.New()
 	resp, err := axios.R().
 		SetResult(response_login{}).
+		SetError(response_error_login{}).
 		SetHeader("Content-Type", "application/json").
 		SetBody(map[string]interface{}{
 			"username":  client.Username,
@@ -73,14 +80,36 @@ func Login(c *fiber.Ctx) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	result := resp.Result().(*response_login)
-	c.Status(fiber.StatusOK)
-	return c.JSON(fiber.Map{
-		"status": http.StatusOK,
-		"token":  result.Token,
-		"key":    result.Key,
-		"time":   time.Since(render_page).String(),
-	})
+	log.Println("Response Info:")
+	log.Println("  Error      :", err)
+	log.Println("  Status Code:", resp.StatusCode())
+	log.Println("  Status     :", resp.Status())
+	log.Println("  Proto      :", resp.Proto())
+	log.Println("  Time       :", resp.Time())
+	log.Println("  Received At:", resp.ReceivedAt())
+	log.Println("  Body       :\n", resp)
+	log.Println()
+	if resp.StatusCode() == 200 {
+		result := resp.Result().(*response_login)
+		c.Status(fiber.StatusOK)
+		return c.JSON(fiber.Map{
+			"status": resp.StatusCode(),
+			"token":  result.Token,
+			"key":    result.Key,
+			"time":   time.Since(render_page).String(),
+		})
+	} else {
+		result_err := resp.Error().(*response_error_login)
+		c.Status(fiber.StatusOK)
+		return c.JSON(fiber.Map{
+			"status":  resp.StatusCode(),
+			"token":   "",
+			"key":     "",
+			"message": result_err.Message,
+			"time":    time.Since(render_page).String(),
+		})
+	}
+
 }
 func Home(c *fiber.Ctx) error {
 	var errors []*helpers.ErrorResponse

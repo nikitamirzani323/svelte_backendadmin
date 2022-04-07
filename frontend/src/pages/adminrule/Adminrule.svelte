@@ -5,7 +5,7 @@
     let record = "";
     let totalrecord = 0;
     let token = localStorage.getItem("token");
-    let akses_page = true;
+    let akses_page = false;
     async function initapp() {
         const res = await fetch(path_api+"api/home", {
             method: "POST",
@@ -24,6 +24,7 @@
             alert(json.message);
             akses_page = false;
         } else {
+            akses_page = true;
             initAdmin();
         }
     }
