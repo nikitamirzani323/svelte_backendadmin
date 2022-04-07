@@ -1,5 +1,7 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { createForm } from "svelte-forms-lib";
+    import * as yup from "yup";
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Loader from '../../components/Loader.svelte' 
@@ -11,15 +13,33 @@
     export let listPeriodePasaran = [];
     export let totalrecord = 0;
 
+    const schema = yup.object().shape({
+        field_revisi: yup.string().required()
+                    .matches(/^[a-zA-z0-9 ]+$/, "Revisi must Character A-Z or a-z or 1-9 or space ")
+                    .min(5,"Revisi must be at least 5 characters")
+                    .max(70,"Revisi must be at most 70 characters"),
+    });
+    const { form, errors, handleChange, handleSubmit } = createForm({
+        initialValues: {
+            field_revisi: "",
+        },
+        validationSchema: schema,
+        onSubmit:(values) => {
+            revisiTransaksi(values.field_revisi)
+        }
+    })
+
     let page = "Periode";
     let sData = "New";
     let isModal_Form_New = false
+    let isModal_Form_Revisi = false
     let isModal_Form_MemberlistBet = false
     let isModal_Form_listBet = false
     let isModal_Form_listBetall = false
     let isModalLoading = false
     let isModalNotif = false
     let modal_width = "max-w-xl"
+    let modal_width_form_revisi = "max-w-xl"
     let modal_width_listbetmember = "max-w-xl"
     let modal_width_listmembernomor = "max-w-xl"
     let modal_width_listbetall = "max-w-xl"
@@ -45,6 +65,7 @@
 
     let idtrxkeluaran = "";
     let idpasarancode = "";
+    let pasaran_msgrevisi = "";
     let periode_tglkeluaran_field = "";
     let periode_tanggalnext_field = "";
     let periode_periode_field = "";
@@ -86,6 +107,8 @@
     let panel_listbetall_all = true
     let panel_listbetall_winner = false
     let panel_listbetall_cancel = false
+
+  
 
     let dispatch = createEventDispatcher();
     
@@ -138,9 +161,12 @@
                     loader_class = "hidden";
                 }, 1000);
                 RefreshHalaman();
+                EditData(idtrxkeluaran,idpasarancode,pasaran_msgrevisi)
             }
         } else {
-            alert(msg_error);
+            if(msg_error != ""){
+                isModalNotif = true
+            }
         }
     }
     async function SaveNewTransaksi() {
@@ -190,7 +216,7 @@
         modal_width = "max-w-xl";
         isModal_Form_New = true;
     };
-    async function EditData(e,y) {
+    async function EditData(e,y,z) {
         if(e != ""){
             isModalLoading = true;
             modal_width = "max-w-5xl";
@@ -198,6 +224,7 @@
             clearField();
             idtrxkeluaran = e;
             idpasarancode = y;
+            pasaran_msgrevisi = z;
             const res = await fetch(path_api+"api/editperiode", {
                 method: "POST",
                 headers: {
@@ -654,34 +681,59 @@
         call_listmember();
     }
     function callrevisiTransaksi() {
-        
+        modal_width_form_revisi = "max-w-xl";
+        isModal_Form_Revisi = true;
     }
     async function revisiTransaksi(e) {
-        periode_status_field = "LOCK";
+        let flag = true;
         msg_error = "";
-        const res = await fetch(path_api+"api/saveperioderevisi", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify({
-                sData: sData,
-                page: "PERIODE-SAVE",
-                idinvoice: parseInt(idtrxkeluaran),
-                msgrevisi: e,
-            }),
-        });
-        const json = await res.json();
-        if (json.status == 200) {
-            msg_error = json.message;
-        } else if (json.status == 403) {
-            msg_error = json.message;
-            periode_keluaran_field = "";
-        } else {
-            msg_error = json.message;
+        if(idtrxkeluaran == ""){
+            flag = false
+            msg_error = "Anda tidak bisa melakukan revisi"
         }
-        EditData(idtrxkeluaran,idpasarancode);
+        if(idpasarancode == ""){
+            flag = false
+            msg_error = "Anda tidak bisa melakukan revisi"
+        }
+        if(flag){
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            isModalLoading = true;
+            periode_status_field = "LOCK";
+            const res = await fetch(path_api+"api/saveperioderevisi", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sData: sData,
+                    page: "PERIODE-SAVE",
+                    idinvoice: parseInt(idtrxkeluaran),
+                    msgrevisi: e,
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                loader_msg = json.message;
+            } else if (json.status == 403) {
+                loader_msg = json.message;
+            } else {
+                loader_msg = json.message;
+            }
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+            isModalLoading = false
+            RefreshHalaman();
+            EditData(idtrxkeluaran,idpasarancode,pasaran_msgrevisi)
+            isModal_Form_Revisi = false;
+        }else{
+            if(msg_error != ""){
+                isModalNotif = true
+                isModalLoading = false
+            }
+        }
     }
     const handleSelectPermainangroup = (event) => {
         listBetTableGroup = [];
@@ -772,6 +824,7 @@
     function clearField(){
         idtrxkeluaran = "";
         idpasarancode = "";
+        pasaran_msgrevisi = "";
         periode_tglkeluaran_field = "";
         periode_tanggalnext_field = "";
         periode_periode_field = "";
@@ -898,7 +951,7 @@
                     {#each filterHome as rec}
                     <tr>
                         <td on:click={() => {
-                            EditData(rec.home_invoice,rec.home_code);
+                            EditData(rec.home_invoice,rec.home_code,rec.home_msgrevisi);
                             }} class="text-center text-xs cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -1037,6 +1090,14 @@
                                     class="btn btn-warning btn-block">Revisi</button>
                             </div>
                         {/if}
+                        {#if pasaran_msgrevisi != ""}
+                        <div class="alert alert-warning shadow-lg mt-2 rounded-sm">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span class="text-sm">Alasan Revisi : {pasaran_msgrevisi}</span>
+                            </div>
+                        </div>
+                        {/if}
                     </div>
                     <div class="w-full p-2">
                         <ul class="flex justify-center items-center gap-2">
@@ -1093,7 +1154,7 @@
                             <div class="bg-[#F7F7F7] rounded-sm h-32 p-2">
                                 <table class=" w-full">
                                     <tr>
-                                        <td class="text-xs v text-left align-top">TOTAL MEMBER</td>
+                                        <td class="text-xs font-semibold text-left align-top">TOTAL MEMBER</td>
                                         <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(total_member)}</td>
                                     </tr>
                                     <tr>
@@ -1161,6 +1222,41 @@
                     </div>
                 </div>
             {/if}
+        </div>
+    </div>
+</div>
+
+
+<input type="checkbox" id="my-modal-formrevisi" class="modal-toggle" bind:checked={isModal_Form_Revisi}>
+<div class="modal" >
+    <div class="modal-box relative select-none w-11/12 {modal_width_form_revisi}  rounded-none lg:rounded-lg p-2  ">
+        <div class="flex flex-col items-stretch">
+            <div class="h-8">
+                <label for="my-modal-formrevisi" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
+                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
+            </div>
+            <div class="flex flex-auto flex-col overflow-auto gap-1 mt-2 ">
+                <Input_custom
+                    input_onchange="{handleChange}"
+                    input_autofocus={true}
+                    input_required={true}
+                    input_tipe="text"
+                    input_invalid={$errors.field_revisi.length > 0}
+                    bind:value={$form.field_revisi}
+                    input_id="field_revisi"
+                    input_placeholder="Revisi"/>
+                {#if $errors.field_revisi}
+                    <small class="text-pink-600 text-[11px]">{$errors.field_revisi}</small>
+                {/if}
+                    
+            </div>
+            <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                <button
+                    on:click={() => {
+                        handleSubmit();
+                    }} 
+                    class="{buttonLoading_class}">Submit</button>
+            </div>
         </div>
     </div>
 </div>
