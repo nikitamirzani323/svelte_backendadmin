@@ -12,22 +12,33 @@
     let sData = "New";
     let isModal_Form_New = false
     let isModal_Form_MemberlistBet = false
+    let isModal_Form_listBet = false
+    let isModal_Form_listBetall = false
     let isModalLoading = false
     let isModalNotif = false
     let modal_width = "max-w-xl"
     let modal_width_listbetmember = "max-w-xl"
+    let modal_width_listmembernomor = "max-w-xl"
+    let modal_width_listbetall = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
     let buttonLoading_class = "btn btn-primary"
     let msg_error = "";
     let searchMember = "";
     let searchMemberListBet = "";
+    let searchListAllBet = "";
     let searchHome = "";
     let filterHome = [];
     let filterMember = [];
     let filterMemberListBet = [];
+    let filterListBetALl = [];
     let listMember = [];
     let listBetUsername = [];
+    let listBetTable = [];
+    let listBetTableGroup = [];
+    let listMemberNomor = [];
+    let listBet = [];
+    let listBetStatus = [];
 
     let idtrxkeluaran = "";
     let idpasarancode = "";
@@ -53,12 +64,25 @@
     let subtotal_member_win = 0;
     let subtotal_member_winlose = 0;
     let subtotal_member_winlose_class = "text-blue-700";
+    let temp_totalbayar = 0
+    let temp_totalwinestimate = 0
+    let temp_grandtotal = 0
+    let temp_grandtotal_class = ""
     let client_username = ""
+    let chooce_permainan = "";
 
     let tab_listmember = "bg-sky-600 text-white"
     let tab_betgroup = ""
+    let tab_listbet = ""
     let panel_listmember = true
     let panel_betgroup = false
+
+    let tab_listbetall_all = "bg-sky-600 text-white"
+    let tab_listbetall_winner = ""
+    let tab_listbetall_cancel = ""
+    let panel_listbetall_all = true
+    let panel_listbetall_winner = false
+    let panel_listbetall_cancel = false
 
     let dispatch = createEventDispatcher();
     
@@ -245,7 +269,7 @@
         totalbayar = json.subtotal;
         totalwin = json.subtotalwin;
         if (json.status === 400) {
-            
+            dispatch("handleLogout", "call");
         } else {
             if (record != null) {
                 let status_class = ""
@@ -282,36 +306,370 @@
                         },
                     ];
                 }
-            } else {
-                setTimeout(function () {
-                    let msgloader = "";
-                    let css_loader = "display: none;";
-                }, 1000);
+            } 
+        }
+    }
+    async function call_listbettable() {
+        listBetTable = [];
+        const res = await fetch(path_api+"api/periodelistbettable", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                idinvoice: parseInt(idtrxkeluaran),
+            }),
+        });
+        const json = await res.json();
+        let record = json.record;
+        if (json.status === 400) {
+            dispatch("handleLogout", "call");
+        } else {
+            if (record != null) {
+                for (var i = 0; i < record.length; i++) {
+                    listBetTable = [
+                        ...listBetTable,
+                        {
+                            permainan: record[i]["permainan"],
+                        },
+                    ];
+                }
             }
         }
     }
+    async function call_bettable(e) {
+        listBetTableGroup = [];
+        chooce_permainan = e;
+        const res = await fetch(path_api+"api/periodebettable", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                idinvoice: parseInt(idtrxkeluaran),
+                permainan: e,
+            }),
+        });
+        const json = await res.json();
+        let record = json.record;
+        if (json.status === 400) {
+            dispatch("handleLogout", "call");
+        } else {
+            if (record != null) {
+                for (var i = 0; i < record.length; i++) {
+                    listBetTableGroup = [
+                        ...listBetTableGroup,
+                        {
+                            bet_keluaran: record[i]["bet_keluaran"],
+                            bet_totalbet: record[i]["bet_totalbet"],
+                            bet_totalmember: record[i]["bet_totalmember"],
+                        },
+                    ];
+                }
+            }
+        }
+    }
+    async function call_listmembernomor(nomor) {
+        listMemberNomor = [];
+        temp_totalbayar = 0
+        temp_totalwinestimate = 0
+        temp_grandtotal = 0
+        temp_grandtotal_class = "text-red-500 font-semibold"
+        const res = await fetch(path_api+"api/periodelistmemberbynomor", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                idinvoice: parseInt(idtrxkeluaran),
+                permainan: chooce_permainan,
+                nomor: nomor,
+            }),
+        });
+        const json = await res.json();
+        let record = json.record;
+        let nomember = 0;
+        if (json.status === 400) {
+            dispatch("handleLogout", "call");
+        } else {
+            if (record != null) {
+                modal_width_listmembernomor = "max-w-6xl"
+                isModal_Form_listBet = true;
+                for (var i = 0; i < record.length; i++) {
+                    nomember = nomember + 1;
+                    temp_totalbayar = temp_totalbayar + parseInt(record[i]["member_bayar"])
+                    temp_totalwinestimate = temp_totalwinestimate + parseInt(record[i]["member_winhasil"])
+                    listMemberNomor = [
+                        ...listMemberNomor,
+                        {
+                            member_no: nomember,
+                            member_name: record[i]["member"],
+                            member_posisitogel: record[i]["member_posisitogel"],
+                            member_permainan: record[i]["member_permainan"],
+                            member_nomor: record[i]["member_nomor"],
+                            member_bet: record[i]["member_bet"],
+                            member_disc: record[i]["member_disc"],
+                            member_discpercen: record[i]["member_discpercen"].toFixed(2),
+                            member_kei: record[i]["member_kei"],
+                            member_keipercen: record[i]["member_keipercen"].toFixed(2),
+                            member_bayar: record[i]["member_bayar"],
+                            member_win: record[i]["member_win"].toFixed(2),
+                            member_winhasil: record[i]["member_winhasil"],
+                        },
+                    ];
+                }
+                temp_grandtotal = parseInt(temp_totalbayar) - parseInt(temp_totalwinestimate)
+                if(temp_grandtotal > 0){
+                    temp_grandtotal_class = "text-blue-700 font-semibold"
+                }
+            } 
+        }
+    }
+    async function call_listbet(e) {
+        listBet = [];
+        totalbet = 0;
+        totalbayar = 0;
+        totalwin = 0;
+        const res = await fetch(path_api+"api/periodelistbet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                idinvoice: parseInt(idtrxkeluaran),
+                permainan: e,
+            }),
+        });
+        const json = await res.json();
+        let record = json.record;
+        totalbet = json.totalbet;
+        totalbayar = json.subtotal;
+        totalwin = json.subtotalwin;
+        if (json.status === 400) {
+            dispatch("handleLogout", "call");
+        } else {
+            if (record != null) {
+                let status_class = "";
+                for (var i = 0; i < record.length; i++) {
+                    if (record[i]["bet_status"] != "CANCEL") {
+                        if(record[i]["bet_status"] == "LOSE"){
+                            status_class = "bg-red-400 text-white"
+                        }else if(record[i]["bet_status"] == "CANCEL"){
+                            status_class = "bg-red-600 text-white"
+                        }else if(record[i]["bet_status"] == "WINNER"){
+                            status_class = "bg-[#8BC34A] text-black"
+                        }else{
+                            status_class = "bg-[#FFEB3B] text-black"
+                        }
+                        listBet = [
+                            ...listBet,
+                            {
+                                bet_id: record[i]["bet_id"].toString(),
+                                bet_datetime: record[i]["bet_datetime"],
+                                bet_ipaddress: record[i]["bet_ipaddress"],
+                                bet_device: record[i]["bet_device"],
+                                bet_timezone: record[i]["bet_timezone"],
+                                bet_username: record[i]["bet_username"],
+                                bet_typegame: record[i]["bet_typegame"],
+                                bet_nomortogel: record[i]["bet_nomortogel"],
+                                bet_posisitogel: record[i]["bet_posisitogel"],
+                                bet_bet: record[i]["bet_bet"],
+                                bet_diskon: record[i]["bet_diskon"],
+                                bet_diskonpercen: record[i]["bet_diskonpercen"].toFixed(2),
+                                bet_kei: record[i]["bet_kei"],
+                                bet_keipercen: record[i]["bet_keipercen"].toFixed(2),
+                                bet_bayar: record[i]["bet_bayar"],
+                                bet_win: record[i]["bet_win"].toFixed(2),
+                                bet_totalwin: record[i]["bet_totalwin"],
+                                bet_status: record[i]["bet_status"],
+                                bet_status_class: status_class,
+                            },
+                        ];
+                    }
+                }
+            } 
+        }
+    }
+    async function call_listbetstatus(e) {
+        listBet = [];
+        totalbet = 0;
+        totalbayar = 0;
+        totalwin = 0;
+        const res = await fetch(path_api+"api/periodelistbetstatus", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                idinvoice: parseInt(idtrxkeluaran),
+                status: e,
+            }),
+        });
+        const json = await res.json();
+        let record = json.record;
+        totalbet = json.totalbet;
+        totalbayar = json.subtotal;
+        totalwin = json.subtotalwin;
+        if (json.status === 400) {
+            dispatch("handleLogout", "call");
+        } else {
+            if (record != null) {
+                let status_class = "";
+                for (var i = 0; i < record.length; i++) {
+                    if(record[i]["bet_status"] == "LOSE"){
+                        status_class = "bg-red-400 text-white"
+                    }else if(record[i]["bet_status"] == "CANCEL"){
+                        status_class = "bg-red-600 text-white"
+                    }else if(record[i]["bet_status"] == "WINNER"){
+                        status_class = "bg-[#8BC34A] text-black"
+                    }else{
+                        status_class = "bg-[#FFEB3B] text-black"
+                    }
+                    listBet = [
+                        ...listBet,
+                        {
+                            bet_id: record[i]["bet_id"].toString(),
+                            bet_datetime: record[i]["bet_datetime"],
+                            bet_ipaddress: record[i]["bet_ipaddress"],
+                            bet_device: record[i]["bet_device"],
+                            bet_timezone: record[i]["bet_timezone"],
+                            bet_username: record[i]["bet_username"],
+                            bet_typegame: record[i]["bet_typegame"],
+                            bet_nomortogel: record[i]["bet_nomortogel"],
+                            bet_posisitogel: record[i]["bet_posisitogel"],
+                            bet_bet: record[i]["bet_bet"],
+                            bet_diskon: record[i]["bet_diskon"],
+                            bet_diskonpercen: record[i]["bet_diskonpercen"].toFixed(2),
+                            bet_kei: record[i]["bet_kei"],
+                            bet_keipercen: record[i]["bet_keipercen"].toFixed(2),
+                            bet_bayar: record[i]["bet_bayar"],
+                            bet_win: record[i]["bet_win"].toFixed(2),
+                            bet_totalwin: record[i]["bet_totalwin"],
+                            bet_status: record[i]["bet_status"],
+                            bet_status_class: status_class,
+                        },
+                    ];
+                }
+            } 
+        }
+    }
+    async function cancelbetTransaksi(e,f) {
+        msg_error = "";
+        const res = await fetch("/api/cancelbet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                sData: sData,
+                page: "PERIODE-SAVE",
+                permainan: f,
+                idinvoice: parseInt(idtrxkeluaran),
+                idinvoicedetail: parseInt(e),
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            msg_error = json.message;
+        } else if (json.status == 403) {
+            msg_error = json.message;
+        } else {
+            msg_error = json.message;
+        }
+        if(msg_error != ""){
+            isModalNotif = true;
+        }
+        
+        call_listbet("4D");
+        call_listmember();
+    }
+    const handleSelectPermainangroup = (event) => {
+        listBetTableGroup = [];
+        if (event.target.value != "") {
+            listBetTableGroup = [];
+            call_bettable(event.target.value);
+        }
+    };
+    const handleSelectPermainan = (event) => {
+        if (event.target.value != "") {
+            call_listbet(event.target.value);
+        } else {
+            listBet = [];
+        }
+    };
+    const groupMember = (nomor) => {
+        listMemberNomor = [];
+        call_listmembernomor(nomor);
+    };
     const ChangeTabMenu = (e) => {
         switch(e){
             case "menu_listmember":
                 tab_listmember = "bg-sky-600 text-white"
                 tab_betgroup = ""
+                tab_listbet = ""
                 panel_listmember = true
                 panel_betgroup = false
                 break;
             case "menu_betgroup":
+                call_listbettable();
                 tab_listmember = ""
+                tab_listbet = ""
                 tab_betgroup = "bg-sky-600 text-white"
                 panel_listmember = false
                 panel_betgroup = true
+                break;
+            case "menu_listbet":
+                modal_width_listbetall = "max-w-7xl"
+                isModal_Form_listBetall = true;
+                call_listbettable();
+                tab_listmember = ""
+                tab_listbet = "bg-sky-600 text-white"
+                tab_betgroup = ""
+                panel_listmember = false
+                panel_betgroup = false
+                break;
+        }
+    }
+    const ChangeTabMenuListBet = (e) => {
+        switch(e){
+            case "menu_listbet_all":
+                tab_listbetall_all = "bg-sky-600 text-white"
+                tab_listbetall_winner = ""
+                tab_listbetall_cancel = ""
+                panel_listbetall_all = true
+                panel_listbetall_winner = false
+                panel_listbetall_cancel = false
+                break;
+            case "menu_listbet_winner":
+                call_listbetstatus("winner")
+                tab_listbetall_all = ""
+                tab_listbetall_winner = "bg-sky-600 text-white"
+                tab_listbetall_cancel = ""
+                panel_listbetall_all = false
+                panel_listbetall_winner = true
+                panel_listbetall_cancel = false
+                break;
+            case "menu_listbet_cancel":
+                call_listbetstatus("cancel")
+                tab_listbetall_all = ""
+                tab_listbetall_winner = ""
+                tab_listbetall_cancel = "bg-sky-600 text-white"
+                panel_listbetall_all = false
+                panel_listbetall_winner = false
+                panel_listbetall_cancel = true
                 break;
         }
     }
     const RefreshHalaman = () => {
         dispatch("handleRefreshData", "call");
     };
-    
-    
-   
+ 
     function clearField(){
         idtrxkeluaran = "";
         idpasarancode = "";
@@ -326,6 +684,15 @@
         periode_createdate_field = "";
         periode_update_field = "";
         periode_updatedate_field = "";
+        listMember = [];
+        listBetUsername = [];
+        listBetTable = [];
+        listBetTableGroup = [];
+        tab_listmember = "bg-sky-600 text-white"
+        tab_betgroup = ""
+        tab_listbet = ""
+        panel_listmember = true
+        panel_betgroup = false
     }
     
     $: {
@@ -368,9 +735,28 @@
         } else {
             filterMemberListBet = [...listBetUsername];
         }
+        if (searchListAllBet) {
+            filterListBetALl = listBet.filter(
+                (item) =>
+                    item.bet_status
+                        .toLowerCase()
+                        .includes(searchListAllBet.toLowerCase()) || 
+                    item.bet_id
+                        .toLowerCase()
+                        .includes(searchListAllBet.toLowerCase()) ||
+                    item.bet_username
+                        .toLowerCase()
+                        .includes(searchListAllBet.toLowerCase()) ||
+                    item.bet_nomortogel
+                        .toLowerCase()
+                        .includes(searchListAllBet.toLowerCase())
+            );
+        } else {
+            filterListBetALl = [...listBet];
+        }
     }
 </script>
-<div class="{loader_class} w-40 fixed top-1 left-[45%] right-0 z-50">
+<div class="{loader_class} w-40 fixed top-1 left-[45%] right-0 z-[9999999999]">
     <div class="alert alert-warning shadow-lg rounded-md bg-[#FFF6BF]">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -401,7 +787,7 @@
                 </div>
                 <input 
                     bind:value={searchHome}
-                    type="text" placeholder="Search by Rule" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+                    type="text" placeholder="Search by Invoice, Status, Pasaran" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
             </div>
             <div class="hidden sm:inline w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
                 <table class="table table-compact w-full ">
@@ -474,7 +860,7 @@
 
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
 <div class="modal" >
-    <div class="modal-box relative select-none w-11/12 {modal_width}  rounded-none lg:rounded-lg p-2  overflow-hidden">
+    <div class="modal-box relative select-none w-11/12 {modal_width}  rounded-none lg:rounded-lg p-2  ">
         <div class="flex flex-col items-stretch">
             <div class="h-8">
                 <label for="my-modal-formnew" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
@@ -551,6 +937,14 @@
                                         class="{buttonLoading_class} btn-block">Submit</button>
                                 </div>
                             {/if}
+                        {:else if periode_statusrevisi_field == "OPEN"}
+                            <div class="flex flex-wrap justify-end align-middle  mt-2">
+                                <button
+                                    on:click={() => {
+                                        SaveTransaksi();
+                                    }}  
+                                    class="btn btn-warning btn-block">Revisi</button>
+                            </div>
                         {/if}
                     </div>
                     <div class="w-full p-2">
@@ -563,6 +957,10 @@
                                     ChangeTabMenu("menu_betgroup");
                                 }}
                                 class="items-center {tab_betgroup} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Bet Group</li>
+                            <li on:click={() => {
+                                    ChangeTabMenu("menu_listbet");
+                                }}
+                                class="items-center {tab_listbet} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Bet</li>
                         </ul>
                         {#if panel_listmember}
                             <h2 class="text-lg font-bold mb-2">List Member</h2>
@@ -601,10 +999,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="">
+                            <div class="bg-[#F7F7F7] rounded-sm h-32 p-2">
                                 <table class=" w-full">
                                     <tr>
-                                        <td class="text-xs font-semibold text-left align-top">TOTAL MEMBER</td>
+                                        <td class="text-xs v text-left align-top">TOTAL MEMBER</td>
                                         <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(total_member)}</td>
                                     </tr>
                                     <tr>
@@ -627,6 +1025,45 @@
                                         <td class="text-xs font-semibold text-left align-top">TOTAL WINLOSE</td>
                                         <td class="text-xs font-semibold text-right align-top {subtotal_member_winlose_class}">{new Intl.NumberFormat().format(subtotal_member_winlose)}</td>
                                     </tr>
+                                </table>
+                            </div>
+                        {/if}
+                        {#if panel_betgroup}
+                            <h2 class="text-lg font-bold mb-2">Bet Group</h2>
+                            <select
+                                on:change={handleSelectPermainangroup}
+                                class="select select-bordered select-sm w-full rounded-sm">
+                                <option value="">--Pilih Permainan--</option>
+                                {#each listBetTable as rec}
+                                    <option value={rec.permainan}>{rec.permainan}</option>
+                                {/each}
+                            </select>
+                            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
+                                <table class="table table-compact w-full">
+                                    <thead class="sticky top-0">
+                                        <tr>
+                                            <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">NOMOR</th>
+                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL MEMBER</th>
+                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL BET</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {#if listBetTableGroup  != ""}
+                                            {#each listBetTableGroup  as rec}
+                                                <tr>
+                                                    <td on:click={() => {
+                                                        groupMember(rec.bet_keluaran);
+                                                    }} class="text-xs text-center align-top underline cursor-pointer">{rec.bet_keluaran}</td>
+                                                    <td class="text-xs text-right align-top text-blue-700 font-semibold">{rec.bet_totalmember}</td>
+                                                    <td class="text-xs text-right align-top text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.bet_totalbet)}</td>
+                                                </tr>
+                                            {/each}
+                                        {:else}
+                                            <tr>
+                                                <td colspan="5" class="text-xs">No Records</td>
+                                            </tr>
+                                        {/if}
+                                    </tbody>
                                 </table>
                             </div>
                         {/if}
@@ -683,10 +1120,10 @@
                                     <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
                                     <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
                                     <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_nomortogel}</td>
+                                    <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
                                     <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}</td>
-                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}</td>
+                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)} ({rec.bet_diskonpercen}%)</td>
+                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)} ({rec.bet_keipercen}%)</td>
                                     <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
                                     <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
                                     <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
@@ -705,6 +1142,326 @@
         </div>
     </div>
 </div>
+
+<input type="checkbox" id="my-modal-listmembernomor" class="modal-toggle" bind:checked={isModal_Form_listBet}>
+<div class="modal" >
+    <div class="modal-box relative  w-11/12 {modal_width_listmembernomor}  rounded-none lg:rounded-lg p-2  overflow-hidden">
+        <div class="flex flex-col items-stretch">
+            <div class="h-8">
+                <label for="my-modal-listmembernomor" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
+                <h3 class="text-xs lg:text-sm font-bold mt-1">INFORMATION</h3>
+            </div>
+            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll mt-2">
+                <table class="table table-compact w-full">
+                    <thead class="sticky top-0">
+                        <tr>
+                            <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                            <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                            <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                            <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">ESTIMATE WIN<br>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {#if listMemberNomor != ""}
+                            {#each listMemberNomor as rec}
+                                <tr>
+                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_name}</td>
+                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_posisitogel}</td>
+                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_permainan}</td>
+                                    <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.member_nomor}</td>
+                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bet)}</td>
+                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_disc)}({rec.member_discpercen}%)</td>
+                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_kei)}({rec.member_keipercen}%)</td>
+                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bayar)}</td>
+                                    <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.member_win}x</td>
+                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_winhasil)}</td>
+                                </tr>
+                            {/each}
+                        {:else}
+                            <tr>
+                                <td colspan="15" class="text-xs text-center">
+                                    <progress class="self-start progress progress-primary w-56"></progress>
+                                </td>
+                            </tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-[#F7F7F7] rounded-sm h-20 p-2">
+                <table class="w-full">
+                    <tr>
+                        <td class="text-right font-semibold text-xs">TOTAL BAYAR</td>
+                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(temp_totalbayar)}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right font-semibold text-xs">TOTAL ESTIMATE WIN</td>
+                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(temp_totalwinestimate)}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right font-semibold text-xs">GRANDTOTAL</td>
+                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-right text-xs {temp_grandtotal_class}">{new Intl.NumberFormat().format(temp_grandtotal)}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="checkbox" id="my-modal-listbetall" class="modal-toggle" bind:checked={isModal_Form_listBetall}>
+<div class="modal" >
+    <div class="modal-box relative  w-11/12 {modal_width_listbetall}  rounded-none lg:rounded-lg p-2  overflow-hidden">
+        <div class="flex flex-col items-stretch">
+            <div class="h-8">
+                <label for="my-modal-listbetall" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
+                <h3 class="text-xs lg:text-sm font-bold mt-1">LIST BET</h3>
+            </div>
+            <ul class="flex justify-center items-center gap-2">
+                <li on:click={() => {
+                        ChangeTabMenuListBet("menu_listbet_all");
+                    }}
+                    class="items-center {tab_listbetall_all}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">All</li>
+                <li on:click={() => {
+                        ChangeTabMenuListBet("menu_listbet_winner");
+                    }}
+                    class="items-center {tab_listbetall_winner} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">WINNER</li>
+                <li on:click={() => {
+                        ChangeTabMenuListBet("menu_listbet_cancel");
+                    }}
+                    class="items-center {tab_listbetall_cancel} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">CANCEL</li>
+            </ul>
+            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll mt-2">
+                {#if panel_listbetall_all}
+                    <div class="flex justify-start items-stretch gap-2 mb-2 w-full">
+                        <div class="p-0 w-full">
+                            <select
+                                on:change={handleSelectPermainan}
+                                class="select select-bordered select-sm rounded-sm w-full">
+                                <option value="">--Pilih Permainan--</option>
+                                {#each listBetTable as rec}
+                                    <option value={rec.permainan}>{rec.permainan}</option>
+                                {/each}
+                            </select>
+                        </div>
+                        <div class="p-0 w-full">
+                            <input 
+                                bind:value={searchListAllBet}
+                                type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
+                        </div>
+                    </div>
+                    <table class="table table-compact w-full">
+                        <thead class="sticky top-0">
+                            <tr>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
+                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#if filterListBetALl  != ""}
+                                {#each filterListBetALl as rec}
+                                    <tr>
+                                        <td class="text-xs text-left align-top whitespace-nowrap ">
+                                            {#if periode_keluaran_field == ""}
+                                                {#if rec.bet_status == "RUNNING"}
+                                                    <svg on:click={() => {
+                                                        cancelbetTransaksi(
+                                                            rec.bet_id,rec.bet_typegame
+                                                        );
+                                                    }} xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                {/if}
+                                            {/if}
+                                        </td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">
+                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                        </td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                    </tr>
+                                {/each}
+                            {:else}
+                                <tr>
+                                    <td colspan="16" class="text-xs text-center">
+                                        <progress class="self-start progress progress-primary w-56"></progress>
+                                    </td>
+                                </tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                {/if}
+                {#if panel_listbetall_winner}
+                    <input 
+                        bind:value={searchListAllBet}
+                        type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
+                    <table class="table table-compact w-full mt-2">
+                        <thead class="sticky top-0">
+                            <tr>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
+                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#if filterListBetALl  != ""}
+                                {#each filterListBetALl as rec}
+                                    <tr>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">
+                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                        </td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                    </tr>
+                                {/each}
+                            {:else}
+                                <tr>
+                                    <td colspan="16" class="text-xs text-center">
+                                        <progress class="self-start progress progress-primary w-56"></progress>
+                                    </td>
+                                </tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                {/if}
+                {#if panel_listbetall_cancel}
+                    <input 
+                        bind:value={searchListAllBet}
+                        type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
+                    <table class="table table-compact w-full mt-2">
+                        <thead class="sticky top-0">
+                            <tr>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
+                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#if filterListBetALl  != ""}
+                                {#each filterListBetALl as rec}
+                                    <tr>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">
+                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                        </td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                    </tr>
+                                {/each}
+                            {:else}
+                                <tr>
+                                    <td colspan="16" class="text-xs text-center">
+                                        <progress class="self-start progress progress-primary w-56"></progress>
+                                    </td>
+                                </tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                {/if}
+            </div>
+            <div class="bg-[#F7F7F7] rounded-sm h-20 p-2">
+                <table class="w-full">
+                    <tr>
+                        <td class="text-right font-semibold text-xs">TOTAL BET</td>
+                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(totalbet)}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right font-semibold text-xs">TOTAL BAYAR</td>
+                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(totalbayar)}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right font-semibold text-xs">TOTAL WIN</td>
+                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-right text-xs {temp_grandtotal_class}">{new Intl.NumberFormat().format(totalwin)}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
 <Modal_alert 
