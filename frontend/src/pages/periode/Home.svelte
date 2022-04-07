@@ -2,10 +2,13 @@
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
+    import Loader from '../../components/Loader.svelte' 
+    import Panel from '../../components/Panel_default.svelte' 
 
     export let path_api = "";
     export let token = "";
     export let listHome = [];
+    export let listPeriodePasaran = [];
     export let totalrecord = 0;
 
     let page = "Periode";
@@ -38,7 +41,7 @@
     let listBetTableGroup = [];
     let listMemberNomor = [];
     let listBet = [];
-    let listBetStatus = [];
+    
 
     let idtrxkeluaran = "";
     let idpasarancode = "";
@@ -70,7 +73,7 @@
     let temp_grandtotal_class = ""
     let client_username = ""
     let chooce_permainan = "";
-
+    let select_pasaran = "";
     let tab_listmember = "bg-sky-600 text-white"
     let tab_betgroup = ""
     let tab_listbet = ""
@@ -140,7 +143,53 @@
             alert(msg_error);
         }
     }
-   
+    async function SaveNewTransaksi() {
+        let flag = false;
+        msg_error = "";
+        if (select_pasaran == "") {
+            flag = true;
+            msg_error += "The Pasaran is required<br>";
+        }
+        if (flag == false) {
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            isModalLoading = true;
+            const res = await fetch(path_api+"api/savepasarannew", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    pasaran_code: select_pasaran,
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                loader_msg = json.message;
+            } else {
+                loader_msg = json.message;
+            }
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+            isModalLoading = false
+            RefreshHalaman();
+            select_pasaran = "";
+        } else {
+            if(msg_error != ""){
+                isModalLoading = false;
+                isModalNotif = true;
+            }
+        }
+    }
+    const NewData = () => {
+        sData = "New";
+        clearField()
+        modal_width = "max-w-xl";
+        isModal_Form_New = true;
+    };
     async function EditData(e,y) {
         if(e != ""){
             isModalLoading = true;
@@ -433,6 +482,7 @@
         totalbet = 0;
         totalbayar = 0;
         totalwin = 0;
+        temp_grandtotal_class = "text-red-500 font-semibold"
         const res = await fetch(path_api+"api/periodelistbet", {
             method: "POST",
             headers: {
@@ -454,6 +504,11 @@
         } else {
             if (record != null) {
                 let status_class = "";
+                if(totalwin > 0){
+                    temp_grandtotal_class = "text-blue-700 font-semibold"
+                }else{
+                    temp_grandtotal_class = "text-blue-700 font-semibold"
+                }
                 for (var i = 0; i < record.length; i++) {
                     if (record[i]["bet_status"] != "CANCEL") {
                         if(record[i]["bet_status"] == "LOSE"){
@@ -499,6 +554,7 @@
         totalbet = 0;
         totalbayar = 0;
         totalwin = 0;
+        temp_grandtotal_class = "text-red-500 font-semibold"
         const res = await fetch(path_api+"api/periodelistbetstatus", {
             method: "POST",
             headers: {
@@ -520,6 +576,11 @@
         } else {
             if (record != null) {
                 let status_class = "";
+                if(totalwin > 0){
+                    temp_grandtotal_class = "text-blue-700 font-semibold"
+                }else{
+                    temp_grandtotal_class = "text-blue-700 font-semibold"
+                }
                 for (var i = 0; i < record.length; i++) {
                     if(record[i]["bet_status"] == "LOSE"){
                         status_class = "bg-red-400 text-white"
@@ -560,7 +621,10 @@
     }
     async function cancelbetTransaksi(e,f) {
         msg_error = "";
-        const res = await fetch("/api/cancelbet", {
+        loader_class = "inline-block"
+        loader_msg = "Sending..."
+        isModalLoading = true;
+        const res = await fetch(path_api+"api/cancelbet", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -576,18 +640,48 @@
         });
         const json = await res.json();
         if (json.status == 200) {
+            loader_msg = json.message;
+        } else if (json.status == 403) {
+            loader_msg = json.message;
+        } else {
+            loader_msg = json.message;
+        }
+        setTimeout(function () {
+            loader_class = "hidden";
+        }, 1000);
+        isModalLoading = false
+        call_listbet("4D");
+        call_listmember();
+    }
+    function callrevisiTransaksi() {
+        
+    }
+    async function revisiTransaksi(e) {
+        periode_status_field = "LOCK";
+        msg_error = "";
+        const res = await fetch(path_api+"api/saveperioderevisi", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                sData: sData,
+                page: "PERIODE-SAVE",
+                idinvoice: parseInt(idtrxkeluaran),
+                msgrevisi: e,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
             msg_error = json.message;
         } else if (json.status == 403) {
             msg_error = json.message;
+            periode_keluaran_field = "";
         } else {
             msg_error = json.message;
         }
-        if(msg_error != ""){
-            isModalNotif = true;
-        }
-        
-        call_listbet("4D");
-        call_listmember();
+        EditData(idtrxkeluaran,idpasarancode);
     }
     const handleSelectPermainangroup = (event) => {
         listBetTableGroup = [];
@@ -608,6 +702,9 @@
         call_listmembernomor(nomor);
     };
     const ChangeTabMenu = (e) => {
+        totalbet = 0;
+        totalbayar = 0;
+        totalwin = 0;
         switch(e){
             case "menu_listmember":
                 tab_listmember = "bg-sky-600 text-white"
@@ -628,6 +725,7 @@
                 modal_width_listbetall = "max-w-7xl"
                 isModal_Form_listBetall = true;
                 call_listbettable();
+                listBet = [];
                 tab_listmember = ""
                 tab_listbet = "bg-sky-600 text-white"
                 tab_betgroup = ""
@@ -639,6 +737,7 @@
     const ChangeTabMenuListBet = (e) => {
         switch(e){
             case "menu_listbet_all":
+                listBet = [];
                 tab_listbetall_all = "bg-sky-600 text-white"
                 tab_listbetall_winner = ""
                 tab_listbetall_cancel = ""
@@ -756,107 +855,86 @@
         }
     }
 </script>
-<div class="{loader_class} w-40 fixed top-1 left-[45%] right-0 z-[9999999999]">
-    <div class="alert alert-warning shadow-lg rounded-md bg-[#FFF6BF]">
-        <div>
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-          <span>{loader_msg}</span>
+<Loader loader_class="{loader_class}" loader_msg="{loader_msg}" />
+<Panel
+    on:handleNewForm={NewData}
+    on:handleRefresh={RefreshHalaman}
+    panel_button_new={true}
+    panel_button_refresh={true}
+    panel_page="{page}"
+    panel_total="{totalrecord}">
+    <slot:template slot="panel_search">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
         </div>
-    </div>
-</div>
-<div class="container mx-auto px-2 lg:px-28">
-    <div class="bg-white shadow-lg p-5">
-        <div class="flex flex-col gap-2">
-            <div class="flex items-start">
-                <h1 class=" text-slate-600 font-bold text-sm lg:text-3xl uppercase w-full">{page}</h1>
-                <div class="hidden sm:flex md:flex justify-end w-full gap-2 ">
-                    <button on:click={() => {
-                        RefreshHalaman();
-                        }} class="btn btn-primary hover:bg-primary shadow-lg shadow-[#b3e4fc]  rounded-md lg:inline-flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="relative w-full">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-                <input 
-                    bind:value={searchHome}
-                    type="text" placeholder="Search by Invoice, Status, Pasaran" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
-            </div>
-            <div class="hidden sm:inline w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
-                <table class="table table-compact w-full ">
-                    <thead class="sticky top-0">
-                        <tr>
-                            <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                            <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                            <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">DATE</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">INVOICE</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PERIODE</th>
-                            <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PASARAN</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">PRIZE 1</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">REVISI</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">MEMBER</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BET</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BAYAR</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">CANCEL</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WINLOSE</th>
-                        </tr>
-                    </thead>
-                    {#if filterHome != ""}
-                        <tbody>
-                            {#each filterHome as rec}
-                            <tr>
-                                <td on:click={() => {
-                                    EditData(rec.home_invoice,rec.home_code);
-                                    }} class="text-center text-xs cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                    </svg>
-                                </td>
-                                <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
-                                <td class="text-xs lg:text-sm align-top text-center">
-                                    <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_status}</span>
-                                </td>
-                                <td class="text-xs lg:text-sm align-top text-center">{rec.home_tanggal}</td>
-                                <td class="text-xs lg:text-sm align-top text-left">{rec.home_invoice}</td>
-                                <td class="text-xs lg:text-sm align-top text-left">{rec.home_periode}</td>
-                                <td class="text-xs lg:text-sm align-top text-left">{rec.home_name}</td>
-                                <td class="text-xs lg:text-sm align-top text-center font-semibold">{rec.home_keluaran}</td>
-                                <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_revisi_class}">{new Intl.NumberFormat().format(rec.home_revisi)}</td>
-                                <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalmember_class}">{new Intl.NumberFormat().format(rec.home_totalmember)}</td>
-                                <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalbet_class}">{new Intl.NumberFormat().format(rec.home_totalbet)}</td>
-                                <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totaloutstanding_class}">{new Intl.NumberFormat().format(rec.home_totaloutstanding)}</td>
-                                <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalcancelbet_class}">{new Intl.NumberFormat().format(rec.home_totalcancelbet)}</td>
-                                <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_winlose_class}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
-                            </tr>
-                            {/each}
-                        </tbody>
-                    {:else}
-                        <tbody>
-                            <tr>
-                                <td colspan="14" class="text-center">
-                                    <progress class="self-start progress progress-primary w-56"></progress>
-                                </td>
-                            </tr>
-                        </tbody>
-                    {/if}
-                </table>
-            
-            </div>
-            
-            <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
-                <span class="font-bold">TOTAL ROW : {totalrecord}</span>
-            </div>
-        </div>
-    </div>
-</div>
+        <input 
+            bind:value={searchHome}
+            type="text" placeholder="Search by Invoice, Status, Pasaran" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+    </slot:template>
+    <slot:template slot="panel_body">
+        <table class="table table-compact w-full ">
+            <thead class="sticky top-0">
+                <tr>
+                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
+                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
+                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">DATE</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">INVOICE</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PERIODE</th>
+                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PASARAN</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">PRIZE 1</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">REVISI</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">MEMBER</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BET</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BAYAR</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">CANCEL</th>
+                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WINLOSE</th>
+                </tr>
+            </thead>
+            {#if filterHome != ""}
+                <tbody>
+                    {#each filterHome as rec}
+                    <tr>
+                        <td on:click={() => {
+                            EditData(rec.home_invoice,rec.home_code);
+                            }} class="text-center text-xs cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </td>
+                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
+                        <td class="text-xs lg:text-sm align-top text-center">
+                            <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_status}</span>
+                        </td>
+                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_tanggal}</td>
+                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_invoice}</td>
+                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_periode}</td>
+                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_name}</td>
+                        <td class="text-xs lg:text-sm align-top text-center font-semibold">{rec.home_keluaran}</td>
+                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_revisi_class}">{new Intl.NumberFormat().format(rec.home_revisi)}</td>
+                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalmember_class}">{new Intl.NumberFormat().format(rec.home_totalmember)}</td>
+                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalbet_class}">{new Intl.NumberFormat().format(rec.home_totalbet)}</td>
+                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totaloutstanding_class}">{new Intl.NumberFormat().format(rec.home_totaloutstanding)}</td>
+                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalcancelbet_class}">{new Intl.NumberFormat().format(rec.home_totalcancelbet)}</td>
+                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_winlose_class}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
+                    </tr>
+                    {/each}
+                </tbody>
+            {:else}
+                <tbody>
+                    <tr>
+                        <td colspan="14" class="text-center">
+                            <progress class="self-start progress progress-primary w-56"></progress>
+                        </td>
+                    </tr>
+                </tbody>
+            {/if}
+        </table>
+    </slot:template>
+</Panel>
+
 
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
 <div class="modal" >
@@ -869,24 +947,37 @@
             {#if sData=="New"}
                 <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
                     <div class="relative form-control mt-2">
-                        
+                        <select
+                            class="select select-bordered w-full"
+                            bind:value={select_pasaran}>
+                            <option disabled selected value="">--Pilih Pasaran--</option>
+                            {#each listPeriodePasaran as rec}
+                                <option value={rec.pasarancomp_idcompp}>{rec.pasarancomp_nama}</option>
+                            {/each}
+                        </select>
                     </div>
                 </div>
                 <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
-                    <button class="{buttonLoading_class}">Submit</button>
+                    <button
+                        on:click={() => {
+                            SaveNewTransaksi();
+                        }} 
+                        class="{buttonLoading_class}">Submit</button>
                 </div>
             {/if}
             {#if sData=="Edit"}
                 <div class="flex justify-between  gap-2">
                     <div class="w-1/2">
                         <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
-                            <div class="alert alert-info shadow-lg mt-2 rounded-sm">
-                                <div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                  <span>Periode Selanjutnya : {periode_tanggalnext_field}</span>
+                            {#if periode_status_field == "OPEN"}
+                                <div class="alert alert-info shadow-lg mt-2 rounded-sm">
+                                    <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Periode Selanjutnya : {periode_tanggalnext_field}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="relative form-control">
+                            {/if}
+                            <div class="relative form-control mt-2">
                                 <Input_custom
                                     input_enabled={false}
                                     input_tipe="text"
@@ -941,7 +1032,7 @@
                             <div class="flex flex-wrap justify-end align-middle  mt-2">
                                 <button
                                     on:click={() => {
-                                        SaveTransaksi();
+                                        callrevisiTransaksi();
                                     }}  
                                     class="btn btn-warning btn-block">Revisi</button>
                             </div>
@@ -1282,7 +1373,7 @@
                             {#if filterListBetALl  != ""}
                                 {#each filterListBetALl as rec}
                                     <tr>
-                                        <td class="text-xs text-left align-top whitespace-nowrap ">
+                                        <td class="text-xs text-center align-top whitespace-nowrap ">
                                             {#if periode_keluaran_field == ""}
                                                 {#if rec.bet_status == "RUNNING"}
                                                     <svg on:click={() => {
@@ -1295,7 +1386,7 @@
                                                 {/if}
                                             {/if}
                                         </td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">
+                                        <td class="text-xs text-center align-top whitespace-nowrap">
                                             <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
                                         </td>
                                         <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
@@ -1352,7 +1443,7 @@
                             {#if filterListBetALl  != ""}
                                 {#each filterListBetALl as rec}
                                     <tr>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">
+                                        <td class="text-xs text-center align-top whitespace-nowrap">
                                             <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
                                         </td>
                                         <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
@@ -1409,7 +1500,7 @@
                             {#if filterListBetALl  != ""}
                                 {#each filterListBetALl as rec}
                                     <tr>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">
+                                        <td class="text-xs text-center align-top whitespace-nowrap">
                                             <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
                                         </td>
                                         <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>

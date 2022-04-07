@@ -72,7 +72,7 @@
 {#if isNav}
 <main class="flex flex-col space-x-2 h-screen w-full bg-[#f0f2f5]">
   <Navigation />
-  <div class="justify-center">
+  <div class="justify-center  ">
     <div class="w-full  mt-5 ">
       <Router {routes} />
     </div>

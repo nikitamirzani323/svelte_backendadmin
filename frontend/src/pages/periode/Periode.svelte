@@ -2,6 +2,7 @@
     import Home from "../periode/Home.svelte";
     export let path_api = ""
     let listHome = [];
+    let listPeriodePasaran = [];
     let record = "";
     let totalrecord = 0;
     let token = localStorage.getItem("token");
@@ -28,6 +29,8 @@
         }
     }
     async function initHome() {
+        listHome = [];
+        listPeriodePasaran = [];
         const res = await fetch(path_api+"api/allperiode", {
             method: "POST",
             headers: {
@@ -41,6 +44,7 @@
         if (json.status == 200) {
             record = json.record;
             totalrecord = record.length;
+            let recordpasaran = json.pasaranonline;
             let status_class = "";
             let totalmember_class = "";
             let totalbet_class = "";
@@ -116,6 +120,17 @@
                         },
                     ];
                 }
+                if (recordpasaran != null) {
+                for (var j = 0; j < recordpasaran.length; j++) {
+                    listPeriodePasaran = [
+                        ...listPeriodePasaran,
+                        {
+                            pasarancomp_idcompp: recordpasaran[j]["pasarancomp_idcompp"],
+                            pasarancomp_nama: recordpasaran[j]["pasarancomp_nama"],
+                        },
+                    ];
+                }
+            }
             }
         } else {
             logout();
@@ -143,6 +158,7 @@
         on:handleLogout={handleLogout}
         {path_api}
         {token}
+        {listPeriodePasaran}
         {listHome}
         {totalrecord}/>
 {/if}

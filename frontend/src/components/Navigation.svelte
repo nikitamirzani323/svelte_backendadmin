@@ -28,11 +28,11 @@
               <li><a>Item 3</a></li>
             </ul>
           </div>
-          <a class="btn btn-ghost normal-case text-xl">SDSB</a>
+          <a class="btn btn-ghost normal-case text-xl" href="/">SDSB</a>
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal p-0">
-            <li><a class="text-sm">DASBOARD</a></li>
+            <li><a class="text-sm" href="/">DASBOARD</a></li>
             <li tabindex="0">
               <a class="text-sm">
                 TOGEL
