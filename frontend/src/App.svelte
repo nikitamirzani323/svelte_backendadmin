@@ -10,6 +10,7 @@
 	import Log from '../src/pages/log/Log.svelte'
 	import Pasaran from '../src/pages/pasaran/Pasaran.svelte'
 	import Periode from '../src/pages/periode/Periode.svelte'
+	import Prediksi from '../src/pages/prediksi/Prediksi.svelte'
 	import Tailwindcss from './Tailwindcss.svelte'
 	export let path_api = "";
   	let token = localStorage.getItem("token");
@@ -64,6 +65,12 @@
 					path_api: path_api,
 				},
 				component: Periode,
+			}),
+		"/prediksi": wrap({
+        		props: {
+					path_api: path_api,
+				},
+				component: Prediksi,
 			}),
 		"*": NotFound,
 		};

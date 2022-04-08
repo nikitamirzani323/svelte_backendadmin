@@ -40,7 +40,7 @@
               </a>
               <ul class="p-2 bg-white">
                 <li><a use:link href="/periode" class="text-sm">PERIODE</a></li>
-                <li><a use:link href="/pasaran" class="text-sm">PREDIKSI</a></li>
+                <li><a use:link href="/prediksi" class="text-sm">PREDIKSI</a></li>
                 <li><a use:link href="/pasaran" class="text-sm">REPORT WINLOSE</a></li>
               </ul>
             </li>

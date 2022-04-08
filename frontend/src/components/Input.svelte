@@ -41,7 +41,7 @@
 	}
 </script>
 {#if input_tipe == "text"}
-    <div class="relative form-control">
+    <div class="relative form-control w-full">
         {#if input_autofocus}
         <input
             autofocus
@@ -93,7 +93,7 @@
     </div>
 {/if}
 {#if input_tipe == "password"}
-    <div class="relative form-control">
+    <div class="relative form-control w-full">
         {#if show_eye}
             <input
                 use:typeAction 
@@ -144,7 +144,7 @@
     </div> 
 {/if}
 {#if input_tipe == "time"}
-    <div class="relative form-control">
+    <div class="relative form-control w-full">
         {#if input_enabled}        
             <input
                 on:change={input_onchange}
@@ -182,7 +182,7 @@
     </div>
 {/if}
 {#if input_tipe == "tanggal"}
-    <div class="relative form-control">
+    <div class="relative form-control w-full">
         {#if input_enabled}        
             <input
                 on:change={input_onchange}
@@ -220,7 +220,7 @@
     </div>
 {/if}
 {#if input_tipe == "number_nolabel"}
-    <div class="relative form-control">
+    <div class="relative form-control w-full">
         {#if input_enabled}        
             <input
                 on:change={input_onchange}
@@ -257,7 +257,7 @@
     </div>
 {/if}
 {#if input_tipe == "number"}
-    <div class="relative form-control">
+    <div class="relative form-control w-full">
         {#if input_enabled}        
             <input
                 on:keyup={handleKeyboard_number}
@@ -294,7 +294,7 @@
     </div>
 {/if}
 {#if input_tipe == "float"}
-    <div class="relative form-control">
+    <div class="relative form-control w-full">
         {#if input_enabled}        
             <input
                 on:keyup={handleKeyboard_float}
