@@ -181,6 +181,45 @@
                 bg-[#fff]">{input_placeholder}{input_required ? "*":""}</label>
     </div>
 {/if}
+{#if input_tipe == "date"}
+    <div class="relative form-control w-full">
+        {#if input_enabled}        
+            <input
+                on:change={input_onchange}
+                bind:value
+                invalid={input_invalid}
+                type="date" 
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                min="2022-01-01" max="2030-12-31"
+                autocomplete="off"
+                class="{input_datetime_class}"> 
+        {:else}
+            <input
+                on:change={input_onchange}
+                bind:value
+                invalid={input_invalid}
+                type="date" 
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                disabled
+                class="{input_datetime_class}"> 
+        {/if}
+        <label for="username" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
+                transition-all
+                peer-placeholder-shown:text-base 
+                peer-placeholder-shown:text-gray-400 
+                peer-placeholder-shown:top-3 
+                peer-focus:text-[#1a73e8]
+                peer-focus:bg-[#fff]
+                peer-focus:text-[.75rem]
+                text-[#1a73e8] 
+                bg-[#fff]">{input_placeholder}{input_required ? "*":""}</label>
+    </div>
+{/if}
 {#if input_tipe == "tanggal"}
     <div class="relative form-control w-full">
         {#if input_enabled}        
