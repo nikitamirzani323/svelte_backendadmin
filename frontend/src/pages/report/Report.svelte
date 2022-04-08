@@ -175,7 +175,7 @@
                             {:else}
                                 <tbody>
                                     <tr>
-                                        <td colspan="16" class="text-center">
+                                        <td colspan="4" class="text-center">
                                             <progress class="self-start progress progress-primary w-56"></progress>
                                         </td>
                                     </tr>
