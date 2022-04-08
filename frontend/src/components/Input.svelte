@@ -1,4 +1,5 @@
 <script>
+    import SveltyPicker from 'svelty-picker'
     export let value
     export let input_onchange;
     export let input_invalid = false;
@@ -183,32 +184,14 @@
 {/if}
 {#if input_tipe == "date"}
     <div class="relative form-control w-full">
-        {#if input_enabled}        
-            <input
-                on:change={input_onchange}
-                bind:value
-                invalid={input_invalid}
-                type="date" 
-                id="{input_id}"
-                name="{input_id}"
-                placeholder="{input_placeholder}"
-                min="2022-01-01" max="2030-12-31"
-                autocomplete="off"
-                class="{input_datetime_class}"> 
-        {:else}
-            <input
-                on:change={input_onchange}
-                bind:value
-                invalid={input_invalid}
-                type="date" 
-                id="{input_id}"
-                name="{input_id}"
-                placeholder="{input_placeholder}"
-                autocomplete="off"
-                disabled
-                class="{input_datetime_class}"> 
-        {/if}
-        <label for="username" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
+        <SveltyPicker 
+            inputClasses="{input_datetime_class}" 
+            name="{input_id}"
+            placeholder="{input_placeholder}"
+            format="yyyy-mm-dd" 
+            bind:value>
+        </SveltyPicker>
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
                 transition-all
                 peer-placeholder-shown:text-base 
                 peer-placeholder-shown:text-gray-400 

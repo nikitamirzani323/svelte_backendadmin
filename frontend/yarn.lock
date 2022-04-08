@@ -282,14 +282,9 @@ daisyui@^2.13.5:
     postcss-js "^4.0.0"
     tailwindcss "^3.0"
 
-date-picker-svelte@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/date-picker-svelte/-/date-picker-svelte-2.0.0.tgz"
-  integrity sha512-hV1DZj2e31wQ7IpKKAqnp/IwP3ZSKYYQ1IL2jgVeowJEJd3onPics8AA3GUOsaFH49UUPhOvpa6psZujawWG7A==
-
 dayjs@^1.11.0:
   version "1.11.0"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.0.tgz#009bf7ef2e2ea2d5db2e6583d2d39a4b5061e805"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.0.tgz"
   integrity sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==
 
 debug@^4.3.3:
@@ -906,6 +901,11 @@ svelte@^3.44.0:
   version "3.46.6"
   resolved "https://registry.npmjs.org/svelte/-/svelte-3.46.6.tgz"
   integrity sha512-o9nNft/OzCz/9kJpmWa1S52GAM+huCjPIsNWydYmgei74ZWlOA9/hN9+Z12INdklghu31seEXZMRHhS1+8DETw==
+
+svelty-picker@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/svelty-picker/-/svelty-picker-1.2.4.tgz"
+  integrity sha512-tCJG98s3wa+OdgXwodBi3o5MEFaxtqNiFHLk3QJGAjiWTcbfCD+nUHvVqfW0ZBRyv0GvsxvblKE6Z235zzwd9A==
 
 tailwind-scrollbar@^1.3.1:
   version "1.3.1"
