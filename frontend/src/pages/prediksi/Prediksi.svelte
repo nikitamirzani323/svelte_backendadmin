@@ -187,7 +187,7 @@
                 <div class="flex flex-col w-full">
                     <div class="border-slate-200">
                         <div class="flex justify-start items-center border-b-2 p-2">
-                            <h1 class="text-slate-600 font-bold text-sm lg:text-2xl uppercase w-full">Prediksi</h1>
+                            <h1 class="text-slate-600 font-bold text-sm lg:text-xl uppercase w-full">Prediksi</h1>
                             <div class="flex justify-end w-full p-2">
                                 <button on:click={() => {
                                     callPrediksi();
@@ -278,18 +278,15 @@
                     <div class="bg-[#F7F7F7] rounded-sm h-20 p-2 ">
                         <table class="w-full">
                             <tr>
-                                <td class="text-right font-semibold text-xs">TOTAL BET</td>
-                                <td class="text-center font-semibold text-xs">:</td>
+                                <td class="text-left font-semibold text-xs">TOTAL BET</td>
                                 <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(totalbet)}</td>
                             </tr>
                             <tr>
-                                <td class="text-right font-semibold text-xs">MEMBER WINLOSE</td>
-                                <td class="text-center font-semibold text-xs">:</td>
+                                <td class="text-left font-semibold text-xs">MEMBER WINLOSE</td>
                                 <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(totalwin)}</td>
                             </tr>
                             <tr>
-                                <td class="text-right font-semibold text-xs">COMPANY WINLOSE</td>
-                                <td class="text-center font-semibold text-xs">:</td>
+                                <td class="text-left font-semibold text-xs">COMPANY WINLOSE</td>
                                 <td class="text-right text-xs {temp_companywinlose_class}">{new Intl.NumberFormat().format(subtotal)}</td>
                             </tr>
                         </table>
