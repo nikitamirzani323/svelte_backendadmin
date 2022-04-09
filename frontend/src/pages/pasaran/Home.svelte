@@ -294,22 +294,22 @@
             .string()
             .required("Jam Tutup is Required")
             .matches(
-                /^(?:[01]\d|2[0123]):(?:[012345]\d):(?:[012345]\d)+$/,
-                "Jam Tutup example 24:24:00 or 12:30:00"
+                /^(?:[01]\d|2[0123]):(?:[012345]\d)+$/,
+                "Jam Tutup example 24:24 or 12:30"
             ),
         form_pasaran_jadwal_field: yup
             .string()
             .required("Jam Jadwal is Required")
             .matches(
-                /^(?:[01]\d|2[0123]):(?:[012345]\d):(?:[012345]\d)+$/,
-                "Jam Jadwal example 24:24:00 or 12:30:00"
+                /^(?:[01]\d|2[0123]):(?:[012345]\d)+$/,
+                "Jam Jadwal example 24:24 or 12:30"
             ),
         form_pasaran_open_field: yup
             .string()
             .required("Jam Open is Required")
             .matches(
-                /^(?:[01]\d|2[0123]):(?:[012345]\d):(?:[012345]\d)+$/,
-                "Jam Open example 24:24:00 or 12:30:00"
+                /^(?:[01]\d|2[0123]):(?:[012345]\d)+$/,
+                "Jam Open example 24:24 or 12:30"
             ),
     });
     const { form, errors, handleChange, handleSubmit } = createForm({
@@ -997,6 +997,12 @@
         }
     }
     function clearField(){
+        tab_pasaranonline = "bg-sky-600 text-white"
+        tab_bbfs = ""
+        tab_configure = ""
+        panel_pasaranonline = true
+        panel_bbfs = false
+        panel_configure = false
         pasaran_display_field = 0;
         pasaran_status_field = "";
         pasaran_create_field = "";
@@ -1375,11 +1381,13 @@
                                 <option value="N">DEACTIVE</option>
                             </select>
                         </div>
+                        {#if pasaran_tipe != "WAJIB"}
                         <div class="col-span-2">
                             <button on:click={() => {
                                 handleSubmit();
                             }} class="{buttonLoading_class} btn-block">Submit</button>
                         </div>
+                        {/if}
                     </div>
                 </div>
                 <div class="w-full p-2 -mt-5">
@@ -1400,6 +1408,7 @@
                     {#if panel_pasaranonline}
                         <div class="grid grid-cols-1 gap-2">
                             <h2 class="text-lg font-bold">Setting Pasaran Online</h2>
+                            {#if pasaran_tipe != "WAJIB"}
                             <div class="form-control">
                                 <div class="input-group">
                                 <select bind:value={select_pasaranonline} class="select select-bordered w-[80%]">
@@ -1417,12 +1426,14 @@
                                     }} class="{buttonLoading2_class} btn-primary">Save</button>
                                 </div>
                             </div>
+                            {/if}
                             <div>
                                 <table class="table table-compact w-full">
                                     <tbody>
                                         {#if listPasaranOnline != ""}
                                             {#each listPasaranOnline as rec}
                                                 <tr>
+                                                    {#if pasaran_tipe != "WAJIB"}
                                                     <td on:click={() => {
                                                             deletePasaranOnline(rec.idpasaranonline);
                                                         }} width="2%" class="text-center align-top cursor-pointer">
@@ -1430,6 +1441,7 @@
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
                                                     </td>
+                                                    {/if}
                                                     <td width="*" class="text-left align-top capitalize">{rec.haripasaran}</td>
                                                 </tr>
                                             {/each}
@@ -1492,11 +1504,13 @@
                                 bind:value={pasaran_limitline2dt_field}
                                 input_id="pasaran_limitline2dt_field"
                                 input_placeholder="LimitLine 2DT"/>
+                            {#if pasaran_tipe != "WAJIB"}
                             <div class="col-span-3">
                                 <button on:click={() => {
                                     SaveLimitline();
                                 }} class="{buttonLoading_class} btn-block">Submit</button>
                             </div>
+                            {/if}
                         </div>
                     {/if}
                     {#if panel_configure}
@@ -1557,6 +1571,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1617,6 +1632,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1633,6 +1649,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1651,6 +1668,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1668,6 +1686,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1687,6 +1706,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1713,6 +1733,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1759,6 +1780,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1803,6 +1825,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1819,6 +1842,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}
@@ -1841,6 +1865,7 @@
                         on:handleLoadingRunning={LoadingRunning}
                         on:handleLoadingRunningFinish={LoadingRunningFinish}
                         on:handleCallNotif={call_notif}
+                        {pasaran_tipe}
                         {path_api}
                         {token}
                         {idcomppasaran}

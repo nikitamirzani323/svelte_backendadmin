@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
-
+    export let pasaran_tipe = "";
     export let path_api = "";
     export let token = "";
     export let idcomppasaran = "";
@@ -171,7 +171,8 @@
         input_id="pasaran_winekor_cjitu_field"
         input_placeholder="WIN EKOR(%)"/>
 </div>
-
+{#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {
     save432d();
 }} class="{buttonLoading_class} btn-block">Submit</button>
+{/if}

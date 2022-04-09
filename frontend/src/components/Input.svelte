@@ -147,28 +147,29 @@
 {#if input_tipe == "time"}
     <div class="relative form-control w-full">
         {#if input_enabled}        
-            <input
+            <SveltyPicker 
                 on:change={input_onchange}
-                bind:value
                 invalid={input_invalid}
-                type="text" 
-                id="{input_id}"
+                inputClasses="{input_datetime_class}" 
                 name="{input_id}"
                 placeholder="{input_placeholder}"
-                autocomplete="off"
-                class="{input_datetime_class}"> 
+                format="hh:ii" 
+                mode="time" 
+                bind:value>
+            </SveltyPicker>
+            
         {:else}
-            <input
+            <SveltyPicker 
                 on:change={input_onchange}
-                bind:value
+                disabled=true
                 invalid={input_invalid}
-                type="text" 
-                id="{input_id}"
+                inputClasses="{input_datetime_class}" 
                 name="{input_id}"
                 placeholder="{input_placeholder}"
-                autocomplete="off"
-                disabled
-                class="{input_datetime_class}"> 
+                format="hh:ii" 
+                mode="time" 
+                bind:value>
+            </SveltyPicker>
         {/if}
         <label for="username" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
                 transition-all
