@@ -40,6 +40,11 @@
     const handleKeyboard_number_float = (e) => {
         return e.target.parseFloat = parseFloat(e.target.value);
 	}
+    const handleKeyboard_number_string = (e) => {
+        if (isNaN(parseInt(e.target.value))) {
+            return e.target.value = "";
+        }
+	}
 </script>
 {#if input_tipe == "text"}
     <div class="relative form-control w-full">
@@ -248,6 +253,43 @@
             <input
                 on:change={input_onchange}
                 on:keyup={handleKeyboard_number}
+                bind:value
+                type="text" 
+                id="{input_id}"
+                name="{input_id}"
+                maxlength="{input_maxlenght}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                class="{input_number_class}"> 
+        {:else}
+            <input
+                bind:value
+                type="text" 
+                id="{input_id}"
+                name="{input_id}"
+                placeholder="{input_placeholder}"
+                autocomplete="off"
+                disabled
+                class="{input_number_class}"> 
+        {/if}
+        <label for="{input_id}" class="absolute left-3 top-[-0.5rem] capitalize text-xs cursor-text 
+                transition-all
+                peer-placeholder-shown:text-base 
+                peer-placeholder-shown:text-gray-400 
+                peer-placeholder-shown:top-3 
+                peer-focus:text-[#1a73e8]
+                peer-focus:bg-[#fff]
+                peer-focus:text-[.75rem]
+                text-[#1a73e8] 
+                bg-[#fff]">{input_placeholder}{input_required ? "*":""}</label>
+    </div>
+{/if}
+{#if input_tipe == "number_nolabel_string"}
+    <div class="relative form-control w-full">
+        {#if input_enabled}        
+            <input
+                on:change={input_onchange}
+                on:keyup={handleKeyboard_number_string}
                 bind:value
                 type="text" 
                 id="{input_id}"

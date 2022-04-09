@@ -3,6 +3,7 @@
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
     import Input_custom from '../../components/Input.svelte' 
+    import Modal_popup from '../../components/Modal_popup.svelte'
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Panel_432D from '../pasaran/432D.svelte' 
     import Panel_colokbebas from '../pasaran/colok_bebas.svelte' 
@@ -1263,626 +1264,619 @@
 
 
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
-<div class="modal" >
-    <div class="modal-box relative select-none w-11/12 {modal_width}  rounded-none lg:rounded-lg p-2  overflow-hidden">
-        <div class="flex flex-col items-stretch">
-            <div class="h-8">
-                <label for="my-modal-formnew" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
+<Modal_popup
+    modal_popup_id="my-modal-formnew"
+    modal_popup_title="Entry/{sData}"
+    modal_popup_class="select-none w-11/12 {modal_width} overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        <div class="flex justify-between gap-2">
+            <div class="w-full">
+                <div class="grid grid-cols-2 gap-1">
+                    <div class="mb-5">
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={false}
+                            input_enabled={false}
+                            input_tipe="text"
+                            bind:value={pasaran_name_field}
+                            input_id="pasaran_name_field"
+                            input_placeholder="Pasaran"/>
+                    </div>
+                    <div class="mb-5">
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="time"
+                            input_invalid={$errors.form_pasaran_tutup_field.length > 0}
+                            bind:value={$form.form_pasaran_tutup_field}
+                            input_id="form_pasaran_tutup_field"
+                            input_placeholder="Tutup"/>
+                        {#if $errors.form_pasaran_tutup_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_tutup_field}</small>
+                        {/if}
+                    </div>
+                    <div class="mb-5">
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="text"
+                            input_invalid={$errors.form_pasaran_situs_field.length > 0}
+                            bind:value={$form.form_pasaran_situs_field}
+                            input_id="form_pasaran_situs_field"
+                            input_placeholder="Situs"/>
+                        {#if $errors.form_pasaran_situs_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_situs_field}</small>
+                        {/if}
+                    </div>
+                    <div class="mb-5">
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="time"
+                            input_invalid={$errors.form_pasaran_jadwal_field.length > 0}
+                            bind:value={$form.form_pasaran_jadwal_field}
+                            input_id="form_pasaran_jadwal_field"
+                            input_placeholder="Jadwal"/>
+                        {#if $errors.form_pasaran_jadwal_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_jadwal_field}</small>
+                        {/if}
+                    </div>
+                    <div class="mb-5">
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="text"
+                            input_invalid={$errors.form_pasaran_diundi_field.length > 0}
+                            bind:value={$form.form_pasaran_diundi_field}
+                            input_id="form_pasaran_diundi_field"
+                            input_placeholder="Diundi"/>
+                        {#if $errors.form_pasaran_diundi_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_tutup_field}</small>
+                        {/if}
+                    </div>
+                    <div class="mb-5">
+                        <Input_custom
+                            input_onchange="{handleChange}"
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="time"
+                            input_invalid={$errors.form_pasaran_open_field.length > 0}
+                            bind:value={$form.form_pasaran_open_field}
+                            input_id="form_pasaran_open_field"
+                            input_placeholder="Buka"/>
+                        {#if $errors.form_pasaran_open_field}
+                            <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_open_field}</small>
+                        {/if}
+                    </div>
+                    <div class="mb-5 text-[11px]">
+                        Create : {pasaran_create_field}, {pasaran_createdate_field}
+                        {#if pasaran_update_field != "" }
+                            <br>
+                            Update : {pasaran_update_field}, {pasaran_updatedate_field}
+                        {/if}
+                    </div>
+                    <div class="mb-5">
+                        <Input_custom
+                            input_autofocus={false}
+                            input_required={true}
+                            input_tipe="number_nolabel"
+                            bind:value={pasaran_display_field}
+                            input_id="pasaran_display_field"
+                            input_placeholder="Display"/>
+                    </div>
+                    <div class="mb-5">
+                        
+                    </div>
+                    <div class="mb-5">
+                        <select
+                            bind:value={pasaran_status_field}
+                            class="w-full rounded px-3  border border-gray-300 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none">
+                            <option value="Y">ACTIVE</option>
+                            <option value="N">DEACTIVE</option>
+                        </select>
+                    </div>
+                    {#if pasaran_tipe != "WAJIB"}
+                    <div class="col-span-2">
+                        <button on:click={() => {
+                            handleSubmit();
+                        }} class="{buttonLoading_class} btn-block">Submit</button>
+                    </div>
+                    {/if}
+                </div>
             </div>
-            <div class="flex justify-between  gap-2">
-                <div class="w-full">
-                    <div class="grid grid-cols-2 gap-1">
-                        <div class="mb-5">
-                            <Input_custom
-                                input_onchange="{handleChange}"
-                                input_autofocus={false}
-                                input_required={false}
-                                input_enabled={false}
-                                input_tipe="text"
-                                bind:value={pasaran_name_field}
-                                input_id="pasaran_name_field"
-                                input_placeholder="Pasaran"/>
-                        </div>
-                        <div class="mb-5">
-                            <Input_custom
-                                input_onchange="{handleChange}"
-                                input_autofocus={false}
-                                input_required={true}
-                                input_tipe="time"
-                                input_invalid={$errors.form_pasaran_tutup_field.length > 0}
-                                bind:value={$form.form_pasaran_tutup_field}
-                                input_id="form_pasaran_tutup_field"
-                                input_placeholder="Tutup"/>
-                            {#if $errors.form_pasaran_tutup_field}
-                                <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_tutup_field}</small>
-                            {/if}
-                        </div>
-                        <div class="mb-5">
-                            <Input_custom
-                                input_onchange="{handleChange}"
-                                input_autofocus={false}
-                                input_required={true}
-                                input_tipe="text"
-                                input_invalid={$errors.form_pasaran_situs_field.length > 0}
-                                bind:value={$form.form_pasaran_situs_field}
-                                input_id="form_pasaran_situs_field"
-                                input_placeholder="Situs"/>
-                            {#if $errors.form_pasaran_situs_field}
-                                <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_situs_field}</small>
-                            {/if}
-                        </div>
-                        <div class="mb-5">
-                            <Input_custom
-                                input_onchange="{handleChange}"
-                                input_autofocus={false}
-                                input_required={true}
-                                input_tipe="time"
-                                input_invalid={$errors.form_pasaran_jadwal_field.length > 0}
-                                bind:value={$form.form_pasaran_jadwal_field}
-                                input_id="form_pasaran_jadwal_field"
-                                input_placeholder="Jadwal"/>
-                            {#if $errors.form_pasaran_jadwal_field}
-                                <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_jadwal_field}</small>
-                            {/if}
-                        </div>
-                        <div class="mb-5">
-                            <Input_custom
-                                input_onchange="{handleChange}"
-                                input_autofocus={false}
-                                input_required={true}
-                                input_tipe="text"
-                                input_invalid={$errors.form_pasaran_diundi_field.length > 0}
-                                bind:value={$form.form_pasaran_diundi_field}
-                                input_id="form_pasaran_diundi_field"
-                                input_placeholder="Diundi"/>
-                            {#if $errors.form_pasaran_diundi_field}
-                                <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_tutup_field}</small>
-                            {/if}
-                        </div>
-                        <div class="mb-5">
-                            <Input_custom
-                                input_onchange="{handleChange}"
-                                input_autofocus={false}
-                                input_required={true}
-                                input_tipe="time"
-                                input_invalid={$errors.form_pasaran_open_field.length > 0}
-                                bind:value={$form.form_pasaran_open_field}
-                                input_id="form_pasaran_open_field"
-                                input_placeholder="Buka"/>
-                            {#if $errors.form_pasaran_open_field}
-                                <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_open_field}</small>
-                            {/if}
-                        </div>
-                        <div class="mb-5 text-[11px]">
-                            Create : {pasaran_create_field}, {pasaran_createdate_field}
-                            {#if pasaran_update_field != "" }
-                                <br>
-                                Update : {pasaran_update_field}, {pasaran_updatedate_field}
-                            {/if}
-                        </div>
-                        <div class="mb-5">
-                            <Input_custom
-                                input_autofocus={false}
-                                input_required={true}
-                                input_tipe="number_nolabel"
-                                bind:value={pasaran_display_field}
-                                input_id="pasaran_display_field"
-                                input_placeholder="Display"/>
-                        </div>
-                        <div class="mb-5">
-                            
-                        </div>
-                        <div class="mb-5">
-                            <select
-                                bind:value={pasaran_status_field}
-                                class="w-full rounded px-3  border border-gray-300 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none">
-                                <option value="Y">ACTIVE</option>
-                                <option value="N">DEACTIVE</option>
-                            </select>
-                        </div>
+            <div class="w-full p-2 -mt-5">
+                <ul class="flex justify-center items-center gap-2">
+                    <li on:click={() => {
+                            ChangeTabMenu("menu_pasaranonline");
+                        }}
+                        class="items-center {tab_pasaranonline}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Pasaran Online</li>
+                    <li on:click={() => {
+                            ChangeTabMenu("menu_bbfs");
+                        }}
+                        class="items-center {tab_bbfs} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Bolak Balik</li>
+                    <li on:click={() => {
+                            ChangeTabMenu("menu_configure");
+                        }}
+                        class="items-center {tab_configure} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Konfigurasi</li>
+                </ul>
+                {#if panel_pasaranonline}
+                    <div class="grid grid-cols-1 gap-2">
+                        <h2 class="text-lg font-bold">Setting Pasaran Online</h2>
                         {#if pasaran_tipe != "WAJIB"}
-                        <div class="col-span-2">
+                        <div class="form-control">
+                            <div class="input-group">
+                            <select bind:value={select_pasaranonline} class="select select-bordered w-[80%]">
+                                <option disabled selected value="">--Pilih Hari--</option>
+                                <option value="senin">Senin</option>
+                                <option value="selasa">Selasa</option>
+                                <option value="rabu">Rabu</option>
+                                <option value="kamis">Kamis</option>
+                                <option value="jumat">Jumat</option>
+                                <option value="sabtu">Sabtu</option>
+                                <option value="minggu">Minggu</option>
+                            </select>
                             <button on:click={() => {
-                                handleSubmit();
+                                    savePasaranOnline();
+                                }} class="{buttonLoading2_class} btn-primary">Save</button>
+                            </div>
+                        </div>
+                        {/if}
+                        <div>
+                            <table class="table table-compact w-full">
+                                <tbody>
+                                    {#if listPasaranOnline != ""}
+                                        {#each listPasaranOnline as rec}
+                                            <tr>
+                                                {#if pasaran_tipe != "WAJIB"}
+                                                <td on:click={() => {
+                                                        deletePasaranOnline(rec.idpasaranonline);
+                                                    }} width="2%" class="text-center align-top cursor-pointer">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </td>
+                                                {/if}
+                                                <td width="*" class="text-left align-top capitalize">{rec.haripasaran}</td>
+                                            </tr>
+                                        {/each}
+                                    {:else}
+                                        <tr>
+                                            <td colspan="2" class="text-left text-xs font-semibold">
+                                                No Record
+                                            </td>
+                                        </tr>
+                                    {/if}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {/if}
+                {#if panel_bbfs}
+                    <div class="grid grid-cols-3 gap-2">
+                        <h2 class="text-lg font-bold col-span-3">Setting Limit Line + Bolak Balik</h2>
+                        <Input_custom
+                            input_enabled={false}
+                            input_tipe="number_nolabel"
+                            bind:value={pasaran_bbfs_field}
+                            input_id="pasaran_bbfs_field"
+                            input_placeholder="BBFS"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline4d_field}
+                            input_id="pasaran_limitline4d_field"
+                            input_placeholder="LimitLine 4D"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline2d_field}
+                            input_id="pasaran_limitline2d_field"
+                            input_placeholder="LimitLine 2D"/>
+                        <div></div>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline3d_field}
+                            input_id="pasaran_limitline3d_field"
+                            input_placeholder="LimitLine 3D"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline2dd_field}
+                            input_id="pasaran_limitline2dd_field"
+                            input_placeholder="LimitLine 2DD"/>
+                        <div></div>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline3dd_field}
+                            input_id="pasaran_limitline3dd_field"
+                            input_placeholder="LimitLine 3DD"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline2dt_field}
+                            input_id="pasaran_limitline2dt_field"
+                            input_placeholder="LimitLine 2DT"/>
+                        {#if pasaran_tipe != "WAJIB"}
+                        <div class="col-span-3">
+                            <button on:click={() => {
+                                SaveLimitline();
                             }} class="{buttonLoading_class} btn-block">Submit</button>
                         </div>
                         {/if}
                     </div>
-                </div>
-                <div class="w-full p-2 -mt-5">
-                    <ul class="flex justify-center items-center gap-2">
-                        <li on:click={() => {
-                                ChangeTabMenu("menu_pasaranonline");
-                            }}
-                            class="items-center {tab_pasaranonline}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Pasaran Online</li>
-                        <li on:click={() => {
-                                ChangeTabMenu("menu_bbfs");
-                            }}
-                            class="items-center {tab_bbfs} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Bolak Balik</li>
-                        <li on:click={() => {
-                                ChangeTabMenu("menu_configure");
-                            }}
-                            class="items-center {tab_configure} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Konfigurasi</li>
-                    </ul>
-                    {#if panel_pasaranonline}
-                        <div class="grid grid-cols-1 gap-2">
-                            <h2 class="text-lg font-bold">Setting Pasaran Online</h2>
-                            {#if pasaran_tipe != "WAJIB"}
-                            <div class="form-control">
-                                <div class="input-group">
-                                <select bind:value={select_pasaranonline} class="select select-bordered w-[80%]">
-                                    <option disabled selected value="">--Pilih Hari--</option>
-                                    <option value="senin">Senin</option>
-                                    <option value="selasa">Selasa</option>
-                                    <option value="rabu">Rabu</option>
-                                    <option value="kamis">Kamis</option>
-                                    <option value="jumat">Jumat</option>
-                                    <option value="sabtu">Sabtu</option>
-                                    <option value="minggu">Minggu</option>
-                                </select>
-                                <button on:click={() => {
-                                        savePasaranOnline();
-                                    }} class="{buttonLoading2_class} btn-primary">Save</button>
-                                </div>
-                            </div>
-                            {/if}
-                            <div>
-                                <table class="table table-compact w-full">
-                                    <tbody>
-                                        {#if listPasaranOnline != ""}
-                                            {#each listPasaranOnline as rec}
-                                                <tr>
-                                                    {#if pasaran_tipe != "WAJIB"}
-                                                    <td on:click={() => {
-                                                            deletePasaranOnline(rec.idpasaranonline);
-                                                        }} width="2%" class="text-center align-top cursor-pointer">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                    </td>
-                                                    {/if}
-                                                    <td width="*" class="text-left align-top capitalize">{rec.haripasaran}</td>
-                                                </tr>
-                                            {/each}
-                                        {:else}
-                                            <tr>
-                                                <td colspan="2" class="text-left text-xs font-semibold">
-                                                    No Record
-                                                </td>
-                                            </tr>
-                                        {/if}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    {/if}
-                    {#if panel_bbfs}
-                        <div class="grid grid-cols-3 gap-2">
-                            <h2 class="text-lg font-bold col-span-3">Setting Limit Line + Bolak Balik</h2>
-                            <Input_custom
-                                input_enabled={false}
-                                input_tipe="number_nolabel"
-                                bind:value={pasaran_bbfs_field}
-                                input_id="pasaran_bbfs_field"
-                                input_placeholder="BBFS"/>
-                            <Input_custom
-                                input_enabled={true}
-                                input_tipe="number"
-                                bind:value={pasaran_limitline4d_field}
-                                input_id="pasaran_limitline4d_field"
-                                input_placeholder="LimitLine 4D"/>
-                            <Input_custom
-                                input_enabled={true}
-                                input_tipe="number"
-                                bind:value={pasaran_limitline2d_field}
-                                input_id="pasaran_limitline2d_field"
-                                input_placeholder="LimitLine 2D"/>
-                            <div></div>
-                            <Input_custom
-                                input_enabled={true}
-                                input_tipe="number"
-                                bind:value={pasaran_limitline3d_field}
-                                input_id="pasaran_limitline3d_field"
-                                input_placeholder="LimitLine 3D"/>
-                            <Input_custom
-                                input_enabled={true}
-                                input_tipe="number"
-                                bind:value={pasaran_limitline2dd_field}
-                                input_id="pasaran_limitline2dd_field"
-                                input_placeholder="LimitLine 2DD"/>
-                            <div></div>
-                            <Input_custom
-                                input_enabled={true}
-                                input_tipe="number"
-                                bind:value={pasaran_limitline3dd_field}
-                                input_id="pasaran_limitline3dd_field"
-                                input_placeholder="LimitLine 3DD"/>
-                            <Input_custom
-                                input_enabled={true}
-                                input_tipe="number"
-                                bind:value={pasaran_limitline2dt_field}
-                                input_id="pasaran_limitline2dt_field"
-                                input_placeholder="LimitLine 2DT"/>
-                            {#if pasaran_tipe != "WAJIB"}
-                            <div class="col-span-3">
-                                <button on:click={() => {
-                                    SaveLimitline();
-                                }} class="{buttonLoading_class} btn-block">Submit</button>
-                            </div>
-                            {/if}
-                        </div>
-                    {/if}
-                    {#if panel_configure}
-                        <div class="grid grid-cols-3 gap-2">
-                            <h2 class="text-lg font-bold col-span-3">Configure</h2>
-                            <button on:click={() => {
-                                call_configure("4-3-2");
-                            }} class="btn btn-warning">4D/3D/2D</button>
-                            <button on:click={() => {
-                                call_configure("colok_bebas");
-                            }} class="btn btn-warning">COLOK BEBAS</button>
-                            <button on:click={() => {
-                                call_configure("colok_macau");
-                            }} class="btn btn-warning">COLOK MACAU</button>
-                            <button on:click={() => {
-                                call_configure("colok_naga");
-                            }} class="btn btn-warning">COLOK NAGA</button>
-                            <button on:click={() => {
-                                call_configure("colok_jitu");
-                            }} class="btn btn-warning">COLOK JITU</button>
-                            <button on:click={() => {
-                                call_configure("5050_umum");
-                            }} class="btn btn-warning">5050 UMUM</button>
-                            <button on:click={() => {
-                                call_configure("5050_special");
-                            }} class="btn btn-warning">5050 SPECIAL</button>
-                            <button on:click={() => {
-                                call_configure("5050_kombinasi");
-                            }} class="btn btn-warning">5050 KOMBINASI</button>
-                            <button on:click={() => {
-                                call_configure("macau_kombinasi");
-                            }} class="btn btn-warning">MACAU / KOMBINASI</button>
-                            <button on:click={() => {
-                                call_configure("dasar");
-                            }} class="btn btn-warning">DASAR</button>
-                            <button on:click={() => {
-                                call_configure("shio");
-                            }} class="btn btn-warning">SHIO</button>
-                        </div>
-                    {/if}
-                </div>
+                {/if}
+                {#if panel_configure}
+                    <div class="grid grid-cols-3 gap-2">
+                        <h2 class="text-lg font-bold col-span-3">Configure</h2>
+                        <button on:click={() => {
+                            call_configure("4-3-2");
+                        }} class="btn btn-warning">4D/3D/2D</button>
+                        <button on:click={() => {
+                            call_configure("colok_bebas");
+                        }} class="btn btn-warning">COLOK BEBAS</button>
+                        <button on:click={() => {
+                            call_configure("colok_macau");
+                        }} class="btn btn-warning">COLOK MACAU</button>
+                        <button on:click={() => {
+                            call_configure("colok_naga");
+                        }} class="btn btn-warning">COLOK NAGA</button>
+                        <button on:click={() => {
+                            call_configure("colok_jitu");
+                        }} class="btn btn-warning">COLOK JITU</button>
+                        <button on:click={() => {
+                            call_configure("5050_umum");
+                        }} class="btn btn-warning">5050 UMUM</button>
+                        <button on:click={() => {
+                            call_configure("5050_special");
+                        }} class="btn btn-warning">5050 SPECIAL</button>
+                        <button on:click={() => {
+                            call_configure("5050_kombinasi");
+                        }} class="btn btn-warning">5050 KOMBINASI</button>
+                        <button on:click={() => {
+                            call_configure("macau_kombinasi");
+                        }} class="btn btn-warning">MACAU / KOMBINASI</button>
+                        <button on:click={() => {
+                            call_configure("dasar");
+                        }} class="btn btn-warning">DASAR</button>
+                        <button on:click={() => {
+                            call_configure("shio");
+                        }} class="btn btn-warning">SHIO</button>
+                    </div>
+                {/if}
             </div>
         </div>
-    </div>
-</div>
+    </slot:template>
+</Modal_popup>
 
 <input type="checkbox" id="my-modal-formpasaran" class="modal-toggle" bind:checked={isModal_Form_pasaran}>
-<div class="modal" >
-    <div class="modal-box relative select-none w-11/12  {modalpasaran_width}  rounded-none lg:rounded-md p-2 scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 ">
-        <div class="flex flex-col items-stretch gap-1">
-            <div class="h-8">
-                <label for="my-modal-formpasaran" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">{permainan}</h3>
-            </div>
-            <div class="flex flex-col">
-                {#if panel_432D}
-                    <Panel_432D
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_432d_field}
-                        {pasaran_maxbet4d_432d_field}
-                        {pasaran_maxbet3d_432d_field}
-                        {pasaran_maxbet3dd_432d_field}
-                        {pasaran_maxbet2d_432d_field}
-                        {pasaran_maxbet2dd_432d_field}
-                        {pasaran_maxbet2dt_432d_field}
-                        {pasaran_limitotal4d_432d_field}
-                        {pasaran_limitotal3d_432d_field}
-                        {pasaran_limitotal3dd_432d_field}
-                        {pasaran_limitotal2d_432d_field}
-                        {pasaran_limitotal2dd_432d_field}
-                        {pasaran_limitotal2dt_432d_field}
-                        {pasaran_limitglobal4d_432d_field}
-                        {pasaran_limitglobal3d_432d_field}
-                        {pasaran_limitglobal3dd_432d_field}
-                        {pasaran_limitglobal2d_432d_field}
-                        {pasaran_limitglobal2dd_432d_field}
-                        {pasaran_limitglobal2dt_432d_field}
-                        {pasaran_disc4d_432d_field}
-                        {pasaran_disc3d_432d_field}
-                        {pasaran_disc3dd_432d_field}
-                        {pasaran_disc2d_432d_field}
-                        {pasaran_disc2dd_432d_field}
-                        {pasaran_disc2dt_432d_field}
-                        {pasaran_win4d_432d_field}
-                        {pasaran_win3d_432d_field}
-                        {pasaran_win3dd_432d_field}
-                        {pasaran_win2d_432d_field}
-                        {pasaran_win2dd_432d_field}
-                        {pasaran_win2dt_432d_field}
-                        {pasaran_win4dnodisc_432d_field}
-                        {pasaran_win3dnodisc_432d_field}
-                        {pasaran_win3ddnodisc_432d_field}
-                        {pasaran_win2dnodisc_432d_field}
-                        {pasaran_win2ddnodisc_432d_field}
-                        {pasaran_win2dtnodisc_432d_field}
-                        {pasaran_win4d_bb_kena_432d_field}
-                        {pasaran_win3d_bb_kena_432d_field}
-                        {pasaran_win3dd_bb_kena_432d_field}
-                        {pasaran_win2d_bb_kena_432d_field}
-                        {pasaran_win2dd_bb_kena_432d_field}
-                        {pasaran_win2dt_bb_kena_432d_field}
-                        {pasaran_win4d_bb_432d_field}
-                        {pasaran_win3d_bb_432d_field}
-                        {pasaran_win3dd_bb_432d_field}
-                        {pasaran_win2d_bb_432d_field}
-                        {pasaran_win2dd_bb_432d_field}
-                        {pasaran_win2dt_bb_432d_field}
-                     />
-                {/if}
-                {#if panel_cbebas}
-                    <Panel_colokbebas
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_cbebas_field}
-                        {pasaran_maxbet_cbebas_field}
-                        {pasaran_limitotal_cbebas_field}
-                        {pasaran_limitglobal_cbebas_field}
-                        {pasaran_win_cbebas_field}
-                        {pasaran_disc_cbebas_field} />
-                {/if}
-                {#if panel_cmacau}
-                    <Panel_colokmacau
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_cmacau_field}
-                        {pasaran_maxbet_cmacau_field}
-                        {pasaran_limitotal_cmacau_field}
-                        {pasaran_limitglobal_cmacau_field}
-                        {pasaran_win2_cmacau_field}
-                        {pasaran_win3_cmacau_field}
-                        {pasaran_win4_cmacau_field}
-                        {pasaran_disc_cmacau_field} />
-                {/if}
-                {#if panel_cnaga}
-                    <Panel_coloknaga
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_cnaga_field}
-                        {pasaran_maxbet_cnaga_field}
-                        {pasaran_win3_cnaga_field}
-                        {pasaran_win4_cnaga_field}
-                        {pasaran_disc_cnaga_field}
-                        {pasaran_limitglobal_cnaga_field}
-                        {pasaran_limittotal_cnaga_field} />
-                {/if}
-                {#if panel_cjitu}
-                    <Panel_colokjitu
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_cjitu_field}
-                        {pasaran_maxbet_cjitu_field}
-                        {pasaran_winas_cjitu_field}
-                        {pasaran_winkop_cjitu_field}
-                        {pasaran_winkepala_cjitu_field}
-                        {pasaran_winekor_cjitu_field}
-                        {pasaran_desc_cjitu_field}
-                        {pasaran_limitglobal_cjitu_field}
-                        {pasaran_limittotal_cjitu_field} />
-                {/if}
-                {#if panel_5050umum}
-                    <Panel_5050umum
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_5050umum_field}
-                        {pasaran_maxbet_5050umum_field}
-                        {pasaran_keibesar_5050umum_field}
-                        {pasaran_keikecil_5050umum_field}
-                        {pasaran_keigenap_5050umum_field}
-                        {pasaran_keiganjil_5050umum_field}
-                        {pasaran_keitengah_5050umum_field}
-                        {pasaran_keitepi_5050umum_field}
-                        {pasaran_discbesar_5050umum_field}
-                        {pasaran_disckecil_5050umum_field}
-                        {pasaran_discgenap_5050umum_field}
-                        {pasaran_discganjil_5050umum_field}
-                        {pasaran_disctengah_5050umum_field}
-                        {pasaran_disctepi_5050umum_field}
-                        {pasaran_limitglobal_5050umum_field}
-                        {pasaran_limittotal_5050umum_field} />
-                {/if}
-                {#if panel_5050special}
-                    <Panel_5050special
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_5050special_field}
-                        {pasaran_maxbet_5050special_field}
-                        {pasaran_keiasganjil_5050special_field}
-                        {pasaran_keiasgenap_5050special_field}
-                        {pasaran_keiasbesar_5050special_field}
-                        {pasaran_keiaskecil_5050special_field}
-                        {pasaran_keikopganjil_5050special_field}
-                        {pasaran_keikopgenap_5050special_field}
-                        {pasaran_keikopbesar_5050special_field}
-                        {pasaran_keikopkecil_5050special_field}
-                        {pasaran_keikepalaganjil_5050special_field}
-                        {pasaran_keikepalagenap_5050special_field}
-                        {pasaran_keikepalabesar_5050special_field}
-                        {pasaran_keikepalakecil_5050special_field}
-                        {pasaran_keiekorganjil_5050special_field}
-                        {pasaran_keiekorgenap_5050special_field}
-                        {pasaran_keiekorbesar_5050special_field}
-                        {pasaran_keiekorkecil_5050special_field}
-                        {pasaran_discasganjil_5050special_field}
-                        {pasaran_discasgenap_5050special_field}
-                        {pasaran_discasbesar_5050special_field}
-                        {pasaran_discaskecil_5050special_field}
-                        {pasaran_disckopganjil_5050special_field}
-                        {pasaran_disckopgenap_5050special_field}
-                        {pasaran_disckopbesar_5050special_field}
-                        {pasaran_disckopkecil_5050special_field}
-                        {pasaran_disckepalaganjil_5050special_field}
-                        {pasaran_disckepalagenap_5050special_field}
-                        {pasaran_disckepalabesar_5050special_field}
-                        {pasaran_disckepalakecil_5050special_field}
-                        {pasaran_discekorganjil_5050special_field}
-                        {pasaran_discekorgenap_5050special_field}
-                        {pasaran_discekorbesar_5050special_field}
-                        {pasaran_discekorkecil_5050special_field}
-                        {pasaran_limitglobal_5050special_field}
-                        {pasaran_limittotal_5050special_field} />
-                {/if}
-                {#if panel_5050kombinasi}
-                    <Panel_5050kombinasi
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_5050kombinasi_field}
-                        {pasaran_maxbet_5050kombinasi_field}
-                        {pasaran_belakangkeimono_5050kombinasi_field}
-                        {pasaran_belakangkeistereo_5050kombinasi_field}
-                        {pasaran_belakangkeikembang_5050kombinasi_field}
-                        {pasaran_belakangkeikempis_5050kombinasi_field}
-                        {pasaran_belakangkeikembar_5050kombinasi_field}
-                        {pasaran_tengahkeimono_5050kombinasi_field}
-                        {pasaran_tengahkeistereo_5050kombinasi_field}
-                        {pasaran_tengahkeikembang_5050kombinasi_field}
-                        {pasaran_tengahkeikempis_5050kombinasi_field}
-                        {pasaran_tengahkeikembar_5050kombinasi_field}
-                        {pasaran_depankeimono_5050kombinasi_field}
-                        {pasaran_depankeistereo_5050kombinasi_field}
-                        {pasaran_depankeikembang_5050kombinasi_field}
-                        {pasaran_depankeikempis_5050kombinasi_field}
-                        {pasaran_depankeikembar_5050kombinasi_field}
-                        {pasaran_belakangdiscmono_5050kombinasi_field}
-                        {pasaran_belakangdiscstereo_5050kombinasi_field}
-                        {pasaran_belakangdisckembang_5050kombinasi_field}
-                        {pasaran_belakangdisckempis_5050kombinasi_field}
-                        {pasaran_belakangdisckembar_5050kombinasi_field}
-                        {pasaran_tengahdiscmono_5050kombinasi_field}
-                        {pasaran_tengahdiscstereo_5050kombinasi_field}
-                        {pasaran_tengahdisckembang_5050kombinasi_field}
-                        {pasaran_tengahdisckempis_5050kombinasi_field}
-                        {pasaran_tengahdisckembar_5050kombinasi_field}
-                        {pasaran_depandiscmono_5050kombinasi_field}
-                        {pasaran_depandiscstereo_5050kombinasi_field}
-                        {pasaran_depandisckembang_5050kombinasi_field}
-                        {pasaran_depandisckempis_5050kombinasi_field}
-                        {pasaran_depandisckembar_5050kombinasi_field}
-                        {pasaran_limitglobal_5050kombinasi_field}
-                        {pasaran_limittotal_5050kombinasi_field} />
-                {/if}
-                {#if panel_macaukombinasi}
-                    <Panel_macaukombinasi
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_kombinasi_field}
-                        {pasaran_maxbet_kombinasi_field}
-                        {pasaran_win_kombinasi_field}
-                        {pasaran_disc_kombinasi_field}
-                        {pasaran_limitglobal_kombinasi_field}
-                        {pasaran_limittotal_kombinasi_field} />
-                {/if}
-                {#if panel_dasar}
-                    <Panel_dasar
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_dasar_field}
-                        {pasaran_maxbet_dasar_field}
-                        {pasaran_keibesar_dasar_field}
-                        {pasaran_keikecil_dasar_field}
-                        {pasaran_keigenap_dasar_field}
-                        {pasaran_keiganjil_dasar_field}
-                        {pasaran_discbesar_dasar_field}
-                        {pasaran_disckecil_dasar_field}
-                        {pasaran_discgenap_dasar_field}
-                        {pasaran_discganjil_dasar_field}
-                        {pasaran_limitglobal_dasar_field}
-                        {pasaran_limittotal_dasar_field} />
-                {/if}
-                {#if panel_shio}
-                    <Panel_shio
-                        on:handleLoadingRunning={LoadingRunning}
-                        on:handleLoadingRunningFinish={LoadingRunningFinish}
-                        on:handleCallNotif={call_notif}
-                        {pasaran_tipe}
-                        {path_api}
-                        {token}
-                        {idcomppasaran}
-                        {pasaran_idpasarantogel_field}
-                        {pasaran_minbet_shio_field}
-                        {pasaran_maxbet_shio_field}
-                        {pasaran_win_shio_field}
-                        {pasaran_disc_shio_field}
-                        {pasaran_shioyear_shio_field}
-                        {pasaran_limitglobal_shio_field}
-                        {pasaran_limittotal_shio_field} />
-                {/if}
-            </div>
+<Modal_popup
+    modal_popup_id="my-modal-formpasaran"
+    modal_popup_title="{permainan}"
+    modal_popup_class="select-none w-11/12 {modalpasaran_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
+    <slot:template slot="modalpopup_body">
+        <div class="flex flex-col">
+            {#if panel_432D}
+                <Panel_432D
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_432d_field}
+                    {pasaran_maxbet4d_432d_field}
+                    {pasaran_maxbet3d_432d_field}
+                    {pasaran_maxbet3dd_432d_field}
+                    {pasaran_maxbet2d_432d_field}
+                    {pasaran_maxbet2dd_432d_field}
+                    {pasaran_maxbet2dt_432d_field}
+                    {pasaran_limitotal4d_432d_field}
+                    {pasaran_limitotal3d_432d_field}
+                    {pasaran_limitotal3dd_432d_field}
+                    {pasaran_limitotal2d_432d_field}
+                    {pasaran_limitotal2dd_432d_field}
+                    {pasaran_limitotal2dt_432d_field}
+                    {pasaran_limitglobal4d_432d_field}
+                    {pasaran_limitglobal3d_432d_field}
+                    {pasaran_limitglobal3dd_432d_field}
+                    {pasaran_limitglobal2d_432d_field}
+                    {pasaran_limitglobal2dd_432d_field}
+                    {pasaran_limitglobal2dt_432d_field}
+                    {pasaran_disc4d_432d_field}
+                    {pasaran_disc3d_432d_field}
+                    {pasaran_disc3dd_432d_field}
+                    {pasaran_disc2d_432d_field}
+                    {pasaran_disc2dd_432d_field}
+                    {pasaran_disc2dt_432d_field}
+                    {pasaran_win4d_432d_field}
+                    {pasaran_win3d_432d_field}
+                    {pasaran_win3dd_432d_field}
+                    {pasaran_win2d_432d_field}
+                    {pasaran_win2dd_432d_field}
+                    {pasaran_win2dt_432d_field}
+                    {pasaran_win4dnodisc_432d_field}
+                    {pasaran_win3dnodisc_432d_field}
+                    {pasaran_win3ddnodisc_432d_field}
+                    {pasaran_win2dnodisc_432d_field}
+                    {pasaran_win2ddnodisc_432d_field}
+                    {pasaran_win2dtnodisc_432d_field}
+                    {pasaran_win4d_bb_kena_432d_field}
+                    {pasaran_win3d_bb_kena_432d_field}
+                    {pasaran_win3dd_bb_kena_432d_field}
+                    {pasaran_win2d_bb_kena_432d_field}
+                    {pasaran_win2dd_bb_kena_432d_field}
+                    {pasaran_win2dt_bb_kena_432d_field}
+                    {pasaran_win4d_bb_432d_field}
+                    {pasaran_win3d_bb_432d_field}
+                    {pasaran_win3dd_bb_432d_field}
+                    {pasaran_win2d_bb_432d_field}
+                    {pasaran_win2dd_bb_432d_field}
+                    {pasaran_win2dt_bb_432d_field}
+                 />
+            {/if}
+            {#if panel_cbebas}
+                <Panel_colokbebas
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_cbebas_field}
+                    {pasaran_maxbet_cbebas_field}
+                    {pasaran_limitotal_cbebas_field}
+                    {pasaran_limitglobal_cbebas_field}
+                    {pasaran_win_cbebas_field}
+                    {pasaran_disc_cbebas_field} />
+            {/if}
+            {#if panel_cmacau}
+                <Panel_colokmacau
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_cmacau_field}
+                    {pasaran_maxbet_cmacau_field}
+                    {pasaran_limitotal_cmacau_field}
+                    {pasaran_limitglobal_cmacau_field}
+                    {pasaran_win2_cmacau_field}
+                    {pasaran_win3_cmacau_field}
+                    {pasaran_win4_cmacau_field}
+                    {pasaran_disc_cmacau_field} />
+            {/if}
+            {#if panel_cnaga}
+                <Panel_coloknaga
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_cnaga_field}
+                    {pasaran_maxbet_cnaga_field}
+                    {pasaran_win3_cnaga_field}
+                    {pasaran_win4_cnaga_field}
+                    {pasaran_disc_cnaga_field}
+                    {pasaran_limitglobal_cnaga_field}
+                    {pasaran_limittotal_cnaga_field} />
+            {/if}
+            {#if panel_cjitu}
+                <Panel_colokjitu
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_cjitu_field}
+                    {pasaran_maxbet_cjitu_field}
+                    {pasaran_winas_cjitu_field}
+                    {pasaran_winkop_cjitu_field}
+                    {pasaran_winkepala_cjitu_field}
+                    {pasaran_winekor_cjitu_field}
+                    {pasaran_desc_cjitu_field}
+                    {pasaran_limitglobal_cjitu_field}
+                    {pasaran_limittotal_cjitu_field} />
+            {/if}
+            {#if panel_5050umum}
+                <Panel_5050umum
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_5050umum_field}
+                    {pasaran_maxbet_5050umum_field}
+                    {pasaran_keibesar_5050umum_field}
+                    {pasaran_keikecil_5050umum_field}
+                    {pasaran_keigenap_5050umum_field}
+                    {pasaran_keiganjil_5050umum_field}
+                    {pasaran_keitengah_5050umum_field}
+                    {pasaran_keitepi_5050umum_field}
+                    {pasaran_discbesar_5050umum_field}
+                    {pasaran_disckecil_5050umum_field}
+                    {pasaran_discgenap_5050umum_field}
+                    {pasaran_discganjil_5050umum_field}
+                    {pasaran_disctengah_5050umum_field}
+                    {pasaran_disctepi_5050umum_field}
+                    {pasaran_limitglobal_5050umum_field}
+                    {pasaran_limittotal_5050umum_field} />
+            {/if}
+            {#if panel_5050special}
+                <Panel_5050special
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_5050special_field}
+                    {pasaran_maxbet_5050special_field}
+                    {pasaran_keiasganjil_5050special_field}
+                    {pasaran_keiasgenap_5050special_field}
+                    {pasaran_keiasbesar_5050special_field}
+                    {pasaran_keiaskecil_5050special_field}
+                    {pasaran_keikopganjil_5050special_field}
+                    {pasaran_keikopgenap_5050special_field}
+                    {pasaran_keikopbesar_5050special_field}
+                    {pasaran_keikopkecil_5050special_field}
+                    {pasaran_keikepalaganjil_5050special_field}
+                    {pasaran_keikepalagenap_5050special_field}
+                    {pasaran_keikepalabesar_5050special_field}
+                    {pasaran_keikepalakecil_5050special_field}
+                    {pasaran_keiekorganjil_5050special_field}
+                    {pasaran_keiekorgenap_5050special_field}
+                    {pasaran_keiekorbesar_5050special_field}
+                    {pasaran_keiekorkecil_5050special_field}
+                    {pasaran_discasganjil_5050special_field}
+                    {pasaran_discasgenap_5050special_field}
+                    {pasaran_discasbesar_5050special_field}
+                    {pasaran_discaskecil_5050special_field}
+                    {pasaran_disckopganjil_5050special_field}
+                    {pasaran_disckopgenap_5050special_field}
+                    {pasaran_disckopbesar_5050special_field}
+                    {pasaran_disckopkecil_5050special_field}
+                    {pasaran_disckepalaganjil_5050special_field}
+                    {pasaran_disckepalagenap_5050special_field}
+                    {pasaran_disckepalabesar_5050special_field}
+                    {pasaran_disckepalakecil_5050special_field}
+                    {pasaran_discekorganjil_5050special_field}
+                    {pasaran_discekorgenap_5050special_field}
+                    {pasaran_discekorbesar_5050special_field}
+                    {pasaran_discekorkecil_5050special_field}
+                    {pasaran_limitglobal_5050special_field}
+                    {pasaran_limittotal_5050special_field} />
+            {/if}
+            {#if panel_5050kombinasi}
+                <Panel_5050kombinasi
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_5050kombinasi_field}
+                    {pasaran_maxbet_5050kombinasi_field}
+                    {pasaran_belakangkeimono_5050kombinasi_field}
+                    {pasaran_belakangkeistereo_5050kombinasi_field}
+                    {pasaran_belakangkeikembang_5050kombinasi_field}
+                    {pasaran_belakangkeikempis_5050kombinasi_field}
+                    {pasaran_belakangkeikembar_5050kombinasi_field}
+                    {pasaran_tengahkeimono_5050kombinasi_field}
+                    {pasaran_tengahkeistereo_5050kombinasi_field}
+                    {pasaran_tengahkeikembang_5050kombinasi_field}
+                    {pasaran_tengahkeikempis_5050kombinasi_field}
+                    {pasaran_tengahkeikembar_5050kombinasi_field}
+                    {pasaran_depankeimono_5050kombinasi_field}
+                    {pasaran_depankeistereo_5050kombinasi_field}
+                    {pasaran_depankeikembang_5050kombinasi_field}
+                    {pasaran_depankeikempis_5050kombinasi_field}
+                    {pasaran_depankeikembar_5050kombinasi_field}
+                    {pasaran_belakangdiscmono_5050kombinasi_field}
+                    {pasaran_belakangdiscstereo_5050kombinasi_field}
+                    {pasaran_belakangdisckembang_5050kombinasi_field}
+                    {pasaran_belakangdisckempis_5050kombinasi_field}
+                    {pasaran_belakangdisckembar_5050kombinasi_field}
+                    {pasaran_tengahdiscmono_5050kombinasi_field}
+                    {pasaran_tengahdiscstereo_5050kombinasi_field}
+                    {pasaran_tengahdisckembang_5050kombinasi_field}
+                    {pasaran_tengahdisckempis_5050kombinasi_field}
+                    {pasaran_tengahdisckembar_5050kombinasi_field}
+                    {pasaran_depandiscmono_5050kombinasi_field}
+                    {pasaran_depandiscstereo_5050kombinasi_field}
+                    {pasaran_depandisckembang_5050kombinasi_field}
+                    {pasaran_depandisckempis_5050kombinasi_field}
+                    {pasaran_depandisckembar_5050kombinasi_field}
+                    {pasaran_limitglobal_5050kombinasi_field}
+                    {pasaran_limittotal_5050kombinasi_field} />
+            {/if}
+            {#if panel_macaukombinasi}
+                <Panel_macaukombinasi
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_kombinasi_field}
+                    {pasaran_maxbet_kombinasi_field}
+                    {pasaran_win_kombinasi_field}
+                    {pasaran_disc_kombinasi_field}
+                    {pasaran_limitglobal_kombinasi_field}
+                    {pasaran_limittotal_kombinasi_field} />
+            {/if}
+            {#if panel_dasar}
+                <Panel_dasar
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_dasar_field}
+                    {pasaran_maxbet_dasar_field}
+                    {pasaran_keibesar_dasar_field}
+                    {pasaran_keikecil_dasar_field}
+                    {pasaran_keigenap_dasar_field}
+                    {pasaran_keiganjil_dasar_field}
+                    {pasaran_discbesar_dasar_field}
+                    {pasaran_disckecil_dasar_field}
+                    {pasaran_discgenap_dasar_field}
+                    {pasaran_discganjil_dasar_field}
+                    {pasaran_limitglobal_dasar_field}
+                    {pasaran_limittotal_dasar_field} />
+            {/if}
+            {#if panel_shio}
+                <Panel_shio
+                    on:handleLoadingRunning={LoadingRunning}
+                    on:handleLoadingRunningFinish={LoadingRunningFinish}
+                    on:handleCallNotif={call_notif}
+                    {pasaran_tipe}
+                    {path_api}
+                    {token}
+                    {idcomppasaran}
+                    {pasaran_idpasarantogel_field}
+                    {pasaran_minbet_shio_field}
+                    {pasaran_maxbet_shio_field}
+                    {pasaran_win_shio_field}
+                    {pasaran_disc_shio_field}
+                    {pasaran_shioyear_shio_field}
+                    {pasaran_limitglobal_shio_field}
+                    {pasaran_limittotal_shio_field} />
+            {/if}
         </div>
-    </div>
-</div>
-
+    </slot:template>
+</Modal_popup>
 
 <input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
 <Modal_alert 

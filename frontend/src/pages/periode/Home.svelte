@@ -3,6 +3,7 @@
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
     import Input_custom from '../../components/Input.svelte' 
+    import Modal_popup from '../../components/Modal_popup.svelte'
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
@@ -991,277 +992,270 @@
 
 
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
-<div class="modal" >
-    <div class="modal-box relative select-none w-11/12 {modal_width}  rounded-none lg:rounded-lg p-2  ">
-        <div class="flex flex-col items-stretch">
-            <div class="h-8">
-                <label for="my-modal-formnew" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
-            </div>
-            {#if sData=="New"}
-                <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
-                    <div class="relative form-control mt-2">
-                        <select
-                            class="select select-bordered w-full"
-                            bind:value={select_pasaran}>
-                            <option disabled selected value="">--Pilih Pasaran--</option>
-                            {#each listPeriodePasaran as rec}
-                                <option value={rec.pasarancomp_idcompp}>{rec.pasarancomp_nama}</option>
-                            {/each}
-                        </select>
-                    </div>
+<Modal_popup
+    modal_popup_id="my-modal-formnew"
+    modal_popup_title="Entry/{sData}"
+    modal_popup_class="select-none w-11/12 {modal_width} overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        {#if sData=="New"}
+            <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
+                <div class="relative form-control mt-2">
+                    <select
+                        class="select select-bordered w-full"
+                        bind:value={select_pasaran}>
+                        <option disabled selected value="">--Pilih Pasaran--</option>
+                        {#each listPeriodePasaran as rec}
+                            <option value={rec.pasarancomp_idcompp}>{rec.pasarancomp_nama}</option>
+                        {/each}
+                    </select>
                 </div>
-                <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
-                    <button
-                        on:click={() => {
-                            SaveNewTransaksi();
-                        }} 
-                        class="{buttonLoading_class}">Submit</button>
-                </div>
-            {/if}
-            {#if sData=="Edit"}
-                <div class="flex justify-between  gap-2">
-                    <div class="w-1/2">
-                        <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
-                            {#if periode_status_field == "OPEN"}
-                                <div class="alert alert-info shadow-lg mt-2 rounded-sm">
-                                    <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <span>Periode Selanjutnya : {periode_tanggalnext_field}</span>
-                                    </div>
-                                </div>
-                            {/if}
-                            <div class="relative form-control mt-2">
-                                <Input_custom
-                                    input_enabled={false}
-                                    input_tipe="text"
-                                    bind:value={idtrxkeluaran}
-                                    input_id="idtrxkeluaran"
-                                    input_placeholder="Invoice"/>
-                            </div>
-                            <div class="relative form-control">
-                                <Input_custom
-                                    input_enabled={false}
-                                    input_tipe="tanggal"
-                                    bind:value={periode_tglkeluaran_field}
-                                    input_id="periode_tglkeluaran_field"
-                                    input_placeholder="Tanggal"/>
-                            </div>
-                            <div class="relative form-control">
-                                <Input_custom
-                                    input_enabled={false}
-                                    input_tipe="text"
-                                    bind:value={periode_periode_field}
-                                    input_id="periode_periode_field"
-                                    input_placeholder="Periode"/>
-                            </div>
-                            <div class="relative form-control">
-                                <Input_custom
-                                    input_required={true}
-                                    input_tipe="number_nolabel"
-                                    bind:value={periode_keluaran_field}
-                                    input_maxlenght="4"
-                                    input_id="periode_keluaran_field"
-                                    input_placeholder="Prize 1"/>
-                            </div>
-                            <div class="relative form-control text-[11px]">
-                                Create : {periode_create_field}, {periode_createdate_field}
-                                {#if periode_update_field != ""}
-                                    <br>
-                                    Update : {periode_update_field}, {periode_updatedate_field}
-                                {/if}
-                            </div>
-                        </div>
-                        {#if periode_status_field == "OPEN"}
-                            {#if periode_statusonline_field == "OFFLINE"}
-                                <div class="flex flex-wrap justify-end align-middle  mt-2">
-                                    <button
-                                        on:click={() => {
-                                            SaveTransaksi();
-                                        }}  
-                                        class="{buttonLoading_class} btn-block">Submit</button>
-                                </div>
-                            {/if}
-                        {:else if periode_statusrevisi_field == "OPEN"}
-                            <div class="flex flex-wrap justify-end align-middle  mt-2">
-                                <button
-                                    on:click={() => {
-                                        callrevisiTransaksi();
-                                    }}  
-                                    class="btn btn-warning btn-block">Revisi</button>
-                            </div>
-                        {/if}
-                        {#if pasaran_msgrevisi != ""}
-                        <div class="alert alert-warning shadow-lg mt-2 rounded-sm">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span class="text-sm">Alasan Revisi : {pasaran_msgrevisi}</span>
-                            </div>
-                        </div>
-                        {/if}
-                    </div>
-                    <div class="w-full p-2">
-                        <ul class="flex justify-center items-center gap-2">
-                            <li on:click={() => {
-                                    ChangeTabMenu("menu_listmember");
-                                }}
-                                class="items-center {tab_listmember}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Member</li>
-                            <li on:click={() => {
-                                    ChangeTabMenu("menu_betgroup");
-                                }}
-                                class="items-center {tab_betgroup} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Bet Group</li>
-                            <li on:click={() => {
-                                    ChangeTabMenu("menu_listbet");
-                                }}
-                                class="items-center {tab_listbet} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Bet</li>
-                        </ul>
-                        {#if panel_listmember}
-                            <h2 class="text-lg font-bold mb-2">List Member</h2>
-                            <input 
-                                bind:value={searchMember}
-                                type="text" placeholder="Search by Username" class="input input-bordered w-full max-w-full rounded-md  focus:ring-0 focus:outline-none">
-                            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
-                                <table class="table table-compact w-full">
-                                    <thead class="sticky top-0">
-                                        <tr>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>BET</th>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>BAYAR</th>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>CANCEL</th>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>WIN</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {#if filterMember != ""}
-                                            {#each filterMember as rec}
-                                                <tr>
-                                                    <td on:click={() => {
-                                                        call_listbetbyusername(rec.member_name);
-                                                    }} class="text-xs text-left align-top underline cursor-pointer">{rec.member_name}</td>
-                                                    <td class="text-xs text-right align-top text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.member_totalbet)}</td>
-                                                    <td class="text-xs text-right align-top text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.member_totalbayar)}</td>
-                                                    <td class="text-xs text-right align-top text-red-500 font-semibold">{new Intl.NumberFormat().format(rec.member_totalcancel)}</td>
-                                                    <td class="text-xs text-right align-top text-red-500 font-semibold">{new Intl.NumberFormat().format(rec.member_totalwin)}</td>
-                                                </tr>
-                                            {/each}
-                                        {:else}
-                                            <tr>
-                                                <td colspan="5" class="text-xs">No Records</td>
-                                            </tr>
-                                        {/if}
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="bg-[#F7F7F7] rounded-sm h-32 p-2">
-                                <table class=" w-full">
-                                    <tr>
-                                        <td class="text-xs font-semibold text-left align-top">TOTAL MEMBER</td>
-                                        <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(total_member)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-xs font-semibold text-left align-top">TOTAL BET</td>
-                                        <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(subtotal_member_bet)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-xs font-semibold text-left align-top">TOTAL BAYAR</td>
-                                        <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(subtotal_member_bayar)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-xs font-semibold text-left align-top">TOTAL CANCEL</td>
-                                        <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(subtotal_member_cancel)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-xs font-semibold text-left align-top">TOTAL WIN</td>
-                                        <td class="text-xs font-semibold text-right align-top text-red-500">{new Intl.NumberFormat().format(subtotal_member_win)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-xs font-semibold text-left align-top">TOTAL WINLOSE</td>
-                                        <td class="text-xs font-semibold text-right align-top {subtotal_member_winlose_class}">{new Intl.NumberFormat().format(subtotal_member_winlose)}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        {/if}
-                        {#if panel_betgroup}
-                            <h2 class="text-lg font-bold mb-2">Bet Group</h2>
-                            <select
-                                on:change={handleSelectPermainangroup}
-                                class="select select-bordered select-sm w-full rounded-sm focus:ring-0 focus:outline-none">
-                                <option value="">--Pilih Permainan--</option>
-                                {#each listBetTable as rec}
-                                    <option value={rec.permainan}>{rec.permainan}</option>
-                                {/each}
-                            </select>
-                            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
-                                <table class="table table-compact w-full">
-                                    <thead class="sticky top-0">
-                                        <tr>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">NOMOR</th>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL MEMBER</th>
-                                            <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL BET</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {#if listBetTableGroup  != ""}
-                                            {#each listBetTableGroup  as rec}
-                                                <tr>
-                                                    <td on:click={() => {
-                                                        groupMember(rec.bet_keluaran);
-                                                    }} class="text-xs text-center align-top underline cursor-pointer">{rec.bet_keluaran}</td>
-                                                    <td class="text-xs text-right align-top text-blue-700 font-semibold">{rec.bet_totalmember}</td>
-                                                    <td class="text-xs text-right align-top text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.bet_totalbet)}</td>
-                                                </tr>
-                                            {/each}
-                                        {:else}
-                                            <tr>
-                                                <td colspan="5" class="text-xs">No Records</td>
-                                            </tr>
-                                        {/if}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {/if}
-                    </div>
-                </div>
-            {/if}
-        </div>
-    </div>
-</div>
-
-
-<input type="checkbox" id="my-modal-formrevisi" class="modal-toggle" bind:checked={isModal_Form_Revisi}>
-<div class="modal" >
-    <div class="modal-box relative select-none w-11/12 {modal_width_form_revisi}  rounded-none lg:rounded-lg p-2  ">
-        <div class="flex flex-col items-stretch">
-            <div class="h-8">
-                <label for="my-modal-formrevisi" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
-            </div>
-            <div class="flex flex-auto flex-col overflow-auto gap-1 mt-2 ">
-                <Input_custom
-                    input_onchange="{handleChange}"
-                    input_autofocus={true}
-                    input_required={true}
-                    input_tipe="text"
-                    input_invalid={$errors.field_revisi.length > 0}
-                    bind:value={$form.field_revisi}
-                    input_id="field_revisi"
-                    input_placeholder="Revisi"/>
-                {#if $errors.field_revisi}
-                    <small class="text-pink-600 text-[11px]">{$errors.field_revisi}</small>
-                {/if}
-                    
             </div>
             <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
                 <button
                     on:click={() => {
-                        handleSubmit();
+                        SaveNewTransaksi();
                     }} 
                     class="{buttonLoading_class}">Submit</button>
             </div>
+        {/if}
+        {#if sData=="Edit"}
+            <div class="flex justify-between  gap-2">
+                <div class="w-1/2">
+                    <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
+                        {#if periode_status_field == "OPEN"}
+                            <div class="alert alert-info shadow-lg mt-2 rounded-sm">
+                                <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>Periode Selanjutnya : {periode_tanggalnext_field}</span>
+                                </div>
+                            </div>
+                        {/if}
+                        <div class="relative form-control mt-2">
+                            <Input_custom
+                                input_enabled={false}
+                                input_tipe="text"
+                                bind:value={idtrxkeluaran}
+                                input_id="idtrxkeluaran"
+                                input_placeholder="Invoice"/>
+                        </div>
+                        <div class="relative form-control">
+                            <Input_custom
+                                input_enabled={false}
+                                input_tipe="tanggal"
+                                bind:value={periode_tglkeluaran_field}
+                                input_id="periode_tglkeluaran_field"
+                                input_placeholder="Tanggal"/>
+                        </div>
+                        <div class="relative form-control">
+                            <Input_custom
+                                input_enabled={false}
+                                input_tipe="text"
+                                bind:value={periode_periode_field}
+                                input_id="periode_periode_field"
+                                input_placeholder="Periode"/>
+                        </div>
+                        <div class="relative form-control">
+                            <Input_custom
+                                input_required={true}
+                                input_tipe="number_nolabel_string"
+                                bind:value={periode_keluaran_field}
+                                input_maxlenght="4"
+                                input_id="periode_keluaran_field"
+                                input_placeholder="Prize 1"/>
+                        </div>
+                        <div class="relative form-control text-[11px]">
+                            Create : {periode_create_field}, {periode_createdate_field}
+                            {#if periode_update_field != ""}
+                                <br>
+                                Update : {periode_update_field}, {periode_updatedate_field}
+                            {/if}
+                        </div>
+                    </div>
+                    {#if periode_status_field == "OPEN"}
+                        {#if periode_statusonline_field == "OFFLINE"}
+                            <div class="flex flex-wrap justify-end align-middle  mt-2">
+                                <button
+                                    on:click={() => {
+                                        SaveTransaksi();
+                                    }}  
+                                    class="{buttonLoading_class} btn-block">Submit</button>
+                            </div>
+                        {/if}
+                    {:else if periode_statusrevisi_field == "OPEN"}
+                        <div class="flex flex-wrap justify-end align-middle  mt-2">
+                            <button
+                                on:click={() => {
+                                    callrevisiTransaksi();
+                                }}  
+                                class="btn btn-warning btn-block">Revisi</button>
+                        </div>
+                    {/if}
+                    {#if pasaran_msgrevisi != ""}
+                    <div class="alert alert-warning shadow-lg mt-2 rounded-sm">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-sm">Alasan Revisi : {pasaran_msgrevisi}</span>
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+                <div class="w-full p-2">
+                    <ul class="flex justify-center items-center gap-2">
+                        <li on:click={() => {
+                                ChangeTabMenu("menu_listmember");
+                            }}
+                            class="items-center {tab_listmember}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Member</li>
+                        <li on:click={() => {
+                                ChangeTabMenu("menu_betgroup");
+                            }}
+                            class="items-center {tab_betgroup} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Bet Group</li>
+                        <li on:click={() => {
+                                ChangeTabMenu("menu_listbet");
+                            }}
+                            class="items-center {tab_listbet} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Bet</li>
+                    </ul>
+                    {#if panel_listmember}
+                        <h2 class="text-lg font-bold mb-2">List Member</h2>
+                        <input 
+                            bind:value={searchMember}
+                            type="text" placeholder="Search by Username" class="input input-bordered w-full max-w-full rounded-md  focus:ring-0 focus:outline-none">
+                        <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
+                            <table class="table table-compact w-full">
+                                <thead class="sticky top-0">
+                                    <tr>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>BET</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>BAYAR</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>CANCEL</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>WIN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {#if filterMember != ""}
+                                        {#each filterMember as rec}
+                                            <tr>
+                                                <td on:click={() => {
+                                                    call_listbetbyusername(rec.member_name);
+                                                }} class="text-xs text-left align-top underline cursor-pointer">{rec.member_name}</td>
+                                                <td class="text-xs text-right align-top text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.member_totalbet)}</td>
+                                                <td class="text-xs text-right align-top text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.member_totalbayar)}</td>
+                                                <td class="text-xs text-right align-top text-red-500 font-semibold">{new Intl.NumberFormat().format(rec.member_totalcancel)}</td>
+                                                <td class="text-xs text-right align-top text-red-500 font-semibold">{new Intl.NumberFormat().format(rec.member_totalwin)}</td>
+                                            </tr>
+                                        {/each}
+                                    {:else}
+                                        <tr>
+                                            <td colspan="5" class="text-xs">No Records</td>
+                                        </tr>
+                                    {/if}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="bg-[#F7F7F7] rounded-sm h-32 p-2">
+                            <table class=" w-full">
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL MEMBER</td>
+                                    <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(total_member)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL BET</td>
+                                    <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(subtotal_member_bet)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL BAYAR</td>
+                                    <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(subtotal_member_bayar)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL CANCEL</td>
+                                    <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(subtotal_member_cancel)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL WIN</td>
+                                    <td class="text-xs font-semibold text-right align-top text-red-500">{new Intl.NumberFormat().format(subtotal_member_win)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL WINLOSE</td>
+                                    <td class="text-xs font-semibold text-right align-top {subtotal_member_winlose_class}">{new Intl.NumberFormat().format(subtotal_member_winlose)}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    {/if}
+                    {#if panel_betgroup}
+                        <h2 class="text-lg font-bold mb-2">Bet Group</h2>
+                        <select
+                            on:change={handleSelectPermainangroup}
+                            class="select select-bordered select-sm w-full rounded-sm focus:ring-0 focus:outline-none">
+                            <option value="">--Pilih Permainan--</option>
+                            {#each listBetTable as rec}
+                                <option value={rec.permainan}>{rec.permainan}</option>
+                            {/each}
+                        </select>
+                        <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
+                            <table class="table table-compact w-full">
+                                <thead class="sticky top-0">
+                                    <tr>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">NOMOR</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL MEMBER</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL BET</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {#if listBetTableGroup  != ""}
+                                        {#each listBetTableGroup  as rec}
+                                            <tr>
+                                                <td on:click={() => {
+                                                    groupMember(rec.bet_keluaran);
+                                                }} class="text-xs text-center align-top underline cursor-pointer">{rec.bet_keluaran}</td>
+                                                <td class="text-xs text-right align-top text-blue-700 font-semibold">{rec.bet_totalmember}</td>
+                                                <td class="text-xs text-right align-top text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.bet_totalbet)}</td>
+                                            </tr>
+                                        {/each}
+                                    {:else}
+                                        <tr>
+                                            <td colspan="5" class="text-xs">No Records</td>
+                                        </tr>
+                                    {/if}
+                                </tbody>
+                            </table>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        {/if}
+    </slot:template>
+</Modal_popup>
+
+<input type="checkbox" id="my-modal-formrevisi" class="modal-toggle" bind:checked={isModal_Form_Revisi}>
+<Modal_popup
+    modal_popup_id="my-modal-formrevisi"
+    modal_popup_title="Entry/{sData}"
+    modal_popup_class="select-none w-11/12 {modal_width_form_revisi} overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        <div class="flex flex-auto flex-col overflow-auto gap-1 mt-2 ">
+            <Input_custom
+                input_onchange="{handleChange}"
+                input_autofocus={true}
+                input_required={true}
+                input_tipe="text"
+                input_invalid={$errors.field_revisi.length > 0}
+                bind:value={$form.field_revisi}
+                input_id="field_revisi"
+                input_placeholder="Revisi"/>
+            {#if $errors.field_revisi}
+                <small class="text-pink-600 text-[11px]">{$errors.field_revisi}</small>
+            {/if}
+                
         </div>
-    </div>
-</div>
+        <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+            <button
+                on:click={() => {
+                    handleSubmit();
+                }} 
+                class="{buttonLoading_class}">Submit</button>
+        </div>
+    </slot:template>
+</Modal_popup>
 
 <input type="checkbox" id="my-modal-formlistbetmember" class="modal-toggle" bind:checked={isModal_Form_MemberlistBet}>
 <div class="modal" >
@@ -1336,6 +1330,7 @@
         </div>
     </div>
 </div>
+
 
 <input type="checkbox" id="my-modal-listmembernomor" class="modal-toggle" bind:checked={isModal_Form_listBet}>
 <div class="modal" >

@@ -4,6 +4,7 @@
     import * as yup from "yup";
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
+    import Modal_popup from '../../components/Modal_popup.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
 
@@ -260,197 +261,195 @@
 
 
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
-<div class="modal" >
-    <div class="modal-box relative select-none w-11/12 {modal_width}  rounded-none lg:rounded-lg p-2  overflow-hidden">
-        <div class="flex flex-col items-stretch">
-            <div class="h-8">
-                <label for="my-modal-formnew" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
+<Modal_popup
+    modal_popup_id="my-modal-formnew"
+    modal_popup_title="Entry/{sData}"
+    modal_popup_class="select-none w-11/12 {modal_width} overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        {#if sData=="New"}
+            <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
+                <div class="relative form-control mt-2">
+                    <Input_custom
+                        input_onchange="{handleChange}"
+                        input_autofocus={false}
+                        input_required={true}
+                        input_tipe="text"
+                        input_invalid={$errors.home_name_field.length > 0}
+                        bind:value={$form.home_name_field}
+                        input_id="home_name_field"
+                        input_placeholder="Rule"/>
+                    {#if $errors.home_name_field}
+                        <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
+                    {/if}
+                </div>
             </div>
-            {#if sData=="New"}
-                <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
-                    <div class="relative form-control mt-2">
-                        <Input_custom
-                            input_onchange="{handleChange}"
-                            input_autofocus={false}
-                            input_required={true}
-                            input_tipe="text"
-                            input_invalid={$errors.home_name_field.length > 0}
-                            bind:value={$form.home_name_field}
-                            input_id="home_name_field"
-                            input_placeholder="Rule"/>
-                        {#if $errors.home_name_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
-                        {/if}
-                    </div>
-                </div>
-                <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
-                    <button
-                        on:click={() => {
-                            handleSubmit();
-                        }}  
-                        class="{buttonLoading_class}">Submit</button>
-                </div>
-            {/if}
-            {#if sData=="Edit"}
-                <div class="flex justify-between  gap-2">
-                    <div class="w-full">
-                        <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
-                            <div class="relative form-control mt-2">
-                                <Input_custom
-                                    input_onchange="{handleChange}"
-                                    input_autofocus={false}
-                                    input_required={true}
-                                    input_tipe="text"
-                                    input_invalid={$errors.home_name_field.length > 0}
-                                    bind:value={$form.home_name_field}
-                                    input_id="home_name_field"
-                                    input_placeholder="Rule"/>
-                                {#if $errors.home_name_field}
-                                    <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
-                                {/if}
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap justify-end align-middle  mt-2">
-                            <button
-                                on:click={() => {
-                                    handleSubmit();
-                                }}  
-                                class="{buttonLoading_class} btn-block">Submit</button>
+            <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                <button
+                    on:click={() => {
+                        handleSubmit();
+                    }}  
+                    class="{buttonLoading_class}">Submit</button>
+            </div>
+        {/if}
+        {#if sData=="Edit"}
+            <div class="flex justify-between  gap-2">
+                <div class="w-full">
+                    <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
+                        <div class="relative form-control mt-2">
+                            <Input_custom
+                                input_onchange="{handleChange}"
+                                input_autofocus={false}
+                                input_required={true}
+                                input_tipe="text"
+                                input_invalid={$errors.home_name_field.length > 0}
+                                bind:value={$form.home_name_field}
+                                input_id="home_name_field"
+                                input_placeholder="Rule"/>
+                            {#if $errors.home_name_field}
+                                <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
+                            {/if}
                         </div>
                     </div>
-                    <div class="w-full p-2">
-                        <h2 class="text-lg font-bold mb-2">Setting Admin Rule</h2>
-                        <table class="table table-compact w-full">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">DASHBOARD</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td width="1%">
-                                        <input
-                                        bind:group={adminrule_rule_field}
-                                        type="checkbox"
-                                        value="DASHBOARD-VIEW"/>
-                                    </td>
-                                    <td width="*">VIEW</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table table-compact w-full mt-1">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">PERIODE</th>
-                                    <th colspan="2">PREDIKSI</th>
-                                    <th colspan="2">REPORT WINLOSE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td width="1%">
-                                        <input
-                                            bind:group={adminrule_rule_field}
-                                            type="checkbox"
-                                            value="PERIODE-VIEW"/>
-                                    </td>
-                                    <td width="*">VIEW</td>
-                                    <td width="1%">
-                                        <input
-                                            bind:group={adminrule_rule_field}
-                                            type="checkbox"
-                                            value="PREDIKSI-VIEW"/>
-                                    </td>
-                                    <td width="*">VIEW</td>
-                                    <td width="1%">
-                                        <input
-                                            bind:group={adminrule_rule_field}
-                                            type="checkbox"
-                                            value="REPORTWINLOSE-VIEW"/>
-                                    </td>
-                                    <td width="*">VIEW</td>
-                                </tr>
-                                <tr>
-                                    <td width="1%">
-                                        <input
-                                        bind:group={adminrule_rule_field}
-                                        type="checkbox"
-                                        value="PERIODE-SAVE"/>
-                                    </td>
-                                    <td width="*">SAVE</td>
-                                    <td colspan="4">&nbsp;</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table table-compact w-full mt-1">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">PASARAN</th>
-                                    <th colspan="2">ADMIN MANAGEMENT</th>
-                                    <th colspan="2">ADMIN RULE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td width="1%">
-                                        <input
-                                            bind:group={adminrule_rule_field}
-                                            type="checkbox"
-                                            value="PASARAN-VIEW"/>
-                                    </td>
-                                    <td width="*">VIEW</td>
-                                    <td width="1%">
-                                        <input
-                                            bind:group={adminrule_rule_field}
-                                            type="checkbox"
-                                            value="ADMIN-VIEW"/>
-                                    </td>
-                                    <td width="*">VIEW</td>
-                                    <td width="1%">
-                                        <input
-                                            bind:group={adminrule_rule_field}
-                                            type="checkbox"
-                                            value="ADMINRULE-VIEW"/>
-                                    </td>
-                                    <td width="*">VIEW</td>
-                                </tr>
-                                <tr>
-                                    <td width="1%">
-                                        <input
-                                        bind:group={adminrule_rule_field}
-                                        type="checkbox"
-                                        value="PASARAN-SAVE"/>
-                                    </td>
-                                    <td width="*">SAVE</td>
-                                    <td width="1%">
-                                        <input
-                                        bind:group={adminrule_rule_field}
-                                        type="checkbox"
-                                        value="ADMIN-SAVE"/>
-                                    </td>
-                                    <td width="*">SAVE</td>
-                                    <td width="1%">
-                                        <input
-                                        bind:group={adminrule_rule_field}
-                                        type="checkbox"
-                                        value="ADMINRULE-SAVE"/>
-                                    </td>
-                                    <td width="*">SAVE</td>
-                                </tr>
-                            </tbody>
-                        </table>  
+                    <div class="flex flex-wrap justify-end align-middle  mt-2">
                         <button
                             on:click={() => {
-                                Updateconfig();
+                                handleSubmit();
                             }}  
-                            class="{buttonLoading2_class} btn-block">Submit</button> 
+                            class="{buttonLoading_class} btn-block">Submit</button>
                     </div>
                 </div>
-            {/if}
-        </div>
-    </div>
-</div>
+                <div class="w-full p-2">
+                    <h2 class="text-lg font-bold mb-2">Setting Admin Rule</h2>
+                    <table class="table table-compact w-full">
+                        <thead>
+                            <tr>
+                                <th colspan="2">DASHBOARD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="1%">
+                                    <input
+                                    bind:group={adminrule_rule_field}
+                                    type="checkbox"
+                                    value="DASHBOARD-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-compact w-full mt-1">
+                        <thead>
+                            <tr>
+                                <th colspan="2">PERIODE</th>
+                                <th colspan="2">PREDIKSI</th>
+                                <th colspan="2">REPORT WINLOSE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="PERIODE-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="PREDIKSI-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="REPORTWINLOSE-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                            </tr>
+                            <tr>
+                                <td width="1%">
+                                    <input
+                                    bind:group={adminrule_rule_field}
+                                    type="checkbox"
+                                    value="PERIODE-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                                <td colspan="4">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-compact w-full mt-1">
+                        <thead>
+                            <tr>
+                                <th colspan="2">PASARAN</th>
+                                <th colspan="2">ADMIN MANAGEMENT</th>
+                                <th colspan="2">ADMIN RULE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="PASARAN-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="ADMIN-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="ADMINRULE-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                            </tr>
+                            <tr>
+                                <td width="1%">
+                                    <input
+                                    bind:group={adminrule_rule_field}
+                                    type="checkbox"
+                                    value="PASARAN-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                                <td width="1%">
+                                    <input
+                                    bind:group={adminrule_rule_field}
+                                    type="checkbox"
+                                    value="ADMIN-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                                <td width="1%">
+                                    <input
+                                    bind:group={adminrule_rule_field}
+                                    type="checkbox"
+                                    value="ADMINRULE-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                            </tr>
+                        </tbody>
+                    </table>  
+                    <button
+                        on:click={() => {
+                            Updateconfig();
+                        }}  
+                        class="{buttonLoading2_class} btn-block">Submit</button> 
+                </div>
+            </div>
+        {/if}
+    </slot:template>
+</Modal_popup>
+
 
 <input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
 <Modal_alert 

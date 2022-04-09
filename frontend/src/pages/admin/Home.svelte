@@ -4,6 +4,7 @@
     import * as yup from "yup";
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
+    import Modal_popup from '../../components/Modal_popup.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
 
@@ -422,192 +423,185 @@
 
 
 <input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
-<div class="modal" >
-    <div class="modal-box relative select-none max-w-full lg:max-w-xl  rounded-none lg:rounded-lg p-2  overflow-hidden">
-        <div class="flex flex-col items-stretch">
-            <div class="h-8">
-                <label for="my-modal-formnew" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">Entry/{sData}</h3>
-            </div>
-            {#if sData == "Edit" && admin_tipe == "ADMIN"}
-                <ul class="flex justify-center items-center gap-2">
-                    <li on:click={() => {
-                            ChangeTabMenu("menu_1");
-                        }}
-                        class="items-center {tab_menu_1}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Edit</li>
-                    <li on:click={() => {
-                            ChangeTabMenu("menu_2");
-                        }}
-                        class="items-center {tab_menu_2} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Ipaddress</li>
-                </ul>
-            {/if}
-            {#if panel_edit}
-                <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
-                    <div class="relative form-control mt-2">
-                        <Input_custom
-                            input_onchange="{handleChange}"
-                            input_autofocus={false}
-                            input_required={true}
-                            input_tipe="text"
-                            input_invalid={$errors.admin_username_field.length > 0}
-                            bind:value={$form.admin_username_field}
-                            input_id="admin_username_field"
-                            input_enabled={isInput_username_enabled}
-                            input_placeholder="Username"/>
-                        {#if $errors.admin_username_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.admin_username_field}</small>
-                        {/if}
-                    </div>
-                    <div class="relative form-control">
-                        <Input_custom
-                            input_onchange="{handleChange}"
-                            input_autofocus={false}
-                            input_required={true}
-                            input_tipe="password"
-                            input_attr="password"
-                            input_invalid={$errors.admin_password_field.length > 0}
-                            bind:value={$form.admin_password_field}
-                            input_id="admin_password_field"
-                            input_placeholder="Password"/>
-                        {#if $errors.admin_password_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.admin_password_field}</small>
-                        {/if}
-                    </div>
-                    <div class="relative form-control">
-                        <select
-                            on:change="{handleChange}"
-                            bind:value={$form.admin_idrule_field}
-                            invalid={$errors.admin_idrule_field.length > 0} 
-                            class="w-full rounded px-3  border border-gray-300 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none">
-                            <option disabled selected value="0">--Pilih Admin Rule--</option>
-                            {#each admin_listrule as rec}
-                            <option value="{rec.adminrule_idruleadmin}">{rec.adminrule_name}</option>
-                            {/each}
-                        </select>
-                        {#if $errors.admin_idrule_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.admin_idrule_field}</small>
-                        {/if}
-                    </div>
-                    <div class="relative form-control">
-                        <Input_custom
-                            input_onchange="{handleChange}"
-                            input_autofocus={false}
-                            input_required={true}
-                            input_tipe="text"
-                            input_invalid={$errors.admin_name_field.length > 0}
-                            bind:value={$form.admin_name_field}
-                            input_id="admin_name_field"
-                            input_placeholder="Nama"/>
-                        {#if $errors.admin_name_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.admin_name_field}</small>
-                        {/if}
-                    </div>
-                    <div class="relative form-control">
-                        <select
-                            on:change="{handleChange}"
-                            bind:value={$form.admin_status_field}
-                            invalid={$errors.admin_status_field.length > 0} 
-                            class="w-full rounded px-3  border border-gray-300 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none">
-                            <option disabled selected value="">--Pilih Status--</option>
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="BANNED">BANNED</option>
-                        </select>
-                        {#if $errors.admin_status_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.admin_status_field}</small>
-                        {/if}
-                    </div>
-                    {#if sData == "Edit"}
-                    <div class="text-[11px]">
-                        Create : {admin_create_field} <br>
-                        Update : {admin_update_field}
-                    </div>
-                    {/if}
-                </div>
-                <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
-                    <button
-                        on:click={() => {
-                            handleSubmit();
-                        }}  
-                        class="{buttonLoading_class}">Submit</button>
-                </div>
-            {/if}
-            {#if panel_iplist}
-                <div class="flex-auto h-[380px] overflow-auto mt-2 ">
-                    <table class="table table-compact w-full">
-                        <thead>
-                            <tr>
-                                <th width="1%">&nbsp;</th>
-                                <th width="1%">NO</th>
-                                <th width="*">IPADDRESS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#if admin_listip != ""}
-                                {#each admin_listip as rec}
-                                <tr>
-                                    <td on:click={() => {
-                                        deleteIpList(
-                                            rec.adminiplist_idcompiplist
-                                        );
-                                        }} class="cursor-pointer text-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </td>
-                                    <td class="text-center">{rec.adminiplist_no}</td>
-                                    <td class="text-left">{rec.adminiplist_iplist}</td>
-                                </tr>
-                                {/each}
-                            {:else}
-                                <tr>
-                                    <td colspan="3" class="text-left text-xs font-semibold">No Record</td>
-                                </tr>
-                            {/if}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
-                    <button
-                        on:click={() => {
-                            handleNewListIp();
-                        }}  
-                        class="btn btn-primary ">New</button>
-                </div>
-            {/if}
-        </div>
-    </div>
-</div>
-
-<input type="checkbox" id="my-modal-formipaddress" class="modal-toggle" bind:checked={isModal_Form_Listipaddress}>
-<div class="modal" >
-    <div class="modal-box relative select-none max-w-full lg:max-w-xl  rounded-none lg:rounded-lg p-2  overflow-hidden">
-        <div class="flex flex-col items-stretch">
-            <div class="h-8">
-                <label for="my-modal-formipaddress" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="text-xs lg:text-sm font-bold mt-1">New IPAddress</h3>
-            </div>
+<Modal_popup
+    modal_popup_id="my-modal-formnew"
+    modal_popup_title="Entry/{sData}"
+    modal_popup_class="select-none max-w-full lg:max-w-xl overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        {#if sData == "Edit" && admin_tipe == "ADMIN"}
+            <ul class="flex justify-center items-center gap-2">
+                <li on:click={() => {
+                        ChangeTabMenu("menu_1");
+                    }}
+                    class="items-center {tab_menu_1}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Edit</li>
+                <li on:click={() => {
+                        ChangeTabMenu("menu_2");
+                    }}
+                    class="items-center {tab_menu_2} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Ipaddress</li>
+            </ul>
+        {/if}
+        {#if panel_edit}
             <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
-                <div class="mt-2">
+                <div class="relative form-control mt-2">
                     <Input_custom
+                        input_onchange="{handleChange}"
                         input_autofocus={false}
                         input_required={true}
                         input_tipe="text"
-                        bind:value={form_field_ipaddress}
-                        input_id="ipaddress"
-                        input_placeholder="IPAddress"/>
+                        input_invalid={$errors.admin_username_field.length > 0}
+                        bind:value={$form.admin_username_field}
+                        input_id="admin_username_field"
+                        input_enabled={isInput_username_enabled}
+                        input_placeholder="Username"/>
+                    {#if $errors.admin_username_field}
+                        <small class="text-pink-600 text-[11px]">{$errors.admin_username_field}</small>
+                    {/if}
                 </div>
+                <div class="relative form-control">
+                    <Input_custom
+                        input_onchange="{handleChange}"
+                        input_autofocus={false}
+                        input_required={true}
+                        input_tipe="password"
+                        input_attr="password"
+                        input_invalid={$errors.admin_password_field.length > 0}
+                        bind:value={$form.admin_password_field}
+                        input_id="admin_password_field"
+                        input_placeholder="Password"/>
+                    {#if $errors.admin_password_field}
+                        <small class="text-pink-600 text-[11px]">{$errors.admin_password_field}</small>
+                    {/if}
+                </div>
+                <div class="relative form-control">
+                    <select
+                        on:change="{handleChange}"
+                        bind:value={$form.admin_idrule_field}
+                        invalid={$errors.admin_idrule_field.length > 0} 
+                        class="w-full rounded px-3  border border-gray-300 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none">
+                        <option disabled selected value="0">--Pilih Admin Rule--</option>
+                        {#each admin_listrule as rec}
+                        <option value="{rec.adminrule_idruleadmin}">{rec.adminrule_name}</option>
+                        {/each}
+                    </select>
+                    {#if $errors.admin_idrule_field}
+                        <small class="text-pink-600 text-[11px]">{$errors.admin_idrule_field}</small>
+                    {/if}
+                </div>
+                <div class="relative form-control">
+                    <Input_custom
+                        input_onchange="{handleChange}"
+                        input_autofocus={false}
+                        input_required={true}
+                        input_tipe="text"
+                        input_invalid={$errors.admin_name_field.length > 0}
+                        bind:value={$form.admin_name_field}
+                        input_id="admin_name_field"
+                        input_placeholder="Nama"/>
+                    {#if $errors.admin_name_field}
+                        <small class="text-pink-600 text-[11px]">{$errors.admin_name_field}</small>
+                    {/if}
+                </div>
+                <div class="relative form-control">
+                    <select
+                        on:change="{handleChange}"
+                        bind:value={$form.admin_status_field}
+                        invalid={$errors.admin_status_field.length > 0} 
+                        class="w-full rounded px-3  border border-gray-300 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none">
+                        <option disabled selected value="">--Pilih Status--</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="BANNED">BANNED</option>
+                    </select>
+                    {#if $errors.admin_status_field}
+                        <small class="text-pink-600 text-[11px]">{$errors.admin_status_field}</small>
+                    {/if}
+                </div>
+                {#if sData == "Edit"}
+                <div class="text-[11px]">
+                    Create : {admin_create_field} <br>
+                    Update : {admin_update_field}
+                </div>
+                {/if}
             </div>
             <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
                 <button
                     on:click={() => {
-                        SaveIpaddress();
+                        handleSubmit();
                     }}  
                     class="{buttonLoading_class}">Submit</button>
             </div>
-        </div>
-    </div>
-</div>
+        {/if}
+        {#if panel_iplist}
+            <div class="flex-auto h-[380px] overflow-auto mt-2 ">
+                <table class="table table-compact w-full">
+                    <thead>
+                        <tr>
+                            <th width="1%">&nbsp;</th>
+                            <th width="1%">NO</th>
+                            <th width="*">IPADDRESS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {#if admin_listip != ""}
+                            {#each admin_listip as rec}
+                            <tr>
+                                <td on:click={() => {
+                                    deleteIpList(
+                                        rec.adminiplist_idcompiplist
+                                    );
+                                    }} class="cursor-pointer text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </td>
+                                <td class="text-center">{rec.adminiplist_no}</td>
+                                <td class="text-left">{rec.adminiplist_iplist}</td>
+                            </tr>
+                            {/each}
+                        {:else}
+                            <tr>
+                                <td colspan="3" class="text-left text-xs font-semibold">No Record</td>
+                            </tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+                <button
+                    on:click={() => {
+                        handleNewListIp();
+                    }}  
+                    class="btn btn-primary ">New</button>
+            </div>
+        {/if}
+    </slot:template>
+</Modal_popup>
 
+<input type="checkbox" id="my-modal-formipaddress" class="modal-toggle" bind:checked={isModal_Form_Listipaddress}>
+<Modal_popup
+    modal_popup_id="my-modal-formipaddress"
+    modal_popup_title="New IPAddress"
+    modal_popup_class="select-none max-w-full lg:max-w-xl overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
+            <div class="mt-2">
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_tipe="text"
+                    bind:value={form_field_ipaddress}
+                    input_id="ipaddress"
+                    input_placeholder="IPAddress"/>
+            </div>
+        </div>
+        <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
+            <button
+                on:click={() => {
+                    SaveIpaddress();
+                }}  
+                class="{buttonLoading_class}">Submit</button>
+        </div>
+    </slot:template>
+</Modal_popup>
 
 <input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
 <Modal_alert 
