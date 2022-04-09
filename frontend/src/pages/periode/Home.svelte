@@ -1389,18 +1389,15 @@
             <div class="bg-[#F7F7F7] rounded-sm h-20 p-2">
                 <table class="w-full">
                     <tr>
-                        <td class="text-right font-semibold text-xs">TOTAL BAYAR</td>
-                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-left font-semibold text-xs">TOTAL BAYAR</td>
                         <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(temp_totalbayar)}</td>
                     </tr>
                     <tr>
-                        <td class="text-right font-semibold text-xs">TOTAL ESTIMATE WIN</td>
-                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-left font-semibold text-xs">TOTAL ESTIMATE WIN</td>
                         <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(temp_totalwinestimate)}</td>
                     </tr>
                     <tr>
-                        <td class="text-right font-semibold text-xs">GRANDTOTAL</td>
-                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-left font-semibold text-xs">GRANDTOTAL</td>
                         <td class="text-right text-xs {temp_grandtotal_class}">{new Intl.NumberFormat().format(temp_grandtotal)}</td>
                     </tr>
                 </table>
@@ -1640,18 +1637,15 @@
             <div class="bg-[#F7F7F7] rounded-sm h-20 p-2">
                 <table class="w-full">
                     <tr>
-                        <td class="text-right font-semibold text-xs">TOTAL BET</td>
-                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-left font-semibold text-xs">TOTAL BET</td>
                         <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(totalbet)}</td>
                     </tr>
                     <tr>
-                        <td class="text-right font-semibold text-xs">TOTAL BAYAR</td>
-                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-left font-semibold text-xs">TOTAL BAYAR</td>
                         <td class="text-right text-xs text-blue-700 font-semibold">{new Intl.NumberFormat().format(totalbayar)}</td>
                     </tr>
                     <tr>
-                        <td class="text-right font-semibold text-xs">TOTAL WIN</td>
-                        <td class="text-center font-semibold text-xs">:</td>
+                        <td class="text-left font-semibold text-xs">TOTAL WIN</td>
                         <td class="text-right text-xs {temp_grandtotal_class}">{new Intl.NumberFormat().format(totalwin)}</td>
                     </tr>
                 </table>
