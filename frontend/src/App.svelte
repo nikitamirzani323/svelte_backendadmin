@@ -29,68 +29,68 @@
 			"*": NotFound,
 		};
 	} else {
-    isNav = true;
-		routes = {
-			"/": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Home,
-			}),
-      	"/admin": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Admin,
-			}),
-      	"/adminrule": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Adminrule,
-			}),
-      	"/log": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Log,
-			}),
-      	"/pasaran": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Pasaran,
-			}),
-		"/periode": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Periode,
-			}),
-		"/prediksi": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Prediksi,
-			}),
-		"/report": wrap({
-        		props: {
-					path_api: path_api,
-				},
-				component: Report,
-			}),
-		"*": NotFound,
-		};
+		isNav = true;
+			routes = {
+				"/": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Home,
+				}),
+			"/admin": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Admin,
+				}),
+			"/adminrule": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Adminrule,
+				}),
+			"/log": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Log,
+				}),
+			"/pasaran": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Pasaran,
+				}),
+			"/periode": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Periode,
+				}),
+			"/prediksi": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Prediksi,
+				}),
+			"/report": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Report,
+				}),
+			"*": NotFound,
+			};
   }
 </script>
 {#if isNav}
 <main class="flex flex-col space-x-2 h-screen w-full bg-[#f0f2f5]">
-  <Navigation />
-  <div class="justify-center  ">
-    <div class="w-full  mt-5 ">
-      <Router {routes} />
-    </div>
-  </div>
+	<Navigation />
+	<div class="justify-center ">
+    	<div class="w-full  mt-5">
+      		<Router {routes} />
+    	</div>
+  	</div>
 </main>
 {:else}
 <div class="container mx-auto">
