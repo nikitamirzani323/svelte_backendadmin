@@ -57,7 +57,7 @@
             </div>
             <input 
                 bind:value={searchHome}
-                type="text" placeholder="Search by Username, Page" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+                type="text" placeholder="Search by Username, Page" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
         </div>
     </slot:template>
     <slot:template slot="panel_body">

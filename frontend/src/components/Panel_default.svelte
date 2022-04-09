@@ -1,8 +1,9 @@
 <script>
     import { createEventDispatcher } from "svelte";
-
+    import Panel_Table from "../components/panel_table.svelte"
     export let panel_page =  "";
     export let panel_total =  0;
+    export let panel_height = "550px";
     export let panel_button_new =  false;
     export let panel_button_refresh =  false;
 
@@ -42,11 +43,11 @@
             <div class="relative w-full">
                 <slot name="panel_search" />
             </div>
-            
-            <div class="hidden sm:inline w-full scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll">
-                <slot name="panel_body" />
-                
-            </div>
+            <Panel_Table panel_height="{panel_height}">
+                <slot:template slot="paneltable_body">
+                    <slot name="panel_body" />
+                </slot:template>
+            </Panel_Table>
 
             <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
                 <span class="font-semibold">TOTAL ROW : {panel_total}</span>

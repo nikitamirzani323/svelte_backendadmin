@@ -6,6 +6,7 @@
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
+    import Panel_table from '../../components/panel_table.svelte' 
 
     export let path_api = "";
     export let token = "";
@@ -924,7 +925,7 @@
         </div>
         <input 
             bind:value={searchHome}
-            type="text" placeholder="Search by Invoice, Status, Pasaran" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 ">
+            type="text" placeholder="Search by Invoice, Status, Pasaran" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
     </slot:template>
     <slot:template slot="panel_body">
         <table class="table table-compact w-full ">
@@ -1118,7 +1119,7 @@
                             <h2 class="text-lg font-bold mb-2">List Member</h2>
                             <input 
                                 bind:value={searchMember}
-                                type="text" placeholder="Search by Username" class="input input-bordered w-full max-w-full rounded-md  ">
+                                type="text" placeholder="Search by Username" class="input input-bordered w-full max-w-full rounded-md  focus:ring-0 focus:outline-none">
                             <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
                                 <table class="table table-compact w-full">
                                     <thead class="sticky top-0">
@@ -1151,6 +1152,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            
                             <div class="bg-[#F7F7F7] rounded-sm h-32 p-2">
                                 <table class=" w-full">
                                     <tr>
@@ -1184,7 +1186,7 @@
                             <h2 class="text-lg font-bold mb-2">Bet Group</h2>
                             <select
                                 on:change={handleSelectPermainangroup}
-                                class="select select-bordered select-sm w-full rounded-sm">
+                                class="select select-bordered select-sm w-full rounded-sm focus:ring-0 focus:outline-none">
                                 <option value="">--Pilih Permainan--</option>
                                 {#each listBetTable as rec}
                                     <option value={rec.permainan}>{rec.permainan}</option>
@@ -1271,61 +1273,66 @@
             </div>
             <input 
                 bind:value={searchMemberListBet}
-                type="text" placeholder="Search by Status,Code" class="input input-bordered mt-1 w-full max-w-full rounded-md  ">
-            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll mt-2">
-                <table class="table table-compact w-full">
-                    <thead class="sticky top-0">
-                        <tr>
-                            <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                            <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                            <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">TANGGAL</th>
-                            <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                            <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                            <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#if filterMemberListBet != ""}
-                            {#each filterMemberListBet as rec}
-                                <tr>
-                                    <td class="text-xs text-center align-top">
-                                        <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>  
-                                    </td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                    <td class="text-xs text-center align-top whitespace-nowrap">{rec.bet_datetime}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)} ({rec.bet_diskonpercen}%)</td>
-                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)} ({rec.bet_keipercen}%)</td>
-                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                    <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
-                                </tr>
-                            {/each}
-                        {:else}
+                type="text" placeholder="Search by Status,Code" class="input input-bordered mt-1 w-full max-w-full rounded-md  focus:ring-0 focus:outline-none">
+           
+            <Panel_table
+                panel_class="mt-2" 
+                panel_height="550px">
+                <slot:template slot="paneltable_body">
+                    <table class="table table-compact w-full">
+                        <thead class="sticky top-0">
                             <tr>
-                                <td colspan="15" class="text-xs text-center">
-                                    <progress class="self-start progress progress-primary w-56"></progress>
-                                </td>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">TANGGAL</th>
+                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
                             </tr>
-                        {/if}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {#if filterMemberListBet != ""}
+                                {#each filterMemberListBet as rec}
+                                    <tr>
+                                        <td class="text-xs text-center align-top">
+                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>  
+                                        </td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                        <td class="text-xs text-center align-top whitespace-nowrap">{rec.bet_datetime}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)} ({rec.bet_diskonpercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)} ({rec.bet_keipercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                    </tr>
+                                {/each}
+                            {:else}
+                                <tr>
+                                    <td colspan="15" class="text-xs text-center">
+                                        <progress class="self-start progress progress-primary w-56"></progress>
+                                    </td>
+                                </tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </slot:template>
+            </Panel_table>
         </div>
     </div>
 </div>
@@ -1338,48 +1345,52 @@
                 <label for="my-modal-listmembernomor" class="btn btn-xs lg:btn-sm btn-circle absolute right-2 top-2">✕</label>
                 <h3 class="text-xs lg:text-sm font-bold mt-1">INFORMATION</h3>
             </div>
-            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll mt-2">
-                <table class="table table-compact w-full">
-                    <thead class="sticky top-0">
-                        <tr>
-                            <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                            <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                            <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                            <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                            <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                            <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">ESTIMATE WIN<br>TOTAL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#if listMemberNomor != ""}
-                            {#each listMemberNomor as rec}
-                                <tr>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_name}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_posisitogel}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_permainan}</td>
-                                    <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.member_nomor}</td>
-                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bet)}</td>
-                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_disc)}({rec.member_discpercen}%)</td>
-                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_kei)}({rec.member_keipercen}%)</td>
-                                    <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bayar)}</td>
-                                    <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.member_win}x</td>
-                                    <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_winhasil)}</td>
-                                </tr>
-                            {/each}
-                        {:else}
+            <Panel_table
+                panel_class="" 
+                panel_height="550px">
+                <slot:template slot="paneltable_body">
+                    <table class="table table-compact w-full">
+                        <thead class="sticky top-0">
                             <tr>
-                                <td colspan="15" class="text-xs text-center">
-                                    <progress class="self-start progress progress-primary w-56"></progress>
-                                </td>
+                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">ESTIMATE WIN<br>TOTAL</th>
                             </tr>
-                        {/if}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {#if listMemberNomor != ""}
+                                {#each listMemberNomor as rec}
+                                    <tr>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_name}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_posisitogel}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_permainan}</td>
+                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.member_nomor}</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bet)}</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_disc)}({rec.member_discpercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_kei)}({rec.member_keipercen}%)</td>
+                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bayar)}</td>
+                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.member_win}x</td>
+                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_winhasil)}</td>
+                                    </tr>
+                                {/each}
+                            {:else}
+                                <tr>
+                                    <td colspan="15" class="text-xs text-center">
+                                        <progress class="self-start progress progress-primary w-56"></progress>
+                                    </td>
+                                </tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </slot:template>
+            </Panel_table>
             <div class="bg-[#F7F7F7] rounded-sm h-20 p-2">
                 <table class="w-full">
                     <tr>
@@ -1425,207 +1436,212 @@
                     }}
                     class="items-center {tab_listbetall_cancel} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">CANCEL</li>
             </ul>
-            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[550px] overflow-y-scroll mt-2">
-                {#if panel_listbetall_all}
-                    <div class="flex justify-start items-stretch gap-2 mb-2 w-full">
-                        <div class="p-0 w-full">
-                            <select
-                                on:change={handleSelectPermainan}
-                                class="select select-bordered select-sm rounded-sm w-full">
-                                <option value="">--Pilih Permainan--</option>
-                                {#each listBetTable as rec}
-                                    <option value={rec.permainan}>{rec.permainan}</option>
-                                {/each}
-                            </select>
+            <Panel_table
+                panel_class="mt-2" 
+                panel_height="550px">
+                <slot:template slot="paneltable_body">
+                    {#if panel_listbetall_all}
+                        <div class="flex justify-start items-stretch gap-2 mb-2 w-full">
+                            <div class="p-0 w-full">
+                                <select
+                                    on:change={handleSelectPermainan}
+                                    class="select select-bordered select-sm rounded-sm w-full focus:ring-0 focus:outline-none">
+                                    <option value="">--Pilih Permainan--</option>
+                                    {#each listBetTable as rec}
+                                        <option value={rec.permainan}>{rec.permainan}</option>
+                                    {/each}
+                                </select>
+                            </div>
+                            <div class="p-0 w-full">
+                                <input 
+                                    bind:value={searchListAllBet}
+                                    type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full focus:ring-0 focus:outline-none">
+                            </div>
                         </div>
-                        <div class="p-0 w-full">
-                            <input 
-                                bind:value={searchListAllBet}
-                                type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
-                        </div>
-                    </div>
-                    <table class="table table-compact w-full">
-                        <thead class="sticky top-0">
-                            <tr>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#if filterListBetALl  != ""}
-                                {#each filterListBetALl as rec}
-                                    <tr>
-                                        <td class="text-xs text-center align-top whitespace-nowrap ">
-                                            {#if periode_keluaran_field == ""}
-                                                {#if rec.bet_status == "RUNNING"}
-                                                    <svg on:click={() => {
-                                                        cancelbetTransaksi(
-                                                            rec.bet_id,rec.bet_typegame
-                                                        );
-                                                    }} xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
+                        <table class="table table-compact w-full">
+                            <thead class="sticky top-0">
+                                <tr>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
+                                    <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {#if filterListBetALl  != ""}
+                                    {#each filterListBetALl as rec}
+                                        <tr>
+                                            <td class="text-xs text-center align-top whitespace-nowrap ">
+                                                {#if periode_keluaran_field == ""}
+                                                    {#if rec.bet_status == "RUNNING"}
+                                                        <svg on:click={() => {
+                                                            cancelbetTransaksi(
+                                                                rec.bet_id,rec.bet_typegame
+                                                            );
+                                                        }} xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    {/if}
                                                 {/if}
-                                            {/if}
-                                        </td>
-                                        <td class="text-xs text-center align-top whitespace-nowrap">
-                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
-                                        </td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
-                                    </tr>
-                                {/each}
-                            {:else}
-                                <tr>
-                                    <td colspan="16" class="text-xs text-center">
-                                        <progress class="self-start progress progress-primary w-56"></progress>
-                                    </td>
-                                </tr>
-                            {/if}
-                        </tbody>
-                    </table>
-                {/if}
-                {#if panel_listbetall_winner}
-                    <input 
-                        bind:value={searchListAllBet}
-                        type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
-                    <table class="table table-compact w-full mt-2">
-                        <thead class="sticky top-0">
-                            <tr>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#if filterListBetALl  != ""}
-                                {#each filterListBetALl as rec}
+                                            </td>
+                                            <td class="text-xs text-center align-top whitespace-nowrap">
+                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                            </td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                            <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                        </tr>
+                                    {/each}
+                                {:else}
                                     <tr>
-                                        <td class="text-xs text-center align-top whitespace-nowrap">
-                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                        <td colspan="16" class="text-xs text-center">
+                                            <progress class="self-start progress progress-primary w-56"></progress>
                                         </td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
                                     </tr>
-                                {/each}
-                            {:else}
+                                {/if}
+                            </tbody>
+                        </table>
+                    {/if}
+                    {#if panel_listbetall_winner}
+                        <input 
+                            bind:value={searchListAllBet}
+                            type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
+                        <table class="table table-compact w-full mt-2">
+                            <thead class="sticky top-0">
                                 <tr>
-                                    <td colspan="16" class="text-xs text-center">
-                                        <progress class="self-start progress progress-primary w-56"></progress>
-                                    </td>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
+                                    <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
                                 </tr>
-                            {/if}
-                        </tbody>
-                    </table>
-                {/if}
-                {#if panel_listbetall_cancel}
-                    <input 
-                        bind:value={searchListAllBet}
-                        type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
-                    <table class="table table-compact w-full mt-2">
-                        <thead class="sticky top-0">
-                            <tr>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#if filterListBetALl  != ""}
-                                {#each filterListBetALl as rec}
+                            </thead>
+                            <tbody>
+                                {#if filterListBetALl  != ""}
+                                    {#each filterListBetALl as rec}
+                                        <tr>
+                                            <td class="text-xs text-center align-top whitespace-nowrap">
+                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                            </td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                            <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                        </tr>
+                                    {/each}
+                                {:else}
                                     <tr>
-                                        <td class="text-xs text-center align-top whitespace-nowrap">
-                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                        <td colspan="16" class="text-xs text-center">
+                                            <progress class="self-start progress progress-primary w-56"></progress>
                                         </td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
                                     </tr>
-                                {/each}
-                            {:else}
+                                {/if}
+                            </tbody>
+                        </table>
+                    {/if}
+                    {#if panel_listbetall_cancel}
+                        <input 
+                            bind:value={searchListAllBet}
+                            type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full">
+                        <table class="table table-compact w-full mt-2">
+                            <thead class="sticky top-0">
                                 <tr>
-                                    <td colspan="16" class="text-xs text-center">
-                                        <progress class="self-start progress progress-primary w-56"></progress>
-                                    </td>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
+                                    <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
+                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
+                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
+                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
+                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
+                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
+                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
                                 </tr>
-                            {/if}
-                        </tbody>
-                    </table>
-                {/if}
-            </div>
+                            </thead>
+                            <tbody>
+                                {#if filterListBetALl  != ""}
+                                    {#each filterListBetALl as rec}
+                                        <tr>
+                                            <td class="text-xs text-center align-top whitespace-nowrap">
+                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                            </td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                            <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                            <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                        </tr>
+                                    {/each}
+                                {:else}
+                                    <tr>
+                                        <td colspan="16" class="text-xs text-center">
+                                            <progress class="self-start progress progress-primary w-56"></progress>
+                                        </td>
+                                    </tr>
+                                {/if}
+                            </tbody>
+                        </table>
+                    {/if}
+                </slot:template>
+            </Panel_table>
+            
             <div class="bg-[#F7F7F7] rounded-sm h-20 p-2">
                 <table class="w-full">
                     <tr>
