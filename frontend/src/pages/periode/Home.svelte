@@ -10,6 +10,7 @@
     import Panel_table from '../../components/panel_table.svelte' 
 
     export let path_api = "";
+    export let font_size = "";
     export let token = "";
     export let listHome = [];
     export let listPeriodePasaran = [];
@@ -932,20 +933,20 @@
         <table class="table table-compact w-full ">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">DATE</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">INVOICE</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PERIODE</th>
-                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PASARAN</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">PRIZE 1</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">REVISI</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">MEMBER</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BET</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BAYAR</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">CANCEL</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WINLOSE</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center"></th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">STATUS</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">DATE</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">INVOICE</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">PERIODE</th>
+                    <th width="*" class="bg-[#475289] {font_size} text-white text-left">PASARAN</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">PRIZE 1</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">REVISI</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">MEMBER</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">BET</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">BAYAR</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">CANCEL</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
@@ -961,19 +962,19 @@
                         </td>
                         <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
                         <td class="text-xs lg:text-sm align-top text-center">
-                            <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_status}</span>
+                            <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 ">{rec.home_status}</span>
                         </td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_tanggal}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_invoice}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_periode}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_name}</td>
-                        <td class="text-xs lg:text-sm align-top text-center font-semibold">{rec.home_keluaran}</td>
-                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_revisi_class}">{new Intl.NumberFormat().format(rec.home_revisi)}</td>
-                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalmember_class}">{new Intl.NumberFormat().format(rec.home_totalmember)}</td>
-                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalbet_class}">{new Intl.NumberFormat().format(rec.home_totalbet)}</td>
-                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totaloutstanding_class}">{new Intl.NumberFormat().format(rec.home_totaloutstanding)}</td>
-                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_totalcancelbet_class}">{new Intl.NumberFormat().format(rec.home_totalcancelbet)}</td>
-                        <td class="text-xs lg:text-sm align-top text-right font-semibold {rec.home_winlose_class}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_tanggal}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_invoice}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_periode}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_name}</td>
+                        <td class="{font_size} align-top text-center font-semibold">{rec.home_keluaran}</td>
+                        <td class="{font_size} align-top text-right font-semibold {rec.home_revisi_class}">{new Intl.NumberFormat().format(rec.home_revisi)}</td>
+                        <td class="{font_size} align-top text-right font-semibold {rec.home_totalmember_class}">{new Intl.NumberFormat().format(rec.home_totalmember)}</td>
+                        <td class="{font_size} align-top text-right font-semibold {rec.home_totalbet_class}">{new Intl.NumberFormat().format(rec.home_totalbet)}</td>
+                        <td class="{font_size} align-top text-right font-semibold {rec.home_totaloutstanding_class}">{new Intl.NumberFormat().format(rec.home_totaloutstanding)}</td>
+                        <td class="{font_size} align-top text-right font-semibold {rec.home_totalcancelbet_class}">{new Intl.NumberFormat().format(rec.home_totalcancelbet)}</td>
+                        <td class="{font_size} align-top text-right font-semibold {rec.home_winlose_class}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
                     </tr>
                     {/each}
                 </tbody>
@@ -1123,11 +1124,11 @@
                             <table class="table table-compact w-full">
                                 <thead class="sticky top-0">
                                     <tr>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>BET</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>BAYAR</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>CANCEL</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL<br>WIN</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-left align-top">USERNAME</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-right align-top">TOTAL<br>BET</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-right align-top">TOTAL<br>BAYAR</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-right align-top">TOTAL<br>CANCEL</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-right align-top">TOTAL<br>WIN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1195,9 +1196,9 @@
                             <table class="table table-compact w-full">
                                 <thead class="sticky top-0">
                                     <tr>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">NOMOR</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL MEMBER</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-right align-top">TOTAL BET</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-center align-top">NOMOR</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-right align-top">TOTAL MEMBER</th>
+                                        <th class="bg-[#475289] {font_size} text-white text-right align-top">TOTAL BET</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1276,21 +1277,21 @@
                     <table class="table table-compact w-full">
                         <thead class="sticky top-0">
                             <tr>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">TANGGAL</th>
-                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                                <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top">STATUS</th>
+                                <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">CODE</th>
+                                <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top">TANGGAL</th>
+                                <th width="*" class="bg-[#475289] {font_size} text-white text-left align-top">USERNAME</th>
+                                <th width="7%" class="bg-[#475289] {font_size} text-white text-left align-top">IPADDRESS</th>
+                                <th width="7%" class="bg-[#475289] {font_size} text-white text-left align-top">DEVICE</th>
+                                <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIPE</th>
+                                <th width="7%" class="bg-[#475289] {font_size} text-white text-left align-top">PERMAINAN</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-left align-top">NOMOR</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">BET</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">DISC</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">KEI</th>
+                                <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">BAYAR</th>
+                                <th width="7%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN</th>
+                                <th width="7%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN<br>TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1300,20 +1301,20 @@
                                         <td class="text-xs text-center align-top">
                                             <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>  
                                         </td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                        <td class="text-xs text-center align-top whitespace-nowrap">{rec.bet_datetime}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)} ({rec.bet_diskonpercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)} ({rec.bet_keipercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                        <td class="{font_size} text-center align-top whitespace-nowrap">{rec.bet_datetime}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                        <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                        <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)} ({rec.bet_diskonpercen}%)</td>
+                                        <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)} ({rec.bet_keipercen}%)</td>
+                                        <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                        <td class="{font_size} text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                        <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
                                     </tr>
                                 {/each}
                             {:else}
@@ -1347,32 +1348,32 @@
                     <table class="table table-compact w-full">
                         <thead class="sticky top-0">
                             <tr>
-                                <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">ESTIMATE WIN<br>TOTAL</th>
+                                <th width="*" class="bg-[#475289] {font_size} text-white text-left align-top">USERNAME</th>
+                                <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIPE</th>
+                                <th width="7%" class="bg-[#475289] {font_size} text-white text-left align-top">PERMAINAN</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-left align-top">NOMOR</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">BET</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">DISC</th>
+                                <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">KEI</th>
+                                <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">BAYAR</th>
+                                <th width="7%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN</th>
+                                <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">ESTIMATE WIN<br>TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
                             {#if listMemberNomor != ""}
                                 {#each listMemberNomor as rec}
                                     <tr>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_name}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_posisitogel}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap">{rec.member_permainan}</td>
-                                        <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.member_nomor}</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bet)}</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_disc)}({rec.member_discpercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_kei)}({rec.member_keipercen}%)</td>
-                                        <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bayar)}</td>
-                                        <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.member_win}x</td>
-                                        <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_winhasil)}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.member_name}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.member_posisitogel}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap">{rec.member_permainan}</td>
+                                        <td class="{font_size} text-left align-top whitespace-nowrap font-bold">{rec.member_nomor}</td>
+                                        <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bet)}</td>
+                                        <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_disc)}({rec.member_discpercen}%)</td>
+                                        <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_kei)}({rec.member_keipercen}%)</td>
+                                        <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_bayar)}</td>
+                                        <td class="{font_size} text-right align-top font-semibold whitespace-nowrap">{rec.member_win}x</td>
+                                        <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.member_winhasil)}</td>
                                     </tr>
                                 {/each}
                             {:else}
@@ -1453,22 +1454,22 @@
                         <table class="table table-compact w-full">
                             <thead class="sticky top-0">
                                 <tr>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                                    <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top">&nbsp;</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top">STATUS</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">CODE</th>
+                                    <th width="*" class="bg-[#475289] {font_size} text-white text-left align-top">USERNAME</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">IPADDRESS</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">DEVICE</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIMEZONE</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIPE</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-left align-top">PERMAINAN</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left align-top">NOMOR</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">BET</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">DISC</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">KEI</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">BAYAR</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN<br>TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1491,20 +1492,20 @@
                                             <td class="text-xs text-center align-top whitespace-nowrap">
                                                 <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
                                             </td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                            <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                            <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                            <td class="{font_size} text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                            <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
                                         </tr>
                                     {/each}
                                 {:else}
@@ -1524,21 +1525,21 @@
                         <table class="table table-compact w-full mt-2">
                             <thead class="sticky top-0">
                                 <tr>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                                    <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top">STATUS</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">CODE</th>
+                                    <th width="*" class="bg-[#475289] {font_size} text-white text-left align-top">USERNAME</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">IPADDRESS</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">DEVICE</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIMEZONE</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIPE</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-left align-top">PERMAINAN</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left align-top">NOMOR</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">BET</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">DISC</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">KEI</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">BAYAR</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-right align-top">WIN</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-right align-top">WIN<br>TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1548,20 +1549,20 @@
                                             <td class="text-xs text-center align-top whitespace-nowrap">
                                                 <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
                                             </td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                            <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                            <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                            <td class="{font_size} text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                            <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
                                         </tr>
                                     {/each}
                                 {:else}
@@ -1581,21 +1582,21 @@
                         <table class="table table-compact w-full mt-2">
                             <thead class="sticky top-0">
                                 <tr>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">CODE</th>
-                                    <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">IPADDRESS</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">DEVICE</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIMEZONE</th>
-                                    <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TIPE</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERMAINAN</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">NOMOR</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BET</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">DISC</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">KEI</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">BAYAR</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WIN<br>TOTAL</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top">STATUS</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">CODE</th>
+                                    <th width="*" class="bg-[#475289] {font_size} text-white text-left align-top">USERNAME</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">IPADDRESS</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">DEVICE</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIMEZONE</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left align-top">TIPE</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-left align-top">PERMAINAN</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left align-top">NOMOR</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">BET</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">DISC</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">KEI</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">BAYAR</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN<br>TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1605,20 +1606,20 @@
                                             <td class="text-xs text-center align-top whitespace-nowrap">
                                                 <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
                                             </td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_id}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_username}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_device}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
-                                            <td class="text-xs text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
-                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
-                                            <td class="text-xs text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                            <td class="text-xs text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
-                                            <td class="text-xs text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_username}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_ipaddress}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_device}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_timezone}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_posisitogel}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_typegame}</td>
+                                            <td class="{font_size} text-left align-top whitespace-nowrap font-bold">{rec.bet_nomortogel}</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bet)}</td>
+                                            <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_diskon)}({rec.bet_diskonpercen}%)</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_kei)}({rec.bet_keipercen}%)</td>
+                                            <td class="{font_size} text-right align-top text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
+                                            <td class="{font_size} text-right align-top font-semibold whitespace-nowrap">{rec.bet_win}x</td>
+                                            <td class="{font_size} text-right align-top text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
                                         </tr>
                                     {/each}
                                 {:else}

@@ -2,6 +2,7 @@
     import Loader from '../../components/Loader.svelte' 
     import Input_custom from '../../components/Input.svelte' 
     export let path_api = ""
+    export let font_size = ""
     let listHome = [];
     let listresult  = [];
     let record = "";
@@ -225,20 +226,20 @@
                         <table class="table table-compact w-full ">
                             <thead class="sticky top-0">
                                 <tr>
-                                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">STATUS</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">INVOICE</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">CODE</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">TANGGAL</th>
-                                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">USERNAME</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">TIPE</th>
-                                    <th width="7%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PERMAINAN</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NOMOR</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BET</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">DISC</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">KEI</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">BAYAR</th>
-                                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WIN</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WIN TOTAL</th>
+                                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">STATUS</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-left">INVOICE</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-left">CODE</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">TANGGAL</th>
+                                    <th width="*" class="bg-[#475289] {font_size} text-white text-left">USERNAME</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-left">TIPE</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-left">PERMAINAN</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">NOMOR</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">BET</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">DISC</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">KEI</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">BAYAR</th>
+                                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">WIN</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">WIN TOTAL</th>
                                 </tr>
                             </thead>
                             {#if listresult != ""}
@@ -248,19 +249,19 @@
                                         <td class="text-xs lg:text-sm align-top text-center">
                                             <span class="{rec.prediksi_statuscss} text-center rounded-md p-1 px-2 shadow-lg ">{rec.prediksi_status}</span>
                                         </td>
-                                        <td class="text-xs lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_invoice}</td>
-                                        <td class="text-xs lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_code}</td>
-                                        <td class="text-xs lg:text-sm align-top text-center whitespace-nowrap">{rec.prediksi_tanggal}</td>
-                                        <td class="text-xs lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_username}</td>
-                                        <td class="text-xs lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_posisitogel}</td>
-                                        <td class="text-xs lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_permainan}</td>
-                                        <td class="text-xs lg:text-sm align-top text-center font-semibold whitespace-nowrap">{rec.prediksi_nomor}</td>
-                                        <td class="text-xs lg:text-sm align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_bet)}</td>
-                                        <td class="text-xs lg:text-sm align-top text-right text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_diskon)}  ({rec.prediksi_diskonpercen}%)</td>
-                                        <td class="text-xs lg:text-sm align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_keipercen)}  ({rec.prediksi_keipercen}%)</td>
-                                        <td class="text-xs lg:text-sm align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_bayar)}</td>
-                                        <td class="text-xs lg:text-sm align-top text-right font-semibold ">{new Intl.NumberFormat().format(rec.prediksi_win)}x</td>
-                                        <td class="text-xs lg:text-sm align-top text-right text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_totalwin)}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_invoice}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_code}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-center whitespace-nowrap">{rec.prediksi_tanggal}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_username}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_posisitogel}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-left whitespace-nowrap">{rec.prediksi_permainan}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-center font-semibold whitespace-nowrap">{rec.prediksi_nomor}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_bet)}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-right text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_diskon)}  ({rec.prediksi_diskonpercen}%)</td>
+                                        <td class="{font_size} lg:text-sm align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_keipercen)}  ({rec.prediksi_keipercen}%)</td>
+                                        <td class="{font_size} lg:text-sm align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_bayar)}</td>
+                                        <td class="{font_size} lg:text-sm align-top text-right font-semibold ">{new Intl.NumberFormat().format(rec.prediksi_win)}x</td>
+                                        <td class="{font_size} lg:text-sm align-top text-right text-red-500 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.prediksi_totalwin)}</td>
                                     </tr>
                                     {/each}
                                 </tbody>

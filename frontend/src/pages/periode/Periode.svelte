@@ -1,6 +1,7 @@
 <script>
     import Home from "../periode/Home.svelte";
     export let path_api = ""
+    export let font_size = ""
     let listHome = [];
     let listPeriodePasaran = [];
     let record = "";
@@ -58,7 +59,7 @@
                     if (record[i]["pasaran_status"] == "RUNNING") {
                         status_class = "bg-[#FFEB3B] text-black"
                     }else if(record[i]["pasaran_status"] == "DONE") {
-                        status_class = "bg-[#8BC34A] text-black"
+                        status_class = "bg-[#ebfbee] text-[#6ec07b]"
                     }else{
                         status_class = "text-red-500";
                     }
@@ -158,6 +159,7 @@
         on:handleRefreshData={handleRefreshData}
         on:handleLogout={handleLogout}
         {path_api}
+        {font_size}
         {token}
         {listPeriodePasaran}
         {listHome}

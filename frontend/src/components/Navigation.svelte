@@ -44,7 +44,7 @@
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal p-0">
-            <li><a class="text-sm" href="/">DASBOARD</a></li>
+            <li><a class="text-sm" href="/">DASHBOARD</a></li>
             <li tabindex="0">
               <a class="text-sm">
                 TOGEL

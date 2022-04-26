@@ -4,6 +4,7 @@
     
     import dayjs from "dayjs";
     export let path_api = ""
+    export let font_size = ""
     let listwinlose = [];
     let startdate = ""
     let enddate = ""
@@ -155,20 +156,20 @@
                         <table class="table table-compact w-full ">
                             <thead class="sticky top-0">
                                 <tr>
-                                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">USERNAME</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">TURNOVER</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WINLOSE MEMBER</th>
-                                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WINLOSE AGENT</th>
+                                    <th width="*" class="bg-[#475289] {font_size} text-white text-white text-left">USERNAME</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">TURNOVER</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE MEMBER</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE AGENT</th>
                                 </tr>
                             </thead>
                             {#if listwinlose != ""}
                                 <tbody>
                                     {#each listwinlose as rec}
                                     <tr>
-                                        <td class="text-xs lg:text-sm align-top text-left whitespace-nowrap">{rec.report_client_username}</td>
-                                        <td class="text-xs lg:text-sm align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.report_client_turnover)}</td>
-                                        <td class="text-xs lg:text-sm align-top text-right {rec.report_client_winlose_css} whitespace-nowrap">{new Intl.NumberFormat().format(rec.report_client_winlose)}</td>
-                                        <td class="text-xs lg:text-sm align-top text-right {rec.report_agent_winlose_css} whitespace-nowrap">{new Intl.NumberFormat().format(rec.report_agent_winlose)}</td>
+                                        <td class="{font_size} align-top text-left whitespace-nowrap">{rec.report_client_username}</td>
+                                        <td class="{font_size} align-top text-right text-blue-700 font-semibold whitespace-nowrap">{new Intl.NumberFormat().format(rec.report_client_turnover)}</td>
+                                        <td class="{font_size} align-top text-right {rec.report_client_winlose_css} whitespace-nowrap">{new Intl.NumberFormat().format(rec.report_client_winlose)}</td>
+                                        <td class="{font_size} align-top text-right {rec.report_agent_winlose_css} whitespace-nowrap">{new Intl.NumberFormat().format(rec.report_agent_winlose)}</td>
                                     </tr>
                                     {/each}
                                 </tbody>
