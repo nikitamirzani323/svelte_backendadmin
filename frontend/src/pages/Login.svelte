@@ -24,35 +24,31 @@
     })
     async function handleSave(username,password) {
         msg_error = "";
-        if(client_ipaddress != "0.0.0.0"){
-            const res = await fetch(path_api+"api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                    ipaddress: client_ipaddress,
-                    timezone: client_timezone,
-                }),
-            });
-            const json = await res.json();
-            if (json.status == 400 || json.status == 401) {
-                msg_error +=json.message
-                username = "";
-                password = "";
-            } else {
-                if(json.token != ""){
-                    localStorage.setItem("token", json.token);
-                    localStorage.setItem("master", username);
-                    window.location.href = "/";
-                }else{
-                    msg_error +="Sistem Sedang Menghadapi Masalah<br> Silahkah Hubungi Administrator"
-                }
+        const res = await fetch(path_api+"api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                ipaddress: client_ipaddress,
+                timezone: client_timezone,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 400 || json.status == 401) {
+            msg_error +=json.message
+            username = "";
+            password = "";
+        } else {
+            if(json.token != ""){
+                localStorage.setItem("token", json.token);
+                localStorage.setItem("master", username);
+                window.location.href = "/";
+            }else{
+                msg_error +="Sistem Sedang Menghadapi Masalah<br> Silahkah Hubungi Administrator"
             }
-        }else{
-            msg_error +="Sistem Sedang Menghadapi Masalah<br> Silahkah Hubungi Administrator"
         }
         if(msg_error != ""){
             isModalNotif = true
@@ -67,17 +63,10 @@
             throw new Error(message);
         } else {
             const json = await res.json();
-            let ip_container = json.container_ip
-            let ip_real = json.real_ip
-            let ipaddress = "0.0.0.0";
-            if(ip_container == "0.0.0.0"){
-                ipaddress = ip_real
-            }
-            if(ip_real == "0.0.0.0"){
-                ipaddress = ip_container
-            }
-            client_ipaddress = ipaddress;
+          
+            client_ipaddress = json.real_ip;
             client_timezone = "Asia/Jakarta";
+            
         }
     }
     initTimezone();

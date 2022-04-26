@@ -49,8 +49,8 @@
                 </slot:template>
             </Panel_Table>
 
-            <div class="bg-[#F7F7F7] rounded-sm h-16 p-5">
-                <span class="font-semibold">TOTAL ROW : {panel_total}</span>
+            <div class="bg-[#eef4fb] rounded-sm h-16 p-5">
+                <span class="text-sm font-semibold">TOTAL ROW : {panel_total}</span>
             </div>
         </div>
     </div>

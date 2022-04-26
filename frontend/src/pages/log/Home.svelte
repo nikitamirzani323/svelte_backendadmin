@@ -5,6 +5,7 @@
     import Modal_alert from '../../components/Modal_alert.svelte' 
 
     export let path_api = "";
+    export let font_size = "";
     export let token = "";
     export let listHome = [];
     export let totalrecord = 0;
@@ -64,24 +65,24 @@
         <table class="table table-compact w-full">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">DATETIME</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">USERNAME</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PAGE</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">ACTION</th>
-                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">NOTE</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-center">DATETIME</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-left">USERNAME</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-left">PAGE</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-left">ACTION</th>
+                    <th width="*" class="bg-[#475289] {font_size} text-white text-left">NOTE</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
                 <tbody>
                     {#each filterHome as rec}
                     <tr>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_datetime}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_username}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_page}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_tipe}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{@html rec.home_note}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_no}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_datetime}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_username}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_page}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_tipe}</td>
+                        <td class="{font_size} align-top text-left">{@html rec.home_note}</td>
                     </tr>
                     {/each}
                 </tbody>

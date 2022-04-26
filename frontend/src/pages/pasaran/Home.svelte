@@ -20,6 +20,7 @@
     import Panel from '../../components/Panel_default.svelte' 
 
     export let path_api = "";
+    export let font_size = "";
     export let token = "";
     export let listHome = [];
     export let totalrecord = 0;
@@ -72,6 +73,18 @@
 	let pasaran_maxbet2d_432d_field = 0;
 	let pasaran_maxbet2dd_432d_field = 0;
 	let pasaran_maxbet2dt_432d_field = 0;
+    let pasaran_maxbet4d_fullbb_432d_field = 0;
+	let pasaran_maxbet3d_fullbb_432d_field = 0;
+	let pasaran_maxbet3dd_fullbb_432d_field = 0;
+	let pasaran_maxbet2d_fullbb_432d_field = 0;
+	let pasaran_maxbet2dd_fullbb_432d_field = 0;
+	let pasaran_maxbet2dt_fullbb_432d_field = 0;
+    let pasaran_maxbuy4d_432d_field = 0;
+	let pasaran_maxbuy3d_432d_field = 0;
+	let pasaran_maxbuy3dd_432d_field = 0;
+	let pasaran_maxbuy2d_432d_field = 0;
+	let pasaran_maxbuy2dd_432d_field = 0;
+	let pasaran_maxbuy2dt_432d_field = 0;
 	let pasaran_limitotal4d_432d_field = 0;
 	let pasaran_limitotal3d_432d_field = 0;
 	let pasaran_limitotal3dd_432d_field = 0;
@@ -84,6 +97,18 @@
 	let pasaran_limitglobal2d_432d_field = 0;
 	let pasaran_limitglobal2dd_432d_field = 0;
 	let pasaran_limitglobal2dt_432d_field = 0;
+    let pasaran_limitotal4d_fullbb_432d_field = 0;
+	let pasaran_limitotal3d_fullbb_432d_field = 0;
+	let pasaran_limitotal3dd_fullbb_432d_field = 0;
+	let pasaran_limitotal2d_fullbb_432d_field = 0;
+	let pasaran_limitotal2dd_fullbb_432d_field = 0;
+	let pasaran_limitotal2dt_fullbb_432d_field = 0;
+	let pasaran_limitglobal4d_fullbb_432d_field = 0;
+	let pasaran_limitglobal3d_fullbb_432d_field = 0;
+	let pasaran_limitglobal3dd_fullbb_432d_field = 0;
+	let pasaran_limitglobal2d_fullbb_432d_field = 0;
+	let pasaran_limitglobal2dd_fullbb_432d_field = 0;
+	let pasaran_limitglobal2dt_fullbb_432d_field = 0;
 	let pasaran_disc4d_432d_field = 0;
 	let pasaran_disc3d_432d_field = 0;
 	let pasaran_disc3dd_432d_field = 0;
@@ -116,12 +141,14 @@
     let pasaran_win2dt_bb_432d_field = 0;
 	let pasaran_minbet_cbebas_field = 0;
 	let pasaran_maxbet_cbebas_field = 0;
+	let pasaran_maxbuy_cbebas_field = 0;
 	let pasaran_limitotal_cbebas_field = 0;
 	let pasaran_limitglobal_cbebas_field = 0;
 	let pasaran_win_cbebas_field = 0;
 	let pasaran_disc_cbebas_field = 0;
 	let pasaran_minbet_cmacau_field = 0;
 	let pasaran_maxbet_cmacau_field = 0;
+	let pasaran_maxbuy_cmacau_field = 0;
 	let pasaran_limitotal_cmacau_field = 0;
 	let pasaran_limitglobal_cmacau_field = 0;
 	let pasaran_win2_cmacau_field = 0;
@@ -130,6 +157,7 @@
 	let pasaran_disc_cmacau_field = 0;
 	let pasaran_minbet_cnaga_field = 0;
 	let pasaran_maxbet_cnaga_field = 0;
+	let pasaran_maxbuy_cnaga_field = 0;
 	let pasaran_win3_cnaga_field = 0;
 	let pasaran_win4_cnaga_field = 0;
 	let pasaran_disc_cnaga_field = 0;
@@ -137,6 +165,7 @@
 	let pasaran_limittotal_cnaga_field = 0;
 	let pasaran_minbet_cjitu_field = 0;
 	let pasaran_maxbet_cjitu_field = 0;
+	let pasaran_maxbuy_cjitu_field = 0;
 	let pasaran_winas_cjitu_field = 0;
 	let pasaran_winkop_cjitu_field = 0;
 	let pasaran_winkepala_cjitu_field = 0;
@@ -146,6 +175,7 @@
 	let pasaran_limittotal_cjitu_field = 0;
 	let pasaran_minbet_5050umum_field = 0;
 	let pasaran_maxbet_5050umum_field = 0;
+	let pasaran_maxbuy_5050umum_field = 0;
 	let pasaran_keibesar_5050umum_field = 0;
 	let pasaran_keikecil_5050umum_field = 0;
 	let pasaran_keigenap_5050umum_field = 0;
@@ -162,6 +192,7 @@
 	let pasaran_limittotal_5050umum_field = 0;
 	let pasaran_minbet_5050special_field = 0;
 	let pasaran_maxbet_5050special_field = 0;
+	let pasaran_maxbuy_5050special_field = 0;
 	let pasaran_keiasganjil_5050special_field = 0;
 	let pasaran_keiasgenap_5050special_field = 0;
 	let pasaran_keiasbesar_5050special_field = 0;
@@ -198,6 +229,7 @@
 	let pasaran_limittotal_5050special_field = 0;
 	let pasaran_minbet_5050kombinasi_field = 0;
 	let pasaran_maxbet_5050kombinasi_field = 0;
+	let pasaran_maxbuy_5050kombinasi_field = 0;
 	let pasaran_belakangkeimono_5050kombinasi_field = 0;
 	let pasaran_belakangkeistereo_5050kombinasi_field = 0;
 	let pasaran_belakangkeikembang_5050kombinasi_field = 0;
@@ -232,12 +264,14 @@
 	let pasaran_limittotal_5050kombinasi_field = 0;
 	let pasaran_minbet_kombinasi_field = 0;
 	let pasaran_maxbet_kombinasi_field = 0;
+	let pasaran_maxbuy_kombinasi_field = 0;
 	let pasaran_win_kombinasi_field = 0;
 	let pasaran_disc_kombinasi_field = 0;
 	let pasaran_limitglobal_kombinasi_field = 0;
 	let pasaran_limittotal_kombinasi_field = 0;
 	let pasaran_minbet_dasar_field = 0;
 	let pasaran_maxbet_dasar_field = 0;
+	let pasaran_maxbuy_dasar_field = 0;
 	let pasaran_keibesar_dasar_field = 0;
 	let pasaran_keikecil_dasar_field = 0;
 	let pasaran_keigenap_dasar_field = 0;
@@ -250,6 +284,7 @@
 	let pasaran_limittotal_dasar_field = 0;
 	let pasaran_minbet_shio_field = 0;
 	let pasaran_maxbet_shio_field = 0;
+	let pasaran_maxbuy_shio_field = 0;
 	let pasaran_win_shio_field = 0;
 	let pasaran_disc_shio_field = 0;
 	let pasaran_shioyear_shio_field = "";
@@ -439,6 +474,32 @@
                     pasaran_maxbet2d_432d_field = record[i]["maxbet2d_432d"];
                     pasaran_maxbet2dd_432d_field = record[i]["maxbet2dd_432d"];
                     pasaran_maxbet2dt_432d_field = record[i]["maxbet2dt_432d"];
+
+                    pasaran_maxbet4d_fullbb_432d_field = record[i]["maxbet4d_fullbb_432d"];
+                    pasaran_maxbet3d_fullbb_432d_field = record[i]["maxbet3d_fullbb_432d"];
+                    pasaran_maxbet3dd_fullbb_432d_field = record[i]["maxbet3dd_fullbb_432d"];
+                    pasaran_maxbet2d_fullbb_432d_field = record[i]["maxbet2d_fullbb_432d"];
+                    pasaran_maxbet2dd_fullbb_432d_field = record[i]["maxbet2dd_fullbb_432d"];
+                    pasaran_maxbet2dt_fullbb_432d_field = record[i]["maxbet2dt_fullbb_432d"];
+                    pasaran_maxbuy4d_432d_field = record[i]["maxbuy4d_432d"];
+                    pasaran_maxbuy3d_432d_field = record[i]["maxbuy3d_432d"];
+                    pasaran_maxbuy3dd_432d_field = record[i]["maxbuy3dd_432d"];
+                    pasaran_maxbuy2d_432d_field = record[i]["maxbuy2d_432d"];
+                    pasaran_maxbuy2dd_432d_field = record[i]["maxbuy2dd_432d"];
+                    pasaran_maxbuy2dt_432d_field = record[i]["maxbuy2dt_432d"];
+                    pasaran_limitotal4d_fullbb_432d_field = record[i]["limitotal4d_fullbb_432d"];
+                    pasaran_limitotal3d_fullbb_432d_field = record[i]["limitotal3d_fullbb_432d"];
+                    pasaran_limitotal3dd_fullbb_432d_field = record[i]["limitotal3dd_fullbb_432d"];
+                    pasaran_limitotal2d_fullbb_432d_field = record[i]["limitotal2d_fullbb_432d"];
+                    pasaran_limitotal2dd_fullbb_432d_field = record[i]["limitotal2dd_fullbb_432d"];
+                    pasaran_limitotal2dt_fullbb_432d_field = record[i]["limitotal2dt_fullbb_432d"];
+                    pasaran_limitglobal4d_fullbb_432d_field = record[i]["limitglobal4d_fullbb_432d"];
+                    pasaran_limitglobal3d_fullbb_432d_field = record[i]["limitglobal3d_fullbb_432d"];
+                    pasaran_limitglobal3dd_fullbb_432d_field = record[i]["limitglobal3dd_fullbb_432d"];
+                    pasaran_limitglobal2d_fullbb_432d_field = record[i]["limitglobal2d_fullbb_432d"];
+                    pasaran_limitglobal2dd_fullbb_432d_field = record[i]["limitglobal2dd_fullbb_432d"];
+                    pasaran_limitglobal2dt_fullbb_432d_field = record[i]["limitglobal2dt_fullbb_432d"];
+
                     pasaran_limitotal4d_432d_field = record[i]["limitotal4d_432d"];
                     pasaran_limitotal3d_432d_field = record[i]["limitotal3d_432d"];
                     pasaran_limitotal3dd_432d_field = record[i]["limitotal3dd_432d"];
@@ -624,6 +685,17 @@
                     pasaran_shioyear_shio_field = record[i]["shioyear_shio"];
                     pasaran_limitglobal_shio_field = record[i]["limitglobal_shio"];
                     pasaran_limittotal_shio_field = record[i]["limittotal_shio"];
+
+                    pasaran_maxbuy_cbebas_field = record[i]["maxbuy_cbebas"];
+                    pasaran_maxbuy_cmacau_field = record[i]["maxbuy_cmacau"];
+                    pasaran_maxbuy_cnaga_field = record[i]["maxbuy_cnaga"];
+                    pasaran_maxbuy_cjitu_field = record[i]["maxbuy_cjitu"];
+                    pasaran_maxbuy_5050umum_field = record[i]["maxbuy_5050umum"];
+                    pasaran_maxbuy_5050special_field = record[i]["maxbuy_5050special"];
+                    pasaran_maxbuy_5050kombinasi_field = record[i]["maxbuy_5050kombinasi"];
+                    pasaran_maxbuy_kombinasi_field = record[i]["maxbuy_kombinasi"];
+                    pasaran_maxbuy_dasar_field = record[i]["maxbuy_dasar"];
+                    pasaran_maxbuy_shio_field = record[i]["maxbuy_shio"];
                 }
                 for (var i = 0; i < record_pasaranonline.length; i++) {
                     listPasaranOnline = [
@@ -1213,14 +1285,14 @@
         <table class="table table-compact w-full">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center" colspan=2>STATUS</th>
-                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PASARAN</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">HARI DIUNDI</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">TUTUP</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">JADWAL</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">OPEN</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">DISPLAY</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center"></th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center" colspan=2>STATUS</th>
+                    <th width="*" class="bg-[#475289] {font_size} text-white text-left">PASARAN</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">HARI DIUNDI</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">TUTUP</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">JADWAL</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">OPEN</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">DISPLAY</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
@@ -1234,18 +1306,18 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                             </svg>
                         </td>
-                        <td class="text-xs lg:text-sm align-top text-center">
-                            <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_status}</span>
+                        <td class="{font_size} align-top text-center">
+                            <span class="{rec.home_status_class} text-center rounded-md p-1 px-2  ">{rec.home_status}</span>
                         </td>
-                        <td class="text-xs lg:text-sm align-top text-center">
-                            <span class="{rec.home_active_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_active}</span>
+                        <td class="{font_size} align-top text-center">
+                            <span class="{rec.home_active_class} text-center rounded-md p-1 px-2  ">{rec.home_active}</span>
                         </td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_nama}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_diundi}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_jamtutup}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_jamjadwal}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_jamopen}</td>
-                        <td class="text-xs lg:text-sm align-top text-right">{rec.home_display}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_nama}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_diundi}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_jamtutup}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_jamjadwal}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_jamopen}</td>
+                        <td class="{font_size} align-top text-right">{rec.home_display}</td>
                     </tr>
                     {/each}
                 </tbody>
@@ -1579,6 +1651,18 @@
                     {pasaran_maxbet2d_432d_field}
                     {pasaran_maxbet2dd_432d_field}
                     {pasaran_maxbet2dt_432d_field}
+                    {pasaran_maxbet4d_fullbb_432d_field}
+                    {pasaran_maxbet3d_fullbb_432d_field}
+                    {pasaran_maxbet3dd_fullbb_432d_field}
+                    {pasaran_maxbet2d_fullbb_432d_field}
+                    {pasaran_maxbet2dd_fullbb_432d_field}
+                    {pasaran_maxbet2dt_fullbb_432d_field}
+                    {pasaran_maxbuy4d_432d_field}
+                    {pasaran_maxbuy3d_432d_field}
+                    {pasaran_maxbuy3dd_432d_field}
+                    {pasaran_maxbuy2d_432d_field}
+                    {pasaran_maxbuy2dd_432d_field}
+                    {pasaran_maxbuy2dt_432d_field}
                     {pasaran_limitotal4d_432d_field}
                     {pasaran_limitotal3d_432d_field}
                     {pasaran_limitotal3dd_432d_field}
@@ -1591,6 +1675,18 @@
                     {pasaran_limitglobal2d_432d_field}
                     {pasaran_limitglobal2dd_432d_field}
                     {pasaran_limitglobal2dt_432d_field}
+                    {pasaran_limitotal4d_fullbb_432d_field}
+                    {pasaran_limitotal3d_fullbb_432d_field}
+                    {pasaran_limitotal3dd_fullbb_432d_field}
+                    {pasaran_limitotal2d_fullbb_432d_field}
+                    {pasaran_limitotal2dd_fullbb_432d_field}
+                    {pasaran_limitotal2dt_fullbb_432d_field}
+                    {pasaran_limitglobal4d_fullbb_432d_field}
+                    {pasaran_limitglobal3d_fullbb_432d_field}
+                    {pasaran_limitglobal3dd_fullbb_432d_field}
+                    {pasaran_limitglobal2d_fullbb_432d_field}
+                    {pasaran_limitglobal2dd_fullbb_432d_field}
+                    {pasaran_limitglobal2dt_fullbb_432d_field}
                     {pasaran_disc4d_432d_field}
                     {pasaran_disc3d_432d_field}
                     {pasaran_disc3dd_432d_field}
@@ -1635,6 +1731,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_cbebas_field}
                     {pasaran_maxbet_cbebas_field}
+                    {pasaran_maxbuy_cbebas_field}
                     {pasaran_limitotal_cbebas_field}
                     {pasaran_limitglobal_cbebas_field}
                     {pasaran_win_cbebas_field}
@@ -1652,6 +1749,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_cmacau_field}
                     {pasaran_maxbet_cmacau_field}
+                    {pasaran_maxbuy_cmacau_field}
                     {pasaran_limitotal_cmacau_field}
                     {pasaran_limitglobal_cmacau_field}
                     {pasaran_win2_cmacau_field}
@@ -1671,6 +1769,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_cnaga_field}
                     {pasaran_maxbet_cnaga_field}
+                    {pasaran_maxbuy_cnaga_field}
                     {pasaran_win3_cnaga_field}
                     {pasaran_win4_cnaga_field}
                     {pasaran_disc_cnaga_field}
@@ -1689,6 +1788,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_cjitu_field}
                     {pasaran_maxbet_cjitu_field}
+                    {pasaran_maxbuy_cjitu_field}
                     {pasaran_winas_cjitu_field}
                     {pasaran_winkop_cjitu_field}
                     {pasaran_winkepala_cjitu_field}
@@ -1709,6 +1809,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_5050umum_field}
                     {pasaran_maxbet_5050umum_field}
+                    {pasaran_maxbuy_5050umum_field}
                     {pasaran_keibesar_5050umum_field}
                     {pasaran_keikecil_5050umum_field}
                     {pasaran_keigenap_5050umum_field}
@@ -1736,6 +1837,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_5050special_field}
                     {pasaran_maxbet_5050special_field}
+                    {pasaran_maxbuy_5050special_field}
                     {pasaran_keiasganjil_5050special_field}
                     {pasaran_keiasgenap_5050special_field}
                     {pasaran_keiasbesar_5050special_field}
@@ -1783,6 +1885,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_5050kombinasi_field}
                     {pasaran_maxbet_5050kombinasi_field}
+                    {pasaran_maxbuy_5050kombinasi_field}
                     {pasaran_belakangkeimono_5050kombinasi_field}
                     {pasaran_belakangkeistereo_5050kombinasi_field}
                     {pasaran_belakangkeikembang_5050kombinasi_field}
@@ -1828,6 +1931,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_kombinasi_field}
                     {pasaran_maxbet_kombinasi_field}
+                    {pasaran_maxbuy_kombinasi_field}
                     {pasaran_win_kombinasi_field}
                     {pasaran_disc_kombinasi_field}
                     {pasaran_limitglobal_kombinasi_field}
@@ -1845,6 +1949,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_dasar_field}
                     {pasaran_maxbet_dasar_field}
+                    {pasaran_maxbuy_dasar_field}
                     {pasaran_keibesar_dasar_field}
                     {pasaran_keikecil_dasar_field}
                     {pasaran_keigenap_dasar_field}
@@ -1868,6 +1973,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_shio_field}
                     {pasaran_maxbet_shio_field}
+                    {pasaran_maxbuy_shio_field}
                     {pasaran_win_shio_field}
                     {pasaran_disc_shio_field}
                     {pasaran_shioyear_shio_field}

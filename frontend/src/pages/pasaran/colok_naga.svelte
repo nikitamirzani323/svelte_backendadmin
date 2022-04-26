@@ -8,6 +8,7 @@
     export let pasaran_idpasarantogel_field = "";
     export let pasaran_minbet_cnaga_field = 0;
     export let pasaran_maxbet_cnaga_field = 0;
+    export let pasaran_maxbuy_cnaga_field = 0;
     export let pasaran_win3_cnaga_field = 0;
     export let pasaran_win4_cnaga_field = 0;
     export let pasaran_disc_cnaga_field = 0;
@@ -26,6 +27,10 @@
         if (pasaran_maxbet_cnaga_field == "") {
             flag = true;
             msg_error += "The Max Bet is required<br>";
+        }
+        if (pasaran_maxbuy_cnaga_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
         }
         if (pasaran_limittotal_cnaga_field == "") {
             flag = true;
@@ -62,6 +67,7 @@
                     idpasarantogel: pasaran_idpasarantogel_field,
                     pasaran_minbet_cnaga: parseInt(pasaran_minbet_cnaga_field),
                     pasaran_maxbet_cnaga: parseInt(pasaran_maxbet_cnaga_field),
+                    pasaran_maxbuy_cnaga: parseInt(pasaran_maxbuy_cnaga_field),
                     pasaran_limittotal_cnaga: parseInt(pasaran_limittotal_cnaga_field),
                     pasaran_limitglobal_cnaga: parseInt(pasaran_limitglobal_cnaga_field),
                     pasaran_win3_cnaga: parseFloat(pasaran_win3_cnaga_field),
@@ -140,6 +146,13 @@
         input_precision=2
         input_id="pasaran_win4_cnaga_field"
         input_placeholder="WIN 4 Digit(x)"/>
+    <div></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_maxbuy_cnaga_field}
+        input_id="pasaran_maxbuy_cnaga_field"
+        input_placeholder="Max Buy"/>
 </div>
 {#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {

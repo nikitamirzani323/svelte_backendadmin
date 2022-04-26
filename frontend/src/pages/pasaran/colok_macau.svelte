@@ -8,6 +8,7 @@
     export let pasaran_idpasarantogel_field = "";
     export let pasaran_minbet_cmacau_field = 0;
     export let pasaran_maxbet_cmacau_field = 0;
+    export let pasaran_maxbuy_cmacau_field = 0;
     export let pasaran_limitotal_cmacau_field = 0;
     export let pasaran_limitglobal_cmacau_field = 0;
     export let pasaran_win2_cmacau_field = 0;
@@ -27,6 +28,10 @@
         if (pasaran_maxbet_cmacau_field == "") {
             flag = true;
             msg_error += "The Max Bet is required<br>";
+        }
+        if (pasaran_maxbuy_cmacau_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
         }
         if (pasaran_limitotal_cmacau_field == "") {
             flag = true;
@@ -67,6 +72,7 @@
                     idpasarantogel: pasaran_idpasarantogel_field,
                     pasaran_minbet_cmacau: parseInt(pasaran_minbet_cmacau_field),
                     pasaran_maxbet_cmacau: parseInt(pasaran_maxbet_cmacau_field),
+                    pasaran_maxbuy_cmacau: parseInt(pasaran_maxbuy_cmacau_field),
                     pasaran_limitotal_cmacau: parseInt(pasaran_limitotal_cmacau_field),
                     pasaran_limitglobal_cmacau: parseInt(pasaran_limitglobal_cmacau_field),
                     pasaran_win2_cmacau: parseFloat(pasaran_win2_cmacau_field),
@@ -147,7 +153,13 @@
         input_id="pasaran_win3_cmacau_field"
         input_placeholder="WIN 3 Digit(x)"/>
     <div ></div>
-    <div class="col-span-2"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_maxbuy_cmacau_field}
+        input_id="pasaran_maxbuy_cmacau_field"
+        input_placeholder="Max Buy"/>
+    <div></div>
     <Input_custom
         input_enabled={true}
         input_tipe="float"

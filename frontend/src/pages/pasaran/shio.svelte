@@ -8,6 +8,7 @@
     export let pasaran_idpasarantogel_field = "";
     export let pasaran_minbet_shio_field = 0;
     export let pasaran_maxbet_shio_field = 0;
+    export let pasaran_maxbuy_shio_field = 0;
     export let pasaran_win_shio_field = 0;
     export let pasaran_disc_shio_field = 0;
     export let pasaran_shioyear_shio_field = "";
@@ -26,6 +27,10 @@
         if (pasaran_maxbet_shio_field == "") {
             flag = true;
             msg_error += "The Max Bet is required<br>";
+        }
+        if (pasaran_maxbuy_shio_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
         }
         if (pasaran_limittotal_shio_field == "") {
             flag = true;
@@ -58,6 +63,7 @@
                     idpasarantogel: pasaran_idpasarantogel_field,
                     pasaran_minbet_shio: parseInt(pasaran_minbet_shio_field),
                     pasaran_maxbet_shio: parseInt(pasaran_maxbet_shio_field),
+                    pasaran_maxbuy_shio: parseInt(pasaran_maxbuy_shio_field),
                     pasaran_limittotal_shio: parseInt(pasaran_limittotal_shio_field),
                     pasaran_limitglobal_shio: parseInt(pasaran_limitglobal_shio_field),
                     pasaran_shioyear_shio: "kerbau",
@@ -131,7 +137,13 @@
         bind:value={pasaran_limitglobal_shio_field}
         input_id="pasaran_limitglobal_shio_field"
         input_placeholder="Limit Global"/>
-    
+    <div class="col-span-2"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_maxbuy_shio_field}
+        input_id="pasaran_maxbuy_shio_field"
+        input_placeholder="Max Buy"/>
 </div>
 
 {#if pasaran_tipe != "WAJIB"}

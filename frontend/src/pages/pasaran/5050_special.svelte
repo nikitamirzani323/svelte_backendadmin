@@ -8,6 +8,7 @@
     export let pasaran_idpasarantogel_field = "";
     export let pasaran_minbet_5050special_field = 0;
     export let pasaran_maxbet_5050special_field = 0;
+    export let pasaran_maxbuy_5050special_field = 0;
     export let pasaran_keiasganjil_5050special_field = 0;
     export let pasaran_keiasgenap_5050special_field = 0;
     export let pasaran_keiasbesar_5050special_field = 0;
@@ -56,6 +57,11 @@
             flag = true;
             msg_error += "The Max Bet is required<br>";
         }
+        if (pasaran_maxbuy_5050special_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
+        }
+        
         if (pasaran_limittotal_5050special_field == "") {
             flag = true;
             msg_error += "The Limit Total is required<br>";
@@ -207,6 +213,7 @@
                     idpasarantogel: pasaran_idpasarantogel_field,
                     pasaran_minbet_5050special: parseInt(pasaran_minbet_5050special_field),
                     pasaran_maxbet_5050special: parseInt(pasaran_maxbet_5050special_field),
+                    pasaran_maxbuy_5050special: parseInt(pasaran_maxbuy_5050special_field),
                     pasaran_limitglobal_5050special: parseInt(pasaran_limitglobal_5050special_field),
                     pasaran_limittotal_5050special: parseInt(pasaran_limittotal_5050special_field),
                     pasaran_keiasganjil_5050special: parseFloat(
@@ -361,6 +368,13 @@
         input_placeholder="Limit Global"/>
     
     <div class="col-span-2"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_maxbuy_5050special_field}
+        input_id="pasaran_maxbuy_5050special_field"
+        input_placeholder="Max Buy"/>
+    <div class="col-span-3"></div>
     <Input_custom
         input_enabled={true}
         input_tipe="float"

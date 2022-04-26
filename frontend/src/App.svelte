@@ -14,6 +14,7 @@
 	import Report from '../src/pages/report/Report.svelte'
 	import Tailwindcss from './Tailwindcss.svelte'
 	export let path_api = "";
+	export let font_size = "";
   	let token = localStorage.getItem("token");
 	let routes = "";
 	let isNav = false;
@@ -34,48 +35,56 @@
 				"/": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Home,
 				}),
 			"/admin": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Admin,
 				}),
 			"/adminrule": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Adminrule,
 				}),
 			"/log": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Log,
 				}),
 			"/pasaran": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Pasaran,
 				}),
 			"/periode": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Periode,
 				}),
 			"/prediksi": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Prediksi,
 				}),
 			"/report": wrap({
 					props: {
 						path_api: path_api,
+						font_size: font_size,
 					},
 					component: Report,
 				}),

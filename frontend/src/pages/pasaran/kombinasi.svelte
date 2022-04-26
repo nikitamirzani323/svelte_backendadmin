@@ -8,6 +8,7 @@
     export let pasaran_idpasarantogel_field = "";
     export let pasaran_minbet_kombinasi_field = 0;
     export let pasaran_maxbet_kombinasi_field = 0;
+    export let pasaran_maxbuy_kombinasi_field = 0;
     export let pasaran_win_kombinasi_field = 0;
     export let pasaran_disc_kombinasi_field = 0;
     export let pasaran_limitglobal_kombinasi_field = 0;
@@ -129,7 +130,13 @@
         bind:value={pasaran_limitglobal_kombinasi_field}
         input_id="pasaran_limitglobal_kombinasi_field"
         input_placeholder="Limit Global"/>
-    
+    <div class="col-span-2"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_maxbuy_kombinasi_field}
+        input_id="pasaran_maxbuy_kombinasi_field"
+        input_placeholder="Max Buy"/>
 </div>
 {#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {

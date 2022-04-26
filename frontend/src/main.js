@@ -5,6 +5,7 @@ const app = new App({
   props: {
 		path_api: "/",
 		// path_api: "http://localhost:5051/",
+		font_size: "text-[12px] lg:text-[13px]"
 	}
 })
 

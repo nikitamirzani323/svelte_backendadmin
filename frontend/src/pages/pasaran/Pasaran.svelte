@@ -1,6 +1,7 @@
 <script>
     import Home from "../pasaran/Home.svelte";
     export let path_api = ""
+    export let font_size = ""
     let listHome = [];
     let record = "";
     let totalrecord = 0;
@@ -52,7 +53,7 @@
                         status_class = "bg-[#E91E63] text-white"
                     }
                     if(record[i]["statuspasaranactive"] == "ACTIVE"){
-                        active_class = "bg-[#8BC34A] text-black"
+                        active_class = "bg-[#ebfbee] text-[#6ec07b]"
                     }else{
                         active_class = "bg-[#E91E63] text-white"
                     }
@@ -100,6 +101,7 @@
         on:handleRefreshData={handleRefreshData}
         on:handleLogout={handleLogout}
         {path_api}
+        {font_size}
         {token}
         {listHome}
         {totalrecord}/>

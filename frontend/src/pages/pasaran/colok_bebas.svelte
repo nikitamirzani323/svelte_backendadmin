@@ -8,6 +8,7 @@
     export let pasaran_idpasarantogel_field = "";
     export let pasaran_minbet_cbebas_field = 0;
     export let pasaran_maxbet_cbebas_field = 0;
+    export let pasaran_maxbuy_cbebas_field = 0;
     export let pasaran_limitotal_cbebas_field = 0;
     export let pasaran_limitglobal_cbebas_field = 0;
     export let pasaran_win_cbebas_field = 0;
@@ -25,6 +26,10 @@
         if (pasaran_maxbet_cbebas_field == "") {
             flag = true;
             msg_error += "The Max Bet is required<br>";
+        }
+        if (pasaran_maxbuy_cbebas_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
         }
         if (pasaran_limitotal_cbebas_field == "") {
             flag = true;
@@ -57,6 +62,7 @@
                     idpasarantogel: pasaran_idpasarantogel_field,
                     pasaran_minbet_cbebas: parseInt(pasaran_minbet_cbebas_field),
                     pasaran_maxbet_cbebas: parseInt(pasaran_maxbet_cbebas_field),
+                    pasaran_maxbuy_cbebas: parseInt(pasaran_maxbuy_cbebas_field),
                     pasaran_limitotal_cbebas: parseInt(pasaran_limitotal_cbebas_field),
                     pasaran_limitglobal_cbebas: parseInt(pasaran_limitglobal_cbebas_field),
                     pasaran_win_cbebas: parseFloat(pasaran_win_cbebas_field),
@@ -90,11 +96,11 @@
 
 <div class="grid grid-cols-3 gap-1 mt-2 mb-5">
     <Input_custom
-            input_enabled={true}
-            input_tipe="number"
-            bind:value={pasaran_minbet_cbebas_field}
-            input_id="pasaran_minbet_cbebas_field"
-            input_placeholder="Minimal Bet"/>
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_minbet_cbebas_field}
+        input_id="pasaran_minbet_cbebas_field"
+        input_placeholder="Minimal Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
@@ -127,6 +133,12 @@
         input_precision=2
         input_id="pasaran_disc_cbebas_field"
         input_placeholder="DISC(%)"/>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_maxbuy_cbebas_field}
+        input_id="pasaran_maxbuy_cbebas_field"
+        input_placeholder="Max Buy"/>
 </div>
 {#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {

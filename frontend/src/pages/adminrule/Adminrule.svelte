@@ -1,6 +1,7 @@
 <script>
     import Home from "../adminrule/Home.svelte";
     export let path_api = ""
+    export let font_size = "";
     let listHome = [];
     let record = "";
     let totalrecord = 0;
@@ -79,6 +80,7 @@
         on:handleRefreshData={handleRefreshData}
         on:handleLogout={handleLogout}
         {path_api}
+        {font_size}
         {token}
         {listHome}
         {totalrecord}/>

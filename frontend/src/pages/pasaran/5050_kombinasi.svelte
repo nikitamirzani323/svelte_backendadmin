@@ -8,6 +8,7 @@
     export let pasaran_idpasarantogel_field = "";
     export let pasaran_minbet_5050kombinasi_field = 0;
     export let pasaran_maxbet_5050kombinasi_field = 0;
+    export let pasaran_maxbuy_5050kombinasi_field = 0;
     export let pasaran_belakangkeimono_5050kombinasi_field = 0;
     export let pasaran_belakangkeistereo_5050kombinasi_field = 0;
     export let pasaran_belakangkeikembang_5050kombinasi_field = 0;
@@ -54,6 +55,11 @@
             flag = true;
             msg_error += "The Max Bet is required<br>";
         }
+        if (pasaran_maxbuy_5050kombinasi_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
+        }
+        
         if (pasaran_limittotal_5050kombinasi_field == "") {
             flag = true;
             msg_error += "The Limit Total is required<br>";
@@ -195,12 +201,9 @@
                     idpasaran: idcomppasaran,
                     page: "PASARAN-SAVE",
                     idpasarantogel: pasaran_idpasarantogel_field,
-                    pasaran_minbet_5050kombinasi: parseInt(
-                        pasaran_minbet_5050kombinasi_field
-                    ),
-                    pasaran_maxbet_5050kombinasi: parseInt(
-                        pasaran_maxbet_5050kombinasi_field
-                    ),
+                    pasaran_minbet_5050kombinasi: parseInt(pasaran_minbet_5050kombinasi_field),
+                    pasaran_maxbet_5050kombinasi: parseInt(pasaran_maxbet_5050kombinasi_field),
+                    pasaran_maxbuy_5050kombinasi: parseInt(pasaran_maxbuy_5050kombinasi_field),
                     pasaran_limitglobal_5050kombinasi: parseInt(
                         pasaran_limitglobal_5050kombinasi_field
                     ),
@@ -352,6 +355,13 @@
         input_id="pasaran_limitglobal_5050kombinasi_field"
         input_placeholder="Limit Global"/>
     
+    <div class="col-span-3"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        bind:value={pasaran_maxbuy_5050kombinasi_field}
+        input_id="pasaran_maxbuy_5050kombinasi_field"
+        input_placeholder="Max Buy"/>
     <div class="col-span-3"></div>
     <Input_custom
         input_enabled={true}
