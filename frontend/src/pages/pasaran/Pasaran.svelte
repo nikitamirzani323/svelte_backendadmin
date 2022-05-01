@@ -1,5 +1,6 @@
 <script>
     import Home from "../pasaran/Home.svelte";
+    import dayjs from "dayjs";
     export let path_api = ""
     export let font_size = ""
     let listHome = [];
@@ -55,8 +56,12 @@
                     if(record[i]["statuspasaranactive"] == "ACTIVE"){
                         active_class = "bg-[#ebfbee] text-[#6ec07b]"
                     }else{
-                        active_class = "bg-[#E91E63] text-white"
+                        active_class = "bg-[#fde3e3] text-[#ea7779]"
                     }
+                    let tutup = dayjs().format("DD MMM YYYY ")+record[i]["jamtutup"];
+                    let jadwal = dayjs().format("DD MMM YYYY ")+record[i]["jamjadwal"];
+                    let open = dayjs().format("DD MMM YYYY ")+record[i]["jamopen"];
+
                     listHome = [
                         ...listHome,
                         {
@@ -64,9 +69,9 @@
                             home_nama: record[i]["nmpasarantogel"],
                             home_tipe: record[i]["tipepasaran"],
                             home_diundi: record[i]["pasarandiundi"],
-                            home_jamtutup: record[i]["jamtutup"],
-                            home_jamjadwal: record[i]["jamjadwal"],
-                            home_jamopen: record[i]["jamopen"],
+                            home_jamtutup: dayjs(tutup).format("HH:mm"),
+                            home_jamjadwal: dayjs(jadwal).format("HH:mm"),
+                            home_jamopen: dayjs(open).format("HH:mm"),
                             home_display: record[i]["displaypasaran"],
                             home_status: record[i]["statuspasaran"],
                             home_status_class: status_class,

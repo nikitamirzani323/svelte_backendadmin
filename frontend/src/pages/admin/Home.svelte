@@ -7,6 +7,7 @@
     import Modal_popup from '../../components/Modal_popup.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
+    import Panel_info from '../../components/Panel_info.svelte'
 
     export let path_api = "";
     export let font_size = "";
@@ -398,7 +399,7 @@
                             </svg>
                         </td>
                         <td class="{font_size} align-top text-center">{rec.admin_no}</td>
-                        <td class="{font_size} align-top text-center"><span class="{rec.admin_statusclass} text-center rounded-md p-1 px-2 shadow-lg">{rec.admin_status}</span></td>
+                        <td class="{font_size} align-top text-center"><span class="{rec.admin_statusclass} text-center rounded-md p-1 px-2 ">{rec.admin_status}</span></td>
                         <td class="{font_size} align-top text-center">{rec.admin_timezone}</td>
                         <td class="{font_size} align-top text-center">{rec.admin_lastipaddres}</td>
                         <td class="{font_size} align-top text-center">{rec.admin_lastlogin}</td>
@@ -517,10 +518,24 @@
                     {/if}
                 </div>
                 {#if sData == "Edit"}
-                <div class="text-[11px]">
-                    Create : {admin_create_field} <br>
-                    Update : {admin_update_field}
-                </div>
+                <Panel_info>
+                    <slot:template slot="panel_body">
+                        <table>
+                            <tr>
+                                <td>Create</td>
+                                <td>:</td>
+                                <td>{admin_create_field}</td>
+                            </tr>
+                            {#if admin_update_field != ""}
+                            <tr>
+                                <td>Modified</td>
+                                <td>:</td>
+                                <td>{admin_update_field}</td>
+                            </tr>
+                            {/if}
+                        </table>
+                    </slot:template>
+                </Panel_info>
                 {/if}
             </div>
             <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">

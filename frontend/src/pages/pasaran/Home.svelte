@@ -2,6 +2,7 @@
     import { createEventDispatcher } from "svelte";
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
+    import dayjs from "dayjs";
     import Input_custom from '../../components/Input.svelte' 
     import Modal_popup from '../../components/Modal_popup.svelte'
     import Modal_alert from '../../components/Modal_alert.svelte' 
@@ -18,6 +19,7 @@
     import Panel_shio from '../pasaran/shio.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
+    import Panel_info from '../../components/Panel_info.svelte' 
 
     export let path_api = "";
     export let font_size = "";
@@ -55,9 +57,7 @@
     let pasaran_display_field = 0;
 	let pasaran_status_field = "";
 	let pasaran_create_field = "";
-	let pasaran_createdate_field = "";
 	let pasaran_update_field = "";
-	let pasaran_updatedate_field = "";
 
 	let pasaran_limitline4d_field = 0;
 	let pasaran_limitline3d_field = 0;
@@ -448,17 +448,24 @@
                     pasaran_idpasarantogel_field = record[i]["idpasarantogel"];
                     pasaran_name_field = record[i]["nmpasaran"];
                     pasaran_tipepasaran_field = y;
+
+                    let tutup = dayjs().format("DD MMM YYYY ")+record[i]["jamtutup"];
+                    let jadwal = dayjs().format("DD MMM YYYY ")+record[i]["jamjadwal"];
+                    let open = dayjs().format("DD MMM YYYY ")+record[i]["jamopen"];
+
                     $form.form_pasaran_situs_field = record[i]["pasaranurl"];
                     $form.form_pasaran_diundi_field = record[i]["pasarandiundi"];
-                    $form.form_pasaran_tutup_field = record[i]["jamtutup"];
-                    $form.form_pasaran_jadwal_field = record[i]["jamjadwal"];
-                    $form.form_pasaran_open_field = record[i]["jamopen"];
+                    $form.form_pasaran_tutup_field = dayjs(tutup).format("HH:mm");
+                    $form.form_pasaran_jadwal_field = dayjs(jadwal).format("HH:mm");
+                    $form.form_pasaran_open_field = dayjs(open).format("HH:mm");
                     pasaran_display_field = record[i]["displaypasaran"];
                     pasaran_status_field = record[i]["statuspasaranactive"];
-                    pasaran_create_field = record[i]["create"];
-                    pasaran_createdate_field = record[i]["createdate"];
-                    pasaran_update_field = record[i]["update"];
-                    pasaran_updatedate_field = record[i]["updatedate"];
+                    pasaran_create_field = record[i]["create"]+", "+record[i]["createdate"];
+                    if(record[i]["update"] != ""){
+                        pasaran_update_field = record[i]["update"]+", "+record[i]["updatedate"];
+                    }else{
+                        pasaran_update_field = "";
+                    }
 
                     pasaran_limitline4d_field = record[i]["limitline_4d"];
                     pasaran_limitline3d_field = record[i]["limitline_3d"];
@@ -1079,9 +1086,7 @@
         pasaran_display_field = 0;
         pasaran_status_field = "";
         pasaran_create_field = "";
-        pasaran_createdate_field = "";
         pasaran_update_field = "";
-        pasaran_updatedate_field = "";
         $form.form_pasaran_situs_field = "";
         $form.form_pasaran_diundi_field = "";
         $form.form_pasaran_tutup_field = "";
@@ -1288,11 +1293,11 @@
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center"></th>
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center" colspan=2>STATUS</th>
                     <th width="*" class="bg-[#475289] {font_size} text-white text-left">PASARAN</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">HARI DIUNDI</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">TUTUP</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">JADWAL</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">OPEN</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">DISPLAY</th>
+                    <th width="15%" class="bg-[#475289] {font_size} text-white text-left">HARI DIUNDI</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-center">TUTUP</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-center">JADWAL</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-center">OPEN</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-right">DISPLAY</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
@@ -1425,13 +1430,24 @@
                             <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_open_field}</small>
                         {/if}
                     </div>
-                    <div class="mb-5 text-[11px]">
-                        Create : {pasaran_create_field}, {pasaran_createdate_field}
-                        {#if pasaran_update_field != "" }
-                            <br>
-                            Update : {pasaran_update_field}, {pasaran_updatedate_field}
-                        {/if}
-                    </div>
+                    <Panel_info>
+                        <slot:template slot="panel_body">
+                            <table>
+                                <tr>
+                                    <td>Create</td>
+                                    <td>:</td>
+                                    <td>{pasaran_create_field}</td>
+                                </tr>
+                                {#if pasaran_update_field != ""}
+                                <tr>
+                                    <td>Modified</td>
+                                    <td>:</td>
+                                    <td>{pasaran_update_field}</td>
+                                </tr>
+                                {/if}
+                            </table>
+                        </slot:template>
+                    </Panel_info>
                     <div class="mb-5">
                         <Input_custom
                             input_autofocus={false}
@@ -1452,13 +1468,11 @@
                             <option value="N">DEACTIVE</option>
                         </select>
                     </div>
-                    {#if pasaran_tipe != "WAJIB"}
                     <div class="col-span-2">
                         <button on:click={() => {
                             handleSubmit();
                         }} class="{buttonLoading_class} btn-block">Submit</button>
                     </div>
-                    {/if}
                 </div>
             </div>
             <div class="w-full p-2 -mt-5">
@@ -1586,7 +1600,7 @@
                 {/if}
                 {#if panel_configure}
                     <div class="grid grid-cols-3 gap-2">
-                        <h2 class="text-lg font-bold col-span-3">Configure</h2>
+                        <h2 class="text-lg font-bold col-span-3">Konfigurasi</h2>
                         <button on:click={() => {
                             call_configure("4-3-2");
                         }} class="btn btn-warning">4D/3D/2D</button>
