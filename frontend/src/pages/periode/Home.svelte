@@ -354,11 +354,11 @@
                 let status_class = ""
                 for (var i = 0; i < record.length; i++) {
                     if(record[i]["bet_status"] == "LOSE"){
-                        status_class = "bg-red-400 text-white"
+                        status_class = "bg-[#fde3e3] text-[#ea7779]"
                     }else if(record[i]["bet_status"] == "CANCEL"){
                         status_class = "bg-red-600 text-white"
                     }else{
-                        status_class = "bg-[#8BC34A] text-black"
+                        status_class = "bg-[#ebfbee] text-[#6ec07b]"
                     }
                     listBetUsername = [
                         ...listBetUsername,
@@ -542,11 +542,11 @@
                 for (var i = 0; i < record.length; i++) {
                     if (record[i]["bet_status"] != "CANCEL") {
                         if(record[i]["bet_status"] == "LOSE"){
-                            status_class = "bg-red-400 text-white"
+                            status_class = "bg-[#fde3e3] text-[#ea7779]"
                         }else if(record[i]["bet_status"] == "CANCEL"){
                             status_class = "bg-red-600 text-white"
                         }else if(record[i]["bet_status"] == "WINNER"){
-                            status_class = "bg-[#8BC34A] text-black"
+                            status_class = "bg-[#ebfbee] text-[#6ec07b]"
                         }else{
                             status_class = "bg-[#FFEB3B] text-black"
                         }
@@ -613,11 +613,11 @@
                 }
                 for (var i = 0; i < record.length; i++) {
                     if(record[i]["bet_status"] == "LOSE"){
-                        status_class = "bg-red-400 text-white"
+                        status_class = "bg-[#fde3e3] text-[#ea7779]"
                     }else if(record[i]["bet_status"] == "CANCEL"){
                         status_class = "bg-red-600 text-white"
                     }else if(record[i]["bet_status"] == "WINNER"){
-                        status_class = "bg-[#8BC34A] text-black"
+                        status_class = "bg-[#ebfbee] text-[#6ec07b]"
                     }else{
                         status_class = "bg-[#FFEB3B] text-black"
                     }
@@ -786,6 +786,13 @@
                 tab_betgroup = ""
                 panel_listmember = false
                 panel_betgroup = false
+
+                tab_listbetall_all = "bg-sky-600 text-white"
+                tab_listbetall_winner = ""
+                tab_listbetall_cancel = ""
+                panel_listbetall_all = true
+                panel_listbetall_winner = false
+                panel_listbetall_cancel = false
                 break;
         }
     }
@@ -1299,7 +1306,7 @@
                                 {#each filterMemberListBet as rec}
                                     <tr>
                                         <td class="text-xs text-center align-top">
-                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>  
+                                            <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 ">{rec.bet_status}</span>  
                                         </td>
                                         <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
                                         <td class="{font_size} text-center align-top whitespace-nowrap">{rec.bet_datetime}</td>
@@ -1490,7 +1497,7 @@
                                                 {/if}
                                             </td>
                                             <td class="text-xs text-center align-top whitespace-nowrap">
-                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 ">{rec.bet_status}</span>
                                             </td>
                                             <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
                                             <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_username}</td>
@@ -1538,8 +1545,8 @@
                                     <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">DISC</th>
                                     <th width="10%" class="bg-[#475289] {font_size} text-white text-right align-top">KEI</th>
                                     <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">BAYAR</th>
-                                    <th width="7%" class="bg-[#475289] {font_size} text-right align-top">WIN</th>
-                                    <th width="20%" class="bg-[#475289] {font_size} text-right align-top">WIN<br>TOTAL</th>
+                                    <th width="7%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN</th>
+                                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">WIN<br>TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1547,7 +1554,7 @@
                                     {#each filterListBetALl as rec}
                                         <tr>
                                             <td class="text-xs text-center align-top whitespace-nowrap">
-                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 ">{rec.bet_status}</span>
                                             </td>
                                             <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
                                             <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_username}</td>
@@ -1604,7 +1611,7 @@
                                     {#each filterListBetALl as rec}
                                         <tr>
                                             <td class="text-xs text-center align-top whitespace-nowrap">
-                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.bet_status}</span>
+                                                <span class="{rec.bet_status_class} text-center rounded-md p-1 px-2 ">{rec.bet_status}</span>
                                             </td>
                                             <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_id}</td>
                                             <td class="{font_size} text-left align-top whitespace-nowrap">{rec.bet_username}</td>
