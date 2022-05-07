@@ -76,7 +76,7 @@
 <section class="bg-white shadow-lg p-5 mt-5 mb-10 mx-[550px]">
     <div class="flex flex-col gap-4">
         <div class="space-y-4">
-            <h1 class="text-center text-2xl font-semibold text-gray-500">LOGIN AGEN</h1>
+            <h1 class="text-center text-2xl font-bold text-gray-500">LOGIN AGEN TOTO SDSB</h1>
         </div>
         <div class="relative form-control">
             <Input_custom

@@ -4,7 +4,7 @@
 	import Navigation from '../src/components/Navigation.svelte'
 	import NotFound from '../src/pages/NotFound.svelte'
 	import Login from '../src/pages/Login.svelte'
-	import Home from '../src/pages/Home.svelte'
+	import Home from '../src/pages/home/Home.svelte'
 	import Admin from '../src/pages/admin/Admin.svelte'
 	import Adminrule from '../src/pages/adminrule/Adminrule.svelte'
 	import Log from '../src/pages/log/Log.svelte'
@@ -93,7 +93,7 @@
   }
 </script>
 {#if isNav}
-<main class="flex flex-col space-x-2 h-screen w-full bg-[#f0f2f5]">
+<main class="flex flex-col  h-screen w-full bg-[#f0f2f5]">
 	<Navigation />
 	<div class="justify-center ">
     	<div class="w-full  mt-5">
