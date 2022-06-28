@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  agen-toto-frontend:
+    container_name: agen-toto-frontend
+    image: agen-toto-frontend:0.0.1
+    build: .
+    ports:
+      - 5051:5051
+    restart: always
