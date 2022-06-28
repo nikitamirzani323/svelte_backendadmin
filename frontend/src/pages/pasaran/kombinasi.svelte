@@ -58,6 +58,7 @@
                     idpasarantogel: pasaran_idpasarantogel_field,
                     pasaran_minbet_kombinasi: parseInt(pasaran_minbet_kombinasi_field),
                     pasaran_maxbet_kombinasi: parseInt(pasaran_maxbet_kombinasi_field),
+                    pasaran_maxbuy_kombinasi: parseInt(pasaran_maxbuy_kombinasi_field),
                     pasaran_limittotal_kombinasi: parseInt(pasaran_limittotal_kombinasi_field),
                     pasaran_limitglobal_kombinasi: parseInt(pasaran_limitglobal_kombinasi_field),
                     pasaran_win_kombinasi: parseFloat(pasaran_win_kombinasi_field),
