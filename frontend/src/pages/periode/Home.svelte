@@ -7,6 +7,7 @@
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
+    import Panel_info from '../../components/Panel_info.svelte' 
     import Panel_table from '../../components/panel_table.svelte' 
 
     export let path_api = "";
@@ -1071,13 +1072,24 @@
                                 input_id="periode_keluaran_field"
                                 input_placeholder="Prize 1"/>
                         </div>
-                        <div class="relative form-control text-[11px]">
-                            Create : {periode_create_field}, {periode_createdate_field}
-                            {#if periode_update_field != ""}
-                                <br>
-                                Update : {periode_update_field}, {periode_updatedate_field}
-                            {/if}
-                        </div>
+                        <Panel_info>
+                            <slot:template slot="panel_body">
+                                <table>
+                                    <tr>
+                                        <td>Create</td>
+                                        <td>:</td>
+                                        <td>{periode_create_field}, {periode_createdate_field}</td>
+                                    </tr>
+                                    {#if periode_update_field != ""}
+                                    <tr>
+                                        <td>Modified</td>
+                                        <td>:</td>
+                                        <td>{periode_update_field}, {periode_updatedate_field}</td>
+                                    </tr>
+                                    {/if}
+                                </table>
+                            </slot:template>
+                        </Panel_info>
                     </div>
                     {#if periode_status_field == "OPEN"}
                         {#if periode_statusonline_field == "OFFLINE"}

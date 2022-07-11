@@ -73,52 +73,55 @@
    
    
 </script>
-<section class="bg-white shadow-lg p-5 mt-5 mb-10 mx-[550px]">
-    <div class="flex flex-col gap-4">
-        <div class="space-y-4">
-            <h1 class="text-center text-2xl font-bold text-gray-500">LOGIN AGEN TOTO SDSB</h1>
+<div class="flex justify-center w-full">
+    <article  class="bg-white shadow-lg p-5 mt-14 lg:mt-5 w-full lg:w-1/3">
+        <div class="flex flex-col gap-4">
+            <div class="space-y-4">
+                <h1 class="text-center text-2xl font-bold text-gray-500">LOGIN AGEN TOTO SDSB</h1>
+            </div>
+            <div class="relative form-control">
+                <Input_custom
+                    input_onchange="{handleChange}"
+                    input_autofocus={true}
+                    input_required={true}
+                    input_tipe="text"
+                    input_invalid={$errors.username.length > 0}
+                    bind:value={$form.username}
+                    input_id="username"
+                    input_placeholder="Username"
+                    />
+                {#if $errors.username}
+                    <small class="text-pink-600 text-[11px]">{$errors.username}</small>
+                {/if}
+            </div>
+            <div class="relative form-control">
+                <Input_custom
+                    input_onchange="{handleChange}"
+                    input_autofocus={false}
+                    input_required={true}
+                    input_tipe="password"
+                    input_attr="password"
+                    input_invalid={$errors.password.length > 0}
+                    bind:value={$form.password}
+                    input_id="password"
+                    input_placeholder="Password"
+                    />
+                {#if $errors.password}
+                    <small class="text-pink-600 text-[11px]">{$errors.password}</small>
+                {/if}
+            </div>
+            <div class="form-control">
+                <button
+                    on:click={() => {
+                        handleSubmit();
+                    }} 
+                    class="btn btn-primary rounded-md">Submit</button>
+            </div>
         </div>
-        <div class="relative form-control">
-            <Input_custom
-                input_onchange="{handleChange}"
-                input_autofocus={true}
-                input_required={true}
-                input_tipe="text"
-                input_invalid={$errors.username.length > 0}
-                bind:value={$form.username}
-                input_id="username"
-                input_placeholder="Username"
-                />
-            {#if $errors.username}
-                <small class="text-pink-600 text-[11px]">{$errors.username}</small>
-            {/if}
-        </div>
-        <div class="relative form-control">
-            <Input_custom
-                input_onchange="{handleChange}"
-                input_autofocus={false}
-                input_required={true}
-                input_tipe="password"
-                input_attr="password"
-                input_invalid={$errors.password.length > 0}
-                bind:value={$form.password}
-                input_id="password"
-                input_placeholder="Password"
-                />
-            {#if $errors.password}
-                <small class="text-pink-600 text-[11px]">{$errors.password}</small>
-            {/if}
-        </div>
-        <div class="form-control">
-            <button
-                on:click={() => {
-                    handleSubmit();
-                }} 
-                class="btn btn-primary rounded-md">Submit</button>
-        </div>
-    </div>
-    
-</section>
+        
+    </article>
+</div>
+
 <style>
     .loaderbox{
         -webkit-box-reflect: below 1px linear-gradient(transparent, #0004);
