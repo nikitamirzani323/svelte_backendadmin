@@ -1,7 +1,15 @@
 <script>
+	import Modulepasaran from "../home/listpasaran.svelte";
     export let path_api = ""
     export let font_size = "";
 	import dayjs from "dayjs";
+    let listpasaran = [
+		{idpasaran:"001",nmpasaran:"DEMO"},
+		{idpasaran:"002",nmpasaran:"CAMBODIA"},
+		{idpasaran:"003",nmpasaran:"BULLSEYE"},
+		{idpasaran:"004",nmpasaran:"SYDNEY"},
+		{idpasaran:"005",nmpasaran:"GONGJU DAY"}
+	];
     let listHome = [];
     let listagen = [];
 	let listHomepasaran = [];
@@ -254,7 +262,13 @@
 </script>
 {#if akses_page == true}
 <div class="bg-[#f0f2f5] pb-10">
-	<div class="container mx-auto px-2 lg:px-28 ">
+	<div class="">
+		
+		<Modulepasaran
+			{font_size}
+			{listpasaran}/>
+		
+
 		<div class="bg-white shadow-lg p-5 ">
 			<div class="flex flex-col gap-2">
 				<div class="flex">
