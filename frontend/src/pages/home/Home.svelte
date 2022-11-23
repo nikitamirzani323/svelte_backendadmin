@@ -3,13 +3,8 @@
     export let path_api = ""
     export let font_size = "";
 	import dayjs from "dayjs";
-    let listpasaran = [
-		{idpasaran:"001",nmpasaran:"DEMO"},
-		{idpasaran:"002",nmpasaran:"CAMBODIA"},
-		{idpasaran:"003",nmpasaran:"BULLSEYE"},
-		{idpasaran:"004",nmpasaran:"SYDNEY"},
-		{idpasaran:"005",nmpasaran:"GONGJU DAY"}
-	];
+    let listpasaran = [];
+    let listperiode = [];
     let listHome = [];
     let listagen = [];
 	let listHomepasaran = [];
@@ -50,6 +45,7 @@
             akses_page = false;
         } else {
             akses_page = true;
+			initDashboardPasaran()
             initHome(winlose_year);
             initHomePasaran(winlose_year);
         }
@@ -100,6 +96,50 @@
             }
         } 
 		createChart()
+    }
+	async function initDashboardPasaran() {
+		listHomepasaran = []
+		listagenpasaran = []
+        const res = await fetch(path_api+"api/dashboardlistpasaran", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({}),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            record = json.record;
+            totalrecord = record.length;
+            if (record != null) {
+                for (var i = 0; i < record.length; i++) {
+					let tutup = dayjs().format("DD MMM YYYY ")+record[i]["jamtutup"];
+                    let jadwal = dayjs().format("DD MMM YYYY ")+record[i]["jamjadwal"];
+                    let open = dayjs().format("DD MMM YYYY ")+record[i]["jamopen"];
+
+                    listpasaran = [
+                        ...listpasaran,
+                        {
+                            home_idcomppasaran: record[i]["idcomppasaran"],
+                            home_periode_idinvoice: record[i]["periode_idinvoice"],
+                            home_periode_nomorperiode: record[i]["periode_nomorperiode"],
+                            home_periode_tglperiode: record[i]["periode_tglperiode"],
+                            home_periode_total_bayar: record[i]["periode_total_bayar"],
+                            home_periode_total_bet: record[i]["periode_total_bet"],
+                            home_periode_total_member: record[i]["periode_total_member"],
+                            home_nmpasaran: record[i]["nmpasarantogel"],
+                            home_pasaranurl: record[i]["pasaranurl"],
+                            home_diundi: record[i]["pasarandiundi"],
+                            home_jadwal: dayjs(jadwal).format("HH:mm"),
+                            home_open: dayjs(open).format("HH:mm"),
+                            home_tutup: dayjs(tutup).format("HH:mm"),
+                        },
+                    ];
+                }
+				
+            }
+        } 
     }
 	async function initHomePasaran(e) {
 		listHomepasaran = []
@@ -265,6 +305,8 @@
 	<div class="">
 		
 		<Modulepasaran
+			{path_api}
+			{token}
 			{font_size}
 			{listpasaran}/>
 		
