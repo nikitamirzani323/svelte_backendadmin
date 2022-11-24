@@ -284,6 +284,7 @@
                             }} class="btn btn-sm btn-primary text-xs rounded-sm p-1">List Member</button>
                         <button class="btn btn-sm btn-primary text-xs rounded-sm p-1">Bet Group</button>
                         <button class="btn btn-sm btn-primary text-xs rounded-sm p-1">Past Result</button>
+                        <button class="btn btn-sm btn-primary text-xs rounded-sm p-1">Generator</button>
                     </div>
                 </div>
             </div>
