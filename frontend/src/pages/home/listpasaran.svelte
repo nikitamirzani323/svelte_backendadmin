@@ -519,22 +519,6 @@
                                 class="{buttonLoading_class} btn-block">Submit</button>
                         </div>
                     {/if}
-                {:else if periode_statusrevisi_field == "OPEN"}
-                    <div class="flex flex-wrap justify-end align-middle  mt-2">
-                        <button
-                            on:click={() => {
-                                callrevisiTransaksi();
-                            }}  
-                            class="btn btn-warning btn-block">Revisi</button>
-                    </div>
-                {/if}
-                {#if pasaran_msgrevisi != ""}
-                <div class="alert alert-warning shadow-lg mt-2 rounded-sm">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span class="text-sm">Alasan Revisi : {pasaran_msgrevisi}</span>
-                    </div>
-                </div>
                 {/if}
             </div>
         {/if}
