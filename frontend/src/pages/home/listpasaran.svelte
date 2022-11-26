@@ -1,4 +1,5 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import Loader from '../../components/Loader.svelte' 
     import Input_custom from '../../components/Input.svelte' 
     import Panel_info from '../../components/Panel_info.svelte' 
@@ -15,7 +16,8 @@
     let loader_msg = "Sending..."
     let msg_error = "";
     let buttonLoading_class = "btn btn-primary"
-    let isModal_Form_New = false
+    let isModal_Form_Submit = false
+    let isModal_Form_generator = false
     let isModal_Form_listBetmember = false
     let modal_width = "max-w-xl"
     let modal_width_listbetmember = "max-w-xl"
@@ -37,6 +39,9 @@
     let periode_update_field = "";
     let periode_updatedate_field = "";
 
+    let generator_member_field = 0;
+    let generator_bet_field = 0;
+
     let listPeriodeMember = [];
     let searchListMember = "";
     let filterListBetMember = [];
@@ -47,18 +52,30 @@
     let subtotal_member_win = 0;
     let subtotal_member_winlose = 0;
     let subtotal_member_winlose_class = "";
-    const handleAction = (type,e) => {
+
+    let dispatch = createEventDispatcher();
+    const handleAction = (type,idincoive,idpasaran) => {
+        idtrxkeluaran = "";
         switch(type){
             case "LIVEDRAW":
-                window.open(e,'_blank');
+                window.open(idincoive,'_blank');
                 break;
             case "SUBMIT":
-                EditDataPeriode(e)
+                EditDataPeriode(idincoive)
                 modal_width = "max-w-xl";
-                isModal_Form_New = true;
+                isModal_Form_Submit = true;
+                idpasarancode = idpasaran
+                break;
+            case "GENERATOR":
+                label_invoice = idincoive
+                idtrxkeluaran = idincoive
+                modal_width = "max-w-xl";
+                isModal_Form_generator = true;
+                generator_member_field = 0;
+                generator_bet_field = 0;
                 break;
             case "LISTMEMBER":
-                call_periodelistmember(e)
+                call_periodelistmember(idincoive)
                 modal_width_listbetmember = "max-w-2xl";
                 isModal_Form_listBetmember = true;
                 break;
@@ -90,7 +107,7 @@
             if (json.status === 400) {
                 // dispatch("handleLogout", "call");
             }else if(json.status === 200) {
-                isModal_Form_New = true;
+                isModal_Form_Submit = true;
                 isModalLoading = false;
                
                 for (let i = 0; i < record.length; i++) {
@@ -119,7 +136,7 @@
         }
     }
     async function call_periodelistmember(e) {
-        listPeriodeMember = [];
+        resetlistmember()
         const res = await fetch(path_api+"api/periodelistmember", {
             method: "POST",
             headers: {
@@ -173,6 +190,120 @@
             }
         }
     }
+    async function SaveTransaksi() {
+        let flag = false;
+        msg_error = "";
+        if (periode_keluaran_field == "") {
+            flag = true;
+            msg_error += "The Prize 1 is required\n";
+        }
+        if (parseInt(periode_keluaran_field.length) < 4) {
+            flag = true;
+            msg_error += "The Prize 1 is must 4 Character\n";
+        }
+        if (flag == false) {
+            periode_status_field = "LOCK";
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/saveperiode", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    page: "PERIODE-SAVE",
+                    idinvoice: parseInt(idtrxkeluaran),
+                    idpasarancode: idpasarancode,
+                    nomorkeluaran: periode_keluaran_field,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                isModal_Form_Submit = false;
+                RefreshHalamanPasaran();
+                // EditData(idtrxkeluaran,idpasarancode,pasaran_msgrevisi)
+            }
+        } else {
+            if(msg_error != ""){
+                isModalNotif = true
+            }
+        }
+    }
+    async function SaveGenerator() {
+        let flag = false;
+        msg_error = "";
+        if (generator_member_field < 0) {
+            flag = true;
+            msg_error += "The Total Member is required\n";
+        }
+        if (generator_bet_field < 0) {
+            flag = true;
+            msg_error += "The Total Bet is required\n";
+        }
+        if (flag == false) {
+            periode_status_field = "LOCK";
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/generatorsave", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    page: "PERIODE-SAVE",
+                    invoice: idtrxkeluaran.toString(),
+                    totalmember: parseInt(generator_member_field),
+                    totalrow: parseInt(generator_bet_field),
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = "Harap Tunggu Beberapa Menit"
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                isModal_Form_generator = false;
+                // RefreshHalamanPasaran();
+            }
+        } else {
+            if(msg_error != ""){
+                isModalNotif = true
+            }
+        }
+    }
     function clearFieldPeriode(){
         idtrxkeluaran = "";
         idpasarancode = "";
@@ -189,6 +320,21 @@
         periode_update_field = "";
         periode_updatedate_field = "";
     }
+    function resetlistmember(){
+        listPeriodeMember = [];
+        searchListMember = "";
+        filterListBetMember = [];
+        total_member = 0;
+        subtotal_member_bet = 0;
+        subtotal_member_bayar = 0;
+        subtotal_member_cancel = 0;
+        subtotal_member_win = 0;
+        subtotal_member_winlose = 0;
+        subtotal_member_winlose_class = "";
+    }
+    const RefreshHalamanPasaran = () => {
+        dispatch("handleRefreshDataListPasaran", "call");
+    };
     $: {
         if (searchListMember) {
             filterListBetMember = listPeriodeMember.filter(
@@ -260,31 +406,33 @@
                             <tr>
                                 <td class="text-xs lg:text-sm font-bold">MEMBER</td>
                                 <td class="text-xs lg:text-sm font-bold">:</td>
-                                <td class="text-xs lg:text-sm text-right text-blue-700 font-semibold">{rec.home_periode_total_member}</td>
+                                <td class="text-xs lg:text-sm text-right text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.home_periode_total_member)}</td>
                             </tr>
                             <tr>
                                 <td class="text-xs lg:text-sm font-bold">TOTAL BET</td>
                                 <td class="text-xs lg:text-sm font-bold">:</td>
-                                <td class="text-xs lg:text-sm text-right text-blue-700 font-semibold">{rec.home_periode_total_bet}</td>
+                                <td class="text-xs lg:text-sm text-right text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.home_periode_total_bet)}</td>
                             </tr>
                             <tr>
                                 <td class="text-xs lg:text-sm font-bold">TOTAL BAYAR</td>
                                 <td class="text-xs lg:text-sm font-bold">:</td>
-                                <td class="text-xs lg:text-sm text-right text-blue-700 font-semibold">{rec.home_periode_total_bayar}</td>
+                                <td class="text-xs lg:text-sm text-right text-blue-700 font-semibold">{new Intl.NumberFormat().format(rec.home_periode_total_bayar)}</td>
                             </tr>
                         </table>
                     </div>
                     <div class="gap-1 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 p-2 bg-base-200">
                         <button on:click={() => { 
-                            handleAction("SUBMIT",rec.home_periode_idinvoice);
+                            handleAction("SUBMIT",rec.home_periode_idinvoice,rec.home_codepasarantogel);
                             }} class="btn btn-sm btn-primary text-xs rounded-sm p-1">Submit</button>
                         <button class="btn btn-sm btn-primary text-xs rounded-sm p-1">Simulasi</button>
                         <button on:click={() => { 
-                            handleAction("LISTMEMBER",rec.home_periode_idinvoice);
+                            handleAction("LISTMEMBER",rec.home_periode_idinvoice,"");
                             }} class="btn btn-sm btn-primary text-xs rounded-sm p-1">List Member</button>
                         <button class="btn btn-sm btn-primary text-xs rounded-sm p-1">Bet Group</button>
                         <button class="btn btn-sm btn-primary text-xs rounded-sm p-1">Past Result</button>
-                        <button class="btn btn-sm btn-primary text-xs rounded-sm p-1">Generator</button>
+                        <button on:click={() => { 
+                            handleAction("GENERATOR",rec.home_periode_idinvoice,"");
+                            }} class="btn btn-sm btn-primary text-xs rounded-sm p-1">Generator</button>
                     </div>
                 </div>
             </div>
@@ -292,9 +440,9 @@
     {/each}
 </div>
 
-<input type="checkbox" id="my-modal-formnew" class="modal-toggle" bind:checked={isModal_Form_New}>
+<input type="checkbox" id="my-modal-formsubmit" class="modal-toggle" bind:checked={isModal_Form_Submit}>
 <Modal_popup
-    modal_popup_id="my-modal-formnew"
+    modal_popup_id="my-modal-formsubmit"
     modal_popup_title="INVOICE : {label_invoice}"
     modal_popup_class="select-none w-full lg:w-9/12 {modal_width} overflow-hidden">
     <slot:template slot="modalpopup_body">
@@ -393,6 +541,53 @@
     </slot:template>
 </Modal_popup>
 
+<input type="checkbox" id="my-modal-formgenerator" class="modal-toggle" bind:checked={isModal_Form_generator}>
+<Modal_popup
+    modal_popup_id="my-modal-formgenerator"
+    modal_popup_title="INVOICE : {label_invoice} - GENERATOR"
+    modal_popup_class="select-none w-full lg:w-9/12 {modal_width} overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        <div class="w-full">
+            <div class="flex flex-auto flex-col overflow-auto gap-2 mt-2  ">
+                <div class="relative form-control mt-2">
+                    <Input_custom
+                        input_enabled={false}
+                        input_tipe="text"
+                        bind:value={idtrxkeluaran}
+                        input_id="idtrxkeluaran"
+                        input_placeholder="Invoice"/>
+                </div>
+                <div class="relative form-control">
+                    <Input_custom
+                        input_required={true}
+                        input_tipe="number_nolabel_string"
+                        input_maxlenght="4"
+                        bind:value={generator_member_field}
+                        input_id="generator_member_field"
+                        input_placeholder="Total Member"/>
+                </div>
+                <div class="relative form-control">
+                    <Input_custom
+                        input_required={true}
+                        input_tipe="number_nolabel_string"
+                        input_maxlenght="4"
+                        bind:value={generator_bet_field}
+                        input_id="generator_bet_field"
+                        input_placeholder="Total Bet"/>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-end align-middle  mt-2">
+                <button
+                    on:click={() => {
+                        SaveGenerator();
+                    }}  
+                    class="{buttonLoading_class} btn-block">Submit</button>
+            </div>
+        </div>
+    </slot:template>
+</Modal_popup>
+
+
 <input type="checkbox" id="my-modal-listbetall" class="modal-toggle" bind:checked={isModal_Form_listBetmember}>
 <div class="modal" >
     <div class="modal-box relative  w-11/12 {modal_width_listbetmember}  rounded-none lg:rounded-lg p-2  overflow-hidden">
@@ -409,9 +604,12 @@
                     <div class="flex justify-start items-stretch gap-2 mb-2 w-full">
                             
                         <div class="p-0 w-full">
-                            <input 
-                                
-                                type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full focus:ring-0 focus:outline-none">
+                            <input type="text" placeholder="Search by Status, Code, Nomor" class="input input-bordered input-sm  rounded-sm w-full focus:ring-0 focus:outline-none">
+                        </div>
+                        <div class="p-0 w-32">
+                            <select name="" id="" class="p-1 bg-gray-50 border border-gray-300 cursor-pointer">
+                                <option value="">1 of 1000</option>
+                            </select>
                         </div>
                     </div>
                     <table class="table table-compact w-full">

@@ -122,6 +122,7 @@
                         ...listpasaran,
                         {
                             home_idcomppasaran: record[i]["idcomppasaran"],
+                            home_codepasarantogel: record[i]["codepasarantogel"],
                             home_periode_idinvoice: record[i]["periode_idinvoice"],
                             home_periode_nomorperiode: record[i]["periode_nomorperiode"],
                             home_periode_tglperiode: record[i]["periode_tglperiode"],
@@ -298,6 +299,12 @@
 		localStorage.clear();
 		window.location.href = "/";
 	}
+	const handleRefreshDataListPasaran = (e) => {
+		listpasaran = []
+        setTimeout(function () {
+            initDashboardPasaran();
+        }, 1000);
+    };
     initapp();
 </script>
 {#if akses_page == true}
@@ -305,6 +312,7 @@
 	<div class="">
 		
 		<Modulepasaran
+			on:handleRefreshDataListPasaran={handleRefreshDataListPasaran}
 			{path_api}
 			{token}
 			{font_size}

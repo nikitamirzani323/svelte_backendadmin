@@ -40,6 +40,7 @@ func Init() *fiber.App {
 	app.Post("/api/dashboardwinlose", controller.Dashboardwinlose)
 	app.Post("/api/dashboardwinlosepasaran", controller.Dashboardwinlosepasaran)
 	app.Post("/api/reportwinlose", controller.Reportwinlose)
+	app.Post("/api/generatorsave", controller.Generatorsave)
 
 	app.Post("/api/allpasaran", controller.Pasaran)
 	app.Post("/api/editpasaran", controller.Pasarandetail)
