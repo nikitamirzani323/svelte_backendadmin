@@ -1,5 +1,5 @@
 <script>
-	import Modulepasaran from "../home/listpasaran.svelte";
+	import Modulepasaran from "./pasaran/listpasaran.svelte";
     export let path_api = ""
     export let font_size = "";
 	import dayjs from "dayjs";
@@ -20,7 +20,13 @@
 	let text_chart_pasaran = "WINLOSE PASARAN "+winlose_year;
 
 	let select_year = winlose_year;
-
+	let panel_pasaran = true;
+	let panel_report_winlose = false;
+	let panel_report_winlosepasaran = false;
+	let tab_pasaran = "bg-sky-600 text-white";
+	let tab_report_winlose = "";
+	let tab_report_winlosepasaran = "";
+	
 	const handleSelect = (event) => {
 		// alert(event.target.value)
         initHome(event.target.value);
@@ -46,8 +52,8 @@
         } else {
             akses_page = true;
 			initDashboardPasaran()
-            initHome(winlose_year);
-            initHomePasaran(winlose_year);
+            
+            
         }
     }
     async function initHome(e) {
@@ -98,8 +104,7 @@
 		createChart()
     }
 	async function initDashboardPasaran() {
-		listHomepasaran = []
-		listagenpasaran = []
+		listpasaran = []
         const res = await fetch(path_api+"api/dashboardlistpasaran", {
             method: "POST",
             headers: {
@@ -305,54 +310,99 @@
             initDashboardPasaran();
         }, 1000);
     };
+	
+	const ChangeTabMenu = (e) => {
+        switch(e){
+            case "menu_pasaran":
+				panel_pasaran = true;
+				panel_report_winlose = false;
+				panel_report_winlosepasaran = false;
+				tab_pasaran = "bg-sky-600 text-white";
+				tab_report_winlose = "";
+				tab_report_winlosepasaran = "";
+				initDashboardPasaran()
+                break;
+            case "menu_report_winlose":
+                panel_pasaran = false;
+				panel_report_winlose = true;
+				panel_report_winlosepasaran = false;
+				tab_pasaran = "";
+				tab_report_winlose = "bg-sky-600 text-white";
+				tab_report_winlosepasaran = "";
+				initHome(winlose_year);
+                break;
+            case "menu_report_winlosepasaran":
+				panel_pasaran = false;
+				panel_report_winlose = false;
+				panel_report_winlosepasaran = true;
+				tab_pasaran = "";
+				tab_report_winlose = "";
+				tab_report_winlosepasaran = "bg-sky-600 text-white";
+				initHomePasaran(winlose_year);
+                break;
+        }
+    }
     initapp();
 </script>
 {#if akses_page == true}
-<div class="bg-[#f0f2f5] pb-10">
-	<div class="">
-		
-		<Modulepasaran
-			on:handleRefreshDataListPasaran={handleRefreshDataListPasaran}
-			{path_api}
-			{token}
-			{font_size}
-			{listpasaran}/>
-		
-
-		<div class="bg-white shadow-lg p-5 ">
-			<div class="flex flex-col gap-2">
-				<div class="flex">
-					<h1 class="text-slate-600 font-bold text-sm lg:text-2xl uppercase w-full">{text_chart}</h1>
-					<div class="hidden sm:flex md:flex justify-end w-28">
-						<select
-							on:change={handleSelect}
-							bind:value="{select_year}" 
-							class="select select-bordered w-full rounded-sm focus:ring-0 focus:outline-none">
-							<option disabled selected value="">--Pilih Year--</option>
-							<option value="{winlose_year}">{winlose_year}</option>
-							<option value="{winlose_year_1}">{winlose_year_1}</option>
-						</select>
+<div class="bg-gradient-to-bl from-[#EBF8FF] to-[#FFFFF0] pb-10">
+	<ul class="flex justify-center items-center gap-2 mb-4">
+		<li on:click={() => {
+				ChangeTabMenu("menu_pasaran");
+			}} class="items-center {tab_pasaran}  px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Pasaran</li>
+		<li on:click={() => {
+				ChangeTabMenu("menu_report_winlose");
+			}} class="items-center {tab_report_winlose} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Report Winlose</li>
+		<li on:click={() => {
+				ChangeTabMenu("menu_report_winlosepasaran");
+			}} class="items-center {tab_report_winlosepasaran} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Report Winlose Pasaran</li>
+	</ul>
+	<div class="p-2">
+		{#if panel_pasaran}
+			<Modulepasaran
+				on:handleRefreshDataListPasaran={handleRefreshDataListPasaran}
+				{path_api}
+				{token}
+				{font_size}
+				{listpasaran}/>
+		{/if}
+		{#if panel_report_winlose}
+			<div class="bg-white shadow-lg p-5 ">
+				<div class="flex flex-col gap-2">
+					<div class="flex">
+						<h1 class="text-slate-600 font-bold text-sm lg:text-2xl uppercase w-full">{text_chart}</h1>
+						<div class="hidden sm:flex md:flex justify-end w-28">
+							<select
+								on:change={handleSelect}
+								bind:value="{select_year}" 
+								class="select select-bordered w-full rounded-sm focus:ring-0 focus:outline-none">
+								<option disabled selected value="">--Pilih Year--</option>
+								<option value="{winlose_year}">{winlose_year}</option>
+								<option value="{winlose_year_1}">{winlose_year_1}</option>
+							</select>
+						</div>
+					</div>
+					<div class="hidden  sm:inline w-full scrollbar-thin scrollbar-thumb-sky-200 h-[500px] ">
+						<div class="w-full h-[500px]" id="container" />
 					</div>
 				</div>
-				<div class="hidden  sm:inline w-full scrollbar-thin scrollbar-thumb-sky-200 h-[500px] ">
-					<div class="w-full h-[500px]" id="container" />
-				</div>
 			</div>
-		</div>
-
-		<div class="bg-white shadow-lg p-5 mt-2">
-			<div class="flex flex-col gap-2">
-				<div class="flex">
-					<h1 class="text-slate-600 font-bold text-sm lg:text-2xl uppercase w-full">{text_chart_pasaran}</h1>
-					<div class="hidden sm:flex md:flex justify-end w-28">
-						
+		{/if}
+		{#if panel_report_winlosepasaran}
+			<div class="bg-white shadow-lg p-5 mt-2">
+				<div class="flex flex-col gap-2">
+					<div class="flex">
+						<h1 class="text-slate-600 font-bold text-sm lg:text-2xl uppercase w-full">{text_chart_pasaran}</h1>
+						<div class="hidden sm:flex md:flex justify-end w-28">
+							
+						</div>
+					</div>
+					<div class="hidden  sm:inline w-full scrollbar-thin scrollbar-thumb-sky-200 h-[500px] ">
+						<div class="w-full h-[500px]" id="containerpasaran" />
 					</div>
 				</div>
-				<div class="hidden  sm:inline w-full scrollbar-thin scrollbar-thumb-sky-200 h-[500px] ">
-					<div class="w-full h-[500px]" id="containerpasaran" />
-				</div>
 			</div>
-		</div>
+		{/if}
 	</div>
 </div>
 {/if}

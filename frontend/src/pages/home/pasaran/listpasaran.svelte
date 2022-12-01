@@ -1,10 +1,10 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import Loader from '../../components/Loader.svelte' 
-    import Input_custom from '../../components/Input.svelte' 
-    import Panel_info from '../../components/Panel_info.svelte' 
-    import Panel_table from '../../components/panel_table.svelte' 
-    import Modal_popup from '../../components/Modal_popup.svelte'
+    import Loader from '../../../components/Loader.svelte' 
+    import Input_custom from '../../../components/Input.svelte' 
+    import Panel_info from '../../../components/Panel_info.svelte' 
+    import Panel_table from '../../../components/panel_table.svelte' 
+    import Modal_popup from '../../../components/Modal_popup.svelte'
     export let path_api = "";
     export let token = "";
     export let font_size = "";
@@ -349,11 +349,11 @@
     }
 </script>
 <Loader loader_class="{loader_class}" loader_msg="{loader_msg}" />
-<div class="mt-1 gap-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 mx-2  ">
+<div class="mt-1 gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 mx-2  ">
     {#each listpasaran as rec}
-        <div class="card  bg-base-100 shadow-xl rounded-md select-none z-0">
+        <div class="card  bg-base-100 shadow-xl rounded-md  z-0">
             <div class="card-body p-0">
-                <div class="card-title bg-primary p-2">
+                <div class="card-title bg-primary p-2 select-none">
                     <div class="flex justify-items-center w-full gap-2">
                         <div class="w-full">
                             <h2 class="text-sm lg:text-lg font-bold text-white">{rec.home_nmpasaran}</h2>
@@ -368,12 +368,12 @@
                               <li><span class="text-xs lg:text-sm">SETTING</span></li>
                               <li><span on:click={() => { handleAction("LIVEDRAW",rec.home_pasaranurl);}} class="text-xs lg:text-sm">LIVEDRAW</span></li>
                             </ul>
-                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="hidden lg:grid">
                     <div class="w-full p-2">
-                        <div class="alert alert-info shadow-sm rounded-sm -my-2 w-full p-0">
+                        <div class="alert alert-info shadow-sm rounded-sm -my-2 w-full p-0 select-none">
                             <div class="flex flex-col w-full gap-0">
                                 <center class="text-xs lg:text-lg text-black font-bold text-center w-full border-b-2 border-gray-200 py-2">
                                     {rec.home_diundi}
@@ -384,9 +384,7 @@
                                     <span class="text-xs lg:text-sm text-black font-bold text-center w-full">JAM TUTUP<br />{rec.home_jadwal}</span>
                                   </div>
                             </div>
-                            
-                            
-                          </div>
+                        </div>
                         <table class="w-full mt-4">
                             <tr>
                                 <td class="text-xs lg:text-sm font-bold">DATE</td>

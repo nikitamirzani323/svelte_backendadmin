@@ -93,7 +93,7 @@
   }
 </script>
 {#if isNav}
-<main class="flex flex-col  h-screen w-full bg-[#f0f2f5]">
+<main class="flex flex-col  h-screen w-full bg-gradient-to-bl from-[#EBF8FF] to-[#FFFFF0]">
 	<Navigation />
 	<div class="justify-center ">
     	<div class="w-full  mt-5">
